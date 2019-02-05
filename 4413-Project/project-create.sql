@@ -1,3 +1,5 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
 /** bid: unique identifier of Book (like ISBN)
 * title: title of Book
 * price: unit price WHEN ordered
@@ -92,7 +94,7 @@ INSERT INTO POItem (id, bid, price) VALUES (3, 'b003', '100');
 * bid: unique identifier of Book
 * eventtype: status of purchase
 */ 
-Inserting TABLE if exists VisitEvent;
+DROP TABLE if exists VisitEvent;
 CREATE TABLE VisitEvent (
 	day varchar(8) NOT NULL,
 	bid varchar(20) not null REFERENCES Book.bid,
@@ -103,3 +105,5 @@ CREATE TABLE VisitEvent (
 INSERT INTO VisitEvent (day, bid, eventtype) VALUES ('12202015', 'b001', 'VIEW');
 INSERT INTO VisitEvent (day, bid, eventtype) VALUES ('12242015', 'b001', 'CART');
 INSERT INTO VisitEvent (day, bid, eventtype) VALUES ('12252015', 'b001', 'PURCHASE');
+
+SET FOREIGN_KEY_CHECKS = 1;
