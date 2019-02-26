@@ -1,5 +1,24 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+/** id: unique identifier of customer
+* username:
+* password:
+* fname:
+* lname:
+* address: address id (link to Address)
+*/
+DROP TABLE if exists Customer;
+CREATE TABLE Customer (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	username varchar(20) NOT NULL,
+	password varchar(20) NOT NULL,
+	fname VARCHAR(20) NOT NULL,
+	lname VARCHAR(20) NOT NULL,
+	address INT UNSIGNED NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY (address) REFERENCES Address (id) ON DELETE CASCADE
+);
+
 /** bid: unique identifier of Book (like ISBN)
 * title: title of Book
 * price: unit price WHEN ordered
@@ -19,6 +38,20 @@ INSERT INTO Book (bid, title, price, category) VALUES ('b001', 'Little Prince', 
 INSERT INTO Book (bid, title, price, category) VALUES ('b002','Physics', 201, 'Science');
 INSERT INTO Book (bid, title, price, category) VALUES ('b003','Mechanics' ,100,'Engineering');
 
+/** bid: links to Book
+* cid: links to customer who left rating
+* rating: 1-5 rating
+* review: 200 char review 
+*/
+DROP TABLE if exists BookReview;
+CREATE TABLE BookReview (
+	bid VARCHAR(20) NOT NULL,
+	cid INT UNSIGNED NOT NULL,
+	rating INT UNSIGNED NOT NULL,
+	review VARCHAR(200),
+	FOREIGN KEY (bid) REFERENCES Book (bid) ON DELETE CASCADE
+	FOREIGN KEY (cid) REFERENCES Customer (id) ON DELETE CASCADE
+);
 
 /* Address
 * id: address id

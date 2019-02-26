@@ -2,6 +2,8 @@ package bean;
 
 public class POBean {
 
+		private String[] statuses = {"ORDERED", "PROCESSED", "DENIED"};
+	
 		private int id;
 		private String lname;
 		private String fname;
