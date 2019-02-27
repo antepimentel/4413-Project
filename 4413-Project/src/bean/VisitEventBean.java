@@ -1,13 +1,13 @@
 package bean;
 
-public class VisitedEventBean {
+public class VisitEventBean {
 
 	private String[] eventTypes = {"VIEW", "CART", "PURCHASE"};
 	private String day;
 	private String bid;
 	private String eventType;
 	
-	public VisitedEventBean(String day, String bid, String eventType) {
+	public VisitEventBean(String day, String bid, String eventType) {
 		this.day = day;
 		this.bid = bid;
 		this.eventType = eventType;

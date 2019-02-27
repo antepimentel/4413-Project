@@ -1,5 +1,30 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+/* Address
+* id: address id
+*
+*/
+DROP TABLE if exists Address;
+CREATE TABLE Address (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	street VARCHAR(100) NOT NULL,
+	province VARCHAR(20) NOT NULL,
+	country VARCHAR(20) NOT NULL,
+	zip VARCHAR(20) NOT NULL,
+	phone VARCHAR(20),
+	PRIMARY KEY(id)
+);
+
+INSERT INTO Address (id, street, province, country, zip, phone) 
+VALUES (1, '123 Yonge St', 'ON', 'Canada', 'K1E 6T5' ,'647-123-4567');
+
+INSERT INTO Address (id, street, province, country, zip, phone) 
+VALUES (2, '445 Avenue rd', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569');
+
+INSERT INTO Address (id, street, province, country, zip, phone) 
+VALUES (3, '789 Keele St.', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
+
+
 /** id: unique identifier of customer
 * username:
 * password:
@@ -49,33 +74,9 @@ CREATE TABLE BookReview (
 	cid INT UNSIGNED NOT NULL,
 	rating INT UNSIGNED NOT NULL,
 	review VARCHAR(200),
-	FOREIGN KEY (bid) REFERENCES Book (bid) ON DELETE CASCADE
+	FOREIGN KEY (bid) REFERENCES Book (bid) ON DELETE CASCADE,
 	FOREIGN KEY (cid) REFERENCES Customer (id) ON DELETE CASCADE
 );
-
-/* Address
-* id: address id
-*
-*/
-DROP TABLE if exists Address;
-CREATE TABLE Address (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	street VARCHAR(100) NOT NULL,
-	province VARCHAR(20) NOT NULL,
-	country VARCHAR(20) NOT NULL,
-	zip VARCHAR(20) NOT NULL,
-	phone VARCHAR(20),
-	PRIMARY KEY(id)
-);
-
-INSERT INTO Address (id, street, province, country, zip, phone) 
-VALUES (1, '123 Yonge St', 'ON', 'Canada', 'K1E 6T5' ,'647-123-4567');
-
-INSERT INTO Address (id, street, province, country, zip, phone) 
-VALUES (2, '445 Avenue rd', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569');
-
-INSERT INTO Address (id, street, province, country, zip, phone) 
-VALUES (3, '789 Keele St.', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
 
 
 /* Purchase Order

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,45 +12,39 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import bean.VisitedEventBean;
+import bean.VisitEventBean;
 
-public class VisitedEventDAO {
+public class VisitEventDAO {
 	
-	// DB table definition
-	private static final String TABLE_NAME = "VisitedEvent";
-	private static final String COL_DAY = "day";
-	private static final String COL_BID = "bid";
-	private static final String COL_TYPE = "eventtype";
-
 	private DataSource ds;
 	
-	public VisitedEventDAO() {
+	public VisitEventDAO() {
 		try {
-			this.ds = (DataSource) (new InitialContext()).lookup("java:/comp/env/jdbc/EECS");
+			this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public Map<String, VisitedEventBean> retrieve() throws SQLException{
+	public ArrayList<VisitEventBean> retrieve() throws SQLException{
 		
-		String query = "select * from "+TABLE_NAME;
+		String query = "select * from "+DBSchema.TABLE_VE;
 		Connection conn = ds.getConnection();
 		
-		PreparedStatement stmtObj = conn.prepareStatement(query);
+		PreparedStatement stmtObj = conn.prepareStatement(query); 
 		ResultSet rs = stmtObj.executeQuery();
 		
-		Map<String, VisitedEventBean> result = new HashMap<String, VisitedEventBean>();
+		ArrayList<VisitEventBean> result = new ArrayList<VisitEventBean>();
 		
 		while(rs.next()) {
-			String day = rs.getString(COL_DAY);
-			String bid = rs.getString(COL_BID);
-			String type = rs.getString(COL_TYPE);
+			String day = rs.getString(DBSchema.COL_VE_DAY);
+			String bid = rs.getString(DBSchema.COL_VE_BID);
+			String type = rs.getString(DBSchema.COL_VE_TYPE);
 			
-			VisitedEventBean bean = new VisitedEventBean(day, bid, type);
+			VisitEventBean bean = new VisitEventBean(day, bid, type);
 			
-			result.put(bid, bean);
+			result.add(bean);
 		}
 		
 		rs.close();
@@ -59,9 +54,9 @@ public class VisitedEventDAO {
 		return result;
 	}
 	
-	public void insert(VisitedEventBean bean) throws SQLException {
+	public void insert(VisitEventBean bean) throws SQLException {
 		
-		String query = "insert into "+TABLE_NAME+" values(?,?,?)";
+		String query = "insert into "+DBSchema.TABLE_VE+" values(?,?,?)";
 		Connection conn = ds.getConnection();
 		PreparedStatement stmtObj = conn.prepareStatement(query);
 		
