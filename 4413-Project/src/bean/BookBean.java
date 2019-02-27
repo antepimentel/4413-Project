@@ -4,13 +4,13 @@ public class BookBean {
 
 	private final String[] categories = {"Science", "Fiction", "Engineering"};
 	
-	private String pid;
+	private String bid;
 	private String title;
 	private int price;
 	private String category;
 	
-	public BookBean(String pid, String title, int price, String category) {
-		this.pid = pid;
+	public BookBean(String bid, String title, int price, String category) {
+		this.bid = bid;
 		this.title = title;
 		this.price = price;
 		this.category = category;
@@ -23,8 +23,8 @@ public class BookBean {
 		return categories;
 	}
 
-	public String getPid() {
-		return pid;
+	public String getBid() {
+		return bid;
 	}
 
 	public String getTitle() {
@@ -39,8 +39,8 @@ public class BookBean {
 		return category;
 	}
 
-	public void setPid(String pid) {
-		this.pid = pid;
+	public void setBid(String bid) {
+		this.bid = bid;
 	}
 
 	public void setTitle(String title) {

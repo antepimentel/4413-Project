@@ -18,13 +18,8 @@ public class VisitEventDAO {
 	
 	private DataSource ds;
 	
-	public VisitEventDAO() {
-		try {
-			this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public VisitEventDAO() throws NamingException {
+		this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
 	}
 	
 	public ArrayList<VisitEventBean> retrieve() throws SQLException{

@@ -8,12 +8,7 @@ public class POItemDAO {
 
 private DataSource ds;
 	
-	public POItemDAO() {
-		try {
-			this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public POItemDAO() throws NamingException {
+		this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
 	}
 }

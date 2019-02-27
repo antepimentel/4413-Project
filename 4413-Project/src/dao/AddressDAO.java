@@ -8,12 +8,7 @@ public class AddressDAO {
 
 private DataSource ds;
 	
-	public AddressDAO() {
-		try {
-			this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public AddressDAO() throws NamingException {
+		this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
 	}
 }
