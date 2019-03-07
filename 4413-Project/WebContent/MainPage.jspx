@@ -9,7 +9,7 @@
 	<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Main Page</title>
-<script type="text/javascript" src="res/MainPageHelper.js">
+<script type="text/javascript" src="res/MainPageHelper.js?ver=1.1">
 	;
 </script>
 </head>

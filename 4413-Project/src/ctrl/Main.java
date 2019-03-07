@@ -105,7 +105,6 @@ public class Main extends HttpServlet {
 			
 			if(books.size() > 0) {
 				result = result
-						+"<BR />"
 						+"<TABLE border=1>"
 						+"<TR>"
 						+"<TD>Title</TD>"

@@ -52,6 +52,8 @@ public class BookDAO {
 		stmtObj.setString(2, price);
 		//stmtObj.setString(3, title);
 		stmtObj.setString(3, category);
+		
+		System.out.println("SQL: " + stmtObj.toString());
 		ResultSet rs = stmtObj.executeQuery();
 
 		Map<String, BookBean> result = new HashMap<String, BookBean>();
@@ -75,6 +77,8 @@ public class BookDAO {
 
 		Connection conn = this.ds.getConnection();
 		PreparedStatement stmtObj = conn.prepareStatement(query);
+		
+		System.out.println("SQL: " + stmtObj.toString());
 		ResultSet rs = stmtObj.executeQuery();
 
 		Map<String, BookBean> result = new HashMap<String, BookBean>();

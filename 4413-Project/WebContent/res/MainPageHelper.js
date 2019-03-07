@@ -42,7 +42,8 @@ function doAjaxQuery(address) {
 	var data = 'comm=ajax';
 	
 	var title = "title="+document.getElementById("title").value;
-	var category = "category"+document.getElementById("category").value;
+	var category = "category="+document.getElementById("category").value;
+	
 	
 	data += "&"+title+"&"+category;
 	

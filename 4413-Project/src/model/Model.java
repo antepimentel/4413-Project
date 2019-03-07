@@ -12,7 +12,7 @@ public class Model {
 	private VisitEventDAO visitDAO;
 	private BookDAO bookDAO;
 	private AddressDAO addressDAO;
-	private PODAO projectOrderDAO;
+	private PODAO projectOrderDAO; 
 	private POItemDAO poItemDAO;
 	
 	public Model() throws NamingException {
