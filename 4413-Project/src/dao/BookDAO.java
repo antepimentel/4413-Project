@@ -67,6 +67,10 @@ public class BookDAO {
 			BookBean book = new BookBean(currentBid, currentTitle, currentPrice, currentCategory);
 			result.put(currentBid, book);
 		}
+		
+		rs.close();
+		stmtObj.close();
+		conn.close();
 
 		return result;
 	}
@@ -92,6 +96,10 @@ public class BookDAO {
 			BookBean book = new BookBean(bid, title, price, category);
 			result.put(bid, book);
 		}
+		
+		rs.close();
+		stmtObj.close();
+		conn.close();
 
 		return result;
 	}

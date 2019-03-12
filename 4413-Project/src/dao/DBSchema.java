@@ -38,7 +38,11 @@ public class DBSchema {
 	public static final String COL_BK_CATEGORY = "category";
 	
 	// BookReivew
-	// TODO
+	public static final String TABLE_REVIEW = "BookReview";
+	public static final String COL_REVIEW_BID = "bid";
+	public static final String COL_REVIEW_CID = "cid";
+	public static final String COL_REVIEW_RATING = "rating";
+	public static final String COL_REVIEW_TEXT = "review";
 	
 	// PO
 	public static final String TABLE_PO = "PO";
