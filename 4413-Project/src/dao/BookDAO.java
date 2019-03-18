@@ -41,17 +41,17 @@ public class BookDAO {
 		} 
 		
 		String query = "select * from " + DBSchema.TABLE_BK + " where "
-				+ DBSchema.COL_BK_TITLE + " like ? and "
-				+ DBSchema.COL_BK_PRICE + " like ? and "
+				+ DBSchema.COL_BK_TITLE + " = ? and "
+				//+ DBSchema.COL_BK_PRICE + " like ? and "
 				//+ DBSchema.COL_BK_AUTHOR + " like ? and "
-				+ DBSchema.COL_BK_CATEGORY + " like ?";
+				+ DBSchema.COL_BK_CATEGORY + " = ?";
 
 		Connection conn = this.ds.getConnection();
 		PreparedStatement stmtObj = conn.prepareStatement(query);
 		stmtObj.setString(1, title);
-		stmtObj.setString(2, price);
+		//stmtObj.setString(2, price);
 		//stmtObj.setString(3, title);
-		stmtObj.setString(3, category);
+		stmtObj.setString(2, category);
 		
 		System.out.println("SQL: " + stmtObj.toString());
 		ResultSet rs = stmtObj.executeQuery();
