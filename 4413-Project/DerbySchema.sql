@@ -4,7 +4,7 @@
 * author: name of authors
 * category: as specified
 */
-DROP TABLE Book
+DROP TABLE Book;
 CREATE TABLE Book (
 bid VARCHAR(20) NOT NULL,
 title VARCHAR(60) NOT NULL,
@@ -96,6 +96,7 @@ INSERT INTO POItem (bid, price) VALUES ('b003', 100);
 * bid: unique identifier of Book
 * eventtype: status of purchase
 */
+DROP TABLE VisitEvent;
 CREATE TABLE VisitEvent (
 day varchar(8) NOT NULL,
 bid varchar(20) not null,
@@ -104,7 +105,7 @@ eventtype VARCHAR(32) NOT NULL CONSTRAINT types CHECK  (eventtype IN ('VIEW','CA
 
 FOREIGN KEY(bid) REFERENCES Book(bid)
 );
-DROP TABLE VisitEvent;
+
 /**#
 # Dumping data for table 'VisitEvent'
 #**/

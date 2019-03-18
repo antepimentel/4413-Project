@@ -52,7 +52,9 @@ public class Main extends HttpServlet {
     	try {
 			Model model = new Model();
 			application.setAttribute(MODEL_TAG, model);
+			System.out.println("Model initialized");
 		} catch (NamingException e) {
+			//e.printStackTrace();
 			System.out.println("There was an error an error initializing the model.");
 		}
     }
@@ -81,6 +83,7 @@ public class Main extends HttpServlet {
 				books = model.getBooks(title, "", "", category);
 				responseMsg = getHTMLResponse(books);
 			} catch (SQLException e) {
+				e.printStackTrace();
 				responseMsg = "There was an issue handling your request";
 			} 
 			response.getWriter().append(responseMsg);

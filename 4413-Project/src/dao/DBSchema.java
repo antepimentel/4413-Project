@@ -10,7 +10,7 @@ package dao;
  */
 public class DBSchema {
 
-	public static final String DB_URL = "java:/comp/env/jdbc/project_DB";
+	public static final String DB_URL = "java:/comp/env/project_DB";
 	
 	// Address
 	public static final String TABLE_ADD = "Address";
