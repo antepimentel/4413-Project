@@ -21,14 +21,14 @@ public class BookDAO {
 		this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
 	}
 
-	public Map<String, BookBean> retrieve(String title, String price, String author, String category) throws SQLException {
+	public Map<String, BookBean> retrieve(String title, String price, String bid, String category) throws SQLException {
 		
 		if(isNullOrEmpty(title)) {
-			title = "%%";
+			title = "%";
 		} 
 		
 		if(isNullOrEmpty(price)) {
-			price = "%%";
+			price = "%";
 		} 
 		
 		// TODO: Add an author column to Book
@@ -36,22 +36,35 @@ public class BookDAO {
 //			author = "%%";
 //		} 
 		
+		if(isNullOrEmpty(bid)) {
+			bid ="%";
+		}
+		
 		if(isNullOrEmpty(category)) {
-			category = "%%";
+			category = "%";
 		} 
 		
 		String query = "select * from " + DBSchema.TABLE_BK + " where "
-				+ DBSchema.COL_BK_TITLE + " = ? and "
-				//+ DBSchema.COL_BK_PRICE + " like ? and "
+				+ DBSchema.COL_BK_TITLE + " like ? and "
+				+ DBSchema.COL_BK_BID + " like ? and "
 				//+ DBSchema.COL_BK_AUTHOR + " like ? and "
-				+ DBSchema.COL_BK_CATEGORY + " = ?";
+				+ DBSchema.COL_BK_CATEGORY + " like ?";
 
 		Connection conn = this.ds.getConnection();
 		PreparedStatement stmtObj = conn.prepareStatement(query);
 		stmtObj.setString(1, title);
 		//stmtObj.setString(2, price);
 		//stmtObj.setString(3, title);
-		stmtObj.setString(2, category);
+		if (bid != null) {
+			if (bid.equals("")) {
+				bid = "%";
+			}
+		System.out.println(bid);
+		stmtObj.setString(2, bid);
+		}
+		stmtObj.setString(3, category);
+		
+
 		
 		System.out.println("SQL: " + stmtObj.toString());
 		ResultSet rs = stmtObj.executeQuery();

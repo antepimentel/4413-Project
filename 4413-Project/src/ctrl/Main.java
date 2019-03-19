@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.BookBean;
+import bean.BookReviewBean;
 import bean.VisitEventBean;
 import dao.VisitEventDAO;
 import model.Model;
@@ -29,6 +30,9 @@ public class Main extends HttpServlet {
     
 	private static final String MODEL_TAG = "model";
 	private static final String COMM_TAG = "comm";
+	private static final String BID = "bid";
+	private static final String CATEGORY_NAME = "categoryName", BOOK_TITLE="bookTitle", NUMBER_RATING = "numberRating",
+			REVIEW_TEXT = "reviewText", CID = "cid";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -71,6 +75,58 @@ public class Main extends HttpServlet {
 		
 		String type = request.getParameter(COMM_TAG);
 		
+		//If statement for when a book title hyperlink is clicked
+		String bookTitle = request.getParameter(BOOK_TITLE);
+		String categoryName = request.getParameter(CATEGORY_NAME);
+
+		String bid = request.getParameter(BID);
+		
+		//If a category name link is clicked forward to the category servlet 
+		if (categoryName != null && bookTitle == null) {
+			response.sendRedirect("http://localhost:8080/4413-Project/Category/?" + CATEGORY_NAME +"="+  categoryName);
+			return;
+		}
+		
+		
+		//If a book title link has been clicked String bid will have its value as the clicked book title's corresponding bid
+
+		if (bid != null) {
+			Map<String, BookBean> books;
+			String responseMsg;
+			try {
+				books = model.getBooks(bookTitle, "", bid, categoryName);
+				responseMsg = getHTMLResponse(books);
+				request.setAttribute(BID, bid);
+				response.getWriter().append(responseMsg);
+
+				System.out.println(responseMsg);				
+
+			} catch (SQLException e) {
+				responseMsg = "There was an issue handling your request";
+			} 			
+
+			String allReviewsResponse = createReviewsTable(model.getReviewsDB(bid));
+			System.out.println(allReviewsResponse);				
+			response.getWriter().append(allReviewsResponse);
+			
+			String submitReviewForm  = "<form action='' method='POST'><table>" + 
+					" <tr><td> Review text: <textarea name='reviewText' id='reviewText' cols='30' rows='10'></textarea></td></tr>" + 
+					" <tr><td> Number rating out of 10 <input type='number' name='numberRating'></td></tr>" + 
+					" <tr><td> Your customer id or username <input type='text' name='cid'><br><td></tr>" + 
+					" <tr><td> The book id <input type='text' name='bid' value='" + request.getParameter(BID) + "' readonly><tr><td>" + 
+					" <tr><td> The book title <input type='text' name='bookTitle' value='" + request.getParameter(BOOK_TITLE) + "' readonly><tr><td>" + 
+
+					//The submit review button needs validation from JS or by checking for customer id's and purchase orders
+					"<tr><td><input type='submit' name='reviewSubmit' value='Submit Review'></input><tr><td>" + 
+					"<table></form>";
+			
+					
+			response.getWriter().append(submitReviewForm);
+
+			return;
+		}
+		
+		
 		if(type != null && type.equals("ajax")) {
 			System.out.println("AJAX Request");
 			
@@ -88,6 +144,7 @@ public class Main extends HttpServlet {
 			} 
 			response.getWriter().append(responseMsg);
 			
+			
 		} else {
 			System.out.println("NORMAL Request");
 			response.sendRedirect(this.getServletContext().getContextPath() + "/MainPage.jspx");
@@ -99,7 +156,28 @@ public class Main extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Recieved POST request");
-		doGet(request, response);
+		
+		String cid = request.getParameter(CID), 
+				reviewText = request.getParameter(REVIEW_TEXT), 
+				numberRating = request.getParameter(NUMBER_RATING),
+				bid = request.getParameter(BID);
+		
+		Model model = (Model) request.getServletContext().getAttribute(MODEL_TAG);
+
+		//If statement for the submission of a review 
+		if (cid != null && reviewText != null && numberRating != null && bid != null) {
+			System.out.println("BID " + bid + "\n"
+					+ "cid " + Integer.parseInt(cid.trim()) 
+					+"\n rated " + Integer.parseInt(numberRating.trim()) 
+					+ "\n text: " + reviewText);
+			
+			model.addBookReview(bid, Integer.parseInt(cid.trim()), Integer.parseInt(numberRating.trim()), reviewText);
+			response.sendRedirect(this.getServletContext().getContextPath() 
+					+ "/Main/?bookTitle=" + request.getParameter(BOOK_TITLE) + "&bid=" + request.getParameter(BID));
+		} else {
+			doGet(request, response);
+			
+		}
 	}
 	
 	private String getHTMLResponse(Map<String, BookBean> books) {
@@ -108,7 +186,7 @@ public class Main extends HttpServlet {
 			
 			if(books.size() > 0) {
 				result = result
-						+"<TABLE border=1>"
+						+"<TABLE border='1'>"
 						+"<TR>"
 						+"<TD>Title</TD>"
 						+"<TD>Price</TD>"
@@ -116,14 +194,41 @@ public class Main extends HttpServlet {
 						+"</TR>";
 				
 				for(BookBean bean: books.values()) {
+					String addToCartButton = "<A href='http://localhost:8080/4413-Project/Main/?addTo=notNull&categoryName="+ bean.getCategory() + "&bookTitle=" + bean.getTitle() + "'>Add to cart button</A>";
 					result = result + "<TR>"
-							+"<TD>"+bean.getTitle()+"</TD>"
+							+"<TD><A href='http://localhost:8080/4413-Project/Main/?bid="+ bean.getBid() +"&bookTitle=" +bean.getTitle()+"'> " + bean.getTitle() + "</A>" + addToCartButton + "</TD>"
 							+"<TD>"+bean.getPrice()+"</TD>"
-							+"<TD>"+bean.getCategory()+"</TD>"
+							+"<TD><A href='http://localhost:8080/4413-Project/Category/?categoryName="+ bean.getCategory() +"'>" +bean.getCategory()+"</A></TD>"
 							+"</TR>";
 				}
 				result = result + "</TABLE>";
 			}		
 			return result;
 		}
+	
+	private String createReviewsTable(ArrayList<BookReviewBean> list) {
+		
+		String result = "There are  " + list.size() + " review(s) for this item.";
+		
+		if(list.size() > 0) {
+			result = result
+					+"<TABLE border='1'>"
+					+"<TR>"
+					+"<TD>cusID</TD>"
+					+"<TD>Number Rating</TD>"
+					+"<TD>Review</TD>"
+					+"</TR>";
+			
+			for(BookReviewBean bean: list) {
+				result = result + "<TR>"
+						+"<TD>" + bean.getCid() + "</TD>"
+						+"<TD>" + bean.getRating() +"</TD>"
+						+"<TD>" + bean.getReview_text() +"</TD>"
+						+"</TR>";
+			}
+			result = result + "</TABLE>";
+		}		
+		return result;
+				
+	}
 }
