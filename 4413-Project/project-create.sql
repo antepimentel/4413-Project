@@ -43,6 +43,10 @@ CREATE TABLE Customer (
 	PRIMARY KEY(id),
 	FOREIGN KEY (address) REFERENCES Address (id) ON DELETE CASCADE
 );
+INSERT INTO Customer  (id, username, password, fname, lname, address) VALUES (1, 'antep', 'password', 'Ante', 'Pimentel', 1);
+INSERT INTO Customer  (id, username, password, fname, lname, address) VALUES (2, 'rajan', 'password', 'Sukhrajan', 'Johal', 1);
+INSERT INTO Customer  (id, username, password, fname, lname, address) VALUES (3, 'sara1', 'password', 'Sara', 'Attalla', 1);
+INSERT INTO Customer  (id, username, password, fname, lname, address) VALUES (4, 'sarah2', 'password', 'Sarah', 'Feroz', 1);
 
 /** bid: unique identifier of Book (like ISBN)
 * title: title of Book
@@ -62,6 +66,14 @@ CREATE TABLE Book (
 INSERT INTO Book (bid, title, price, category) VALUES ('b001', 'Little Prince', 20, 'Fiction');
 INSERT INTO Book (bid, title, price, category) VALUES ('b002','Physics', 201, 'Science');
 INSERT INTO Book (bid, title, price, category) VALUES ('b003','Mechanics' ,100,'Engineering');
+INSERT INTO Book (bid, title, price, category) VALUES ('b004','Chemistry', 201, 'Science');
+INSERT INTO Book (bid, title, price, category) VALUES ('b005','Biology', 201, 'Science');
+INSERT INTO Book (bid, title, price, category) VALUES ('b006','Chemistry II', 201, 'Science');
+INSERT INTO Book (bid, title, price, category) VALUES ('b007','Calculus I' ,100,'Engineering');
+INSERT INTO Book (bid, title, price, category) VALUES ('b008','Calculus II' ,100,'Engineering');
+INSERT INTO Book (bid, title, price, category) VALUES ('b009', 'Little Prince', 20, 'Fiction');
+INSERT INTO Book (bid, title, price, category) VALUES ('b010', 'Harry Potter', 20, 'Fiction');
+INSERT INTO Book (bid, title, price, category) VALUES ('b011', 'Lord of the Rings', 20, 'Fiction');
 
 /** bid: links to Book
 * cid: links to customer who left rating
