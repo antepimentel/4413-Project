@@ -71,7 +71,7 @@ INSERT INTO Book (bid, title, price, category) VALUES ('b005','Biology', 201, 'S
 INSERT INTO Book (bid, title, price, category) VALUES ('b006','Chemistry II', 201, 'Science');
 INSERT INTO Book (bid, title, price, category) VALUES ('b007','Calculus I' ,100,'Engineering');
 INSERT INTO Book (bid, title, price, category) VALUES ('b008','Calculus II' ,100,'Engineering');
-INSERT INTO Book (bid, title, price, category) VALUES ('b009', 'Little Prince', 20, 'Fiction');
+INSERT INTO Book (bid, title, price, category) VALUES ('b009', 'Little Prince 2: Revengeance', 20, 'Fiction');
 INSERT INTO Book (bid, title, price, category) VALUES ('b010', 'Harry Potter', 20, 'Fiction');
 INSERT INTO Book (bid, title, price, category) VALUES ('b011', 'Lord of the Rings', 20, 'Fiction');
 
