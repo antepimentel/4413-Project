@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html; charset=UTF-8" 
+		pageEncoding="UTF-8" session="false"/>
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Viewing Book</title>
+</head>
+<body>
+
+	<TABLE border='1'>
+		<tr>
+			<TD>CID</TD>
+			<TD>Rating</TD>
+			<TD>Review</TD>
+		</tr>
+		
+		<c:forEach var="review" items="${reviewList}">
+			<tr>
+				<TD>${review.cid}</TD>
+				<TD>${review.rating}</TD>
+				<TD>${review.review_text}</TD>
+			</tr>
+		</c:forEach>
+		
+	</TABLE>
+	
+	Add your review below:
+	<form action='' method='POST'>
+		<table>
+			
+			<tr><td> Number rating out of 10 <input type='number' name='numberRating'></input></td></tr> 
+			
+			<tr><td> Your customer id <input type='text' name='cid'></input></td></tr>
+			 
+			<tr><td> The book id <input type='text' name='bid' value='${bid}' ></input></td> </tr>
+			
+			<tr><td> The book title <input type='text' name='bookTitle' value='${title}'></input></td></tr>
+			
+			<tr><td> Review text: <textarea name='reviewText' id='reviewText' cols='30' rows='10'>Write your review here</textarea></td></tr>
+			
+			<tr><td><input type='submit' name='reviewSubmit' value='Submit Review'></input></td> </tr>
+			
+		</table>
+	</form>
+
+</body>
+</html>
+</jsp:root>

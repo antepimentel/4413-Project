@@ -21,28 +21,22 @@ public class BookDAO {
 		this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
 	}
 
+	/**
+	 * Retrieves all books from Book similar to or matching the given inputs
+	 * 
+	 * @param title
+	 * @param price
+	 * @param bid
+	 * @param category
+	 * @return
+	 * @throws SQLException
+	 */
 	public Map<String, BookBean> retrieve(String title, String price, String bid, String category) throws SQLException {
 		
-		if(isNullOrEmpty(title)) {
-			title = "%";
-		} 
-		
-		if(isNullOrEmpty(price)) {
-			price = "%";
-		} 
-		
-		// TODO: Add an author column to Book
-//		if(isNullOrEmpty(author)) {
-//			author = "%%";
-//		} 
-		
-		if(isNullOrEmpty(bid)) {
-			bid ="%";
-		}
-		
-		if(isNullOrEmpty(category)) {
-			category = "%";
-		} 
+		title = formatInput(title);
+		price = formatInput(price);
+		bid = formatInput(bid);
+		category = formatInput(category);
 		
 		String query = "select * from " + DBSchema.TABLE_BK + " where "
 				+ DBSchema.COL_BK_TITLE + " like ? and "
@@ -54,14 +48,7 @@ public class BookDAO {
 		PreparedStatement stmtObj = conn.prepareStatement(query);
 		stmtObj.setString(1, title);
 		//stmtObj.setString(2, price);
-		//stmtObj.setString(3, title);
-		if (bid != null) {
-			if (bid.equals("")) {
-				bid = "%";
-			}
-		System.out.println(bid);
 		stmtObj.setString(2, bid);
-		}
 		stmtObj.setString(3, category);
 		
 
@@ -88,6 +75,12 @@ public class BookDAO {
 		return result;
 	}
 
+	/**
+	 * Retrieves all books from table Book
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public Map<String, BookBean> retrieveAllBooks() throws SQLException {
 
 		String query = "select * from " + DBSchema.TABLE_BK;
@@ -118,7 +111,8 @@ public class BookDAO {
 	}
 	
 	/**
-	 * Helper method to avoid database error
+	 * Helper method to avoid database errors
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -126,5 +120,20 @@ public class BookDAO {
 		if(str != null && !str.trim().isEmpty())
             return false;
         return true;
+	}
+	
+	/**
+	 * Helper method for more robust queries.
+	 * Allows even partial titles to be searched
+	 * 
+	 * @param str
+	 * @return
+	 */
+	private static String formatInput(String str) {
+		if(isNullOrEmpty(str)) {
+			return "%";
+		} else {
+			return "%" + str + "%";
+		}
 	}
 }

@@ -28,11 +28,25 @@ import model.Model;
 public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
+	// Attribute tags
 	private static final String MODEL_TAG = "model";
 	private static final String COMM_TAG = "comm";
+	
+	// Page element tags
 	private static final String BID = "bid";
-	private static final String CATEGORY_NAME = "categoryName", BOOK_TITLE="bookTitle", NUMBER_RATING = "numberRating",
-			REVIEW_TEXT = "reviewText", CID = "cid";
+	private static final String CATEGORY_NAME = "categoryName";
+	private static final String PRICE = "price";
+	private static final String TITLE = "title";
+	private static final String BOOK_TITLE="bookTitle";
+	private static final String NUMBER_RATING = "numberRating";
+	private static final String REVIEW_TEXT = "reviewText";
+	private static final String CID = "cid";
+	private static final String REVIEW_LIST = "reviewList";
+	
+	// Page names/filename
+	private static final String JSP_MAIN = "/MainPage.jspx";
+	private static final String JSP_VIEWBOOK = "/ViewBook.jspx";
+	private static final String SEARCH_TAG = "/Main/search";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -68,7 +82,7 @@ public class Main extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("Recieved GET request");
+		System.out.println("Recieved GET request: URL -> " + request.getRequestURL());
 		
 		ServletContext application = getServletContext();
 		Model model = (Model)application.getAttribute(MODEL_TAG);
@@ -95,17 +109,17 @@ public class Main extends HttpServlet {
 			
 		} else if (request.getQueryString() == null) {
 			System.out.println("NORMAL Request: fresh visit");
-			response.sendRedirect(this.getServletContext().getContextPath() + "/MainPage.jspx");
+			response.sendRedirect(this.getServletContext().getContextPath() + JSP_MAIN);
 			
-		} else {
+		} else if (request.getRequestURI().endsWith(SEARCH_TAG)){
+			
 			//If statement for when a book title hyperlink is clicked
 			String bookTitle = request.getParameter(BOOK_TITLE);
 			String categoryName = request.getParameter(CATEGORY_NAME);
-
 			String bid = request.getParameter(BID);
 			
 			// I can add this into the main servlet and make the search look nicer in code, we dont need another servelet for searching
-			//If a category name link is clicked forward to the category servlet 
+			// If a category name link is clicked forward to the category servlet 
 			if (categoryName != null && bookTitle == null) {
 				response.sendRedirect("http://localhost:8080/4413-Project/Category/?" + CATEGORY_NAME +"="+  categoryName);
 				return;
@@ -115,39 +129,28 @@ public class Main extends HttpServlet {
 			//If a book title link has been clicked String bid will have its value as the clicked book title's corresponding bid
 
 			if (bid != null) {
-				Map<String, BookBean> books;
+				
 				String responseMsg;
 				try {
-					books = model.getBooks(bookTitle, "", bid, categoryName);
-					responseMsg = getHTMLResponse(books);
-					request.setAttribute(BID, bid);
-					response.getWriter().append(responseMsg);
-
-					System.out.println(responseMsg);				
+					Map<String, BookBean> books = model.getBooks(bookTitle, "", bid, categoryName);
+					ArrayList<BookReviewBean> reviews = model.getReviewsDB(bid);
+					
+					//responseMsg = getHTMLResponse(books);
+					BookBean book = (BookBean)books.values().toArray()[0];
+					request.setAttribute(BID, book.getBid());
+					request.setAttribute(CATEGORY_NAME, book.getCategory());
+					request.setAttribute(PRICE, book.getPrice());
+					request.setAttribute(TITLE, book.getTitle());
+					request.setAttribute(REVIEW_LIST, reviews);
+					
+					//response.getWriter().append(responseMsg);
+					
+					request.getRequestDispatcher(JSP_VIEWBOOK).forward(request, response);
+					//System.out.println(responseMsg);				
 
 				} catch (SQLException e) {
 					responseMsg = "There was an issue handling your request";
 				} 			
-
-				String allReviewsResponse = createReviewsTable(model.getReviewsDB(bid));
-				System.out.println(allReviewsResponse);				
-				response.getWriter().append(allReviewsResponse);
-				
-				String submitReviewForm  = "<form action='' method='POST'><table>" + 
-						" <tr><td> Review text: <textarea name='reviewText' id='reviewText' cols='30' rows='10'></textarea></td></tr>" + 
-						" <tr><td> Number rating out of 10 <input type='number' name='numberRating'></td></tr>" + 
-						" <tr><td> Your customer id or username <input type='text' name='cid'><br><td></tr>" + 
-						" <tr><td> The book id <input type='text' name='bid' value='" + request.getParameter(BID) + "' readonly><tr><td>" + 
-						" <tr><td> The book title <input type='text' name='bookTitle' value='" + request.getParameter(BOOK_TITLE) + "' readonly><tr><td>" + 
-
-						//The submit review button needs validation from JS or by checking for customer id's and purchase orders
-						"<tr><td><input type='submit' name='reviewSubmit' value='Submit Review'></input><tr><td>" + 
-						"<table></form>";
-				
-						
-				response.getWriter().append(submitReviewForm);
-
-				return;
 			}
 		}
 	}
@@ -174,7 +177,7 @@ public class Main extends HttpServlet {
 			
 			model.addBookReview(bid, Integer.parseInt(cid.trim()), Integer.parseInt(numberRating.trim()), reviewText);
 			response.sendRedirect(this.getServletContext().getContextPath() 
-					+ "/Main/?bookTitle=" + request.getParameter(BOOK_TITLE) + "&bid=" + request.getParameter(BID));
+					+ SEARCH_TAG +"?bookTitle=" + request.getParameter(BOOK_TITLE) + "&bid=" + request.getParameter(BID));
 		} else {
 			doGet(request, response);
 			
@@ -189,7 +192,7 @@ public class Main extends HttpServlet {
 	 */
 	private String getHTMLResponse(Map<String, BookBean> books) {
 			
-		String url = "http://localhost:8080/4413-Project/Main/";
+		String url = "http://localhost:8080/4413-Project" + SEARCH_TAG;
 		
 			String result = "Displaying " + books.size() + " items.";
 			
@@ -200,14 +203,16 @@ public class Main extends HttpServlet {
 						+"<TD>Title</TD>"
 						+"<TD>Price</TD>"
 						+"<TD>Category</TD>"
+						+"<TD></TD>"
 						+"</TR>";
 				
 				for(BookBean bean: books.values()) {
 					String addToCartButton = "<A href='" + url + "?addTo=notNull&categoryName="+ bean.getCategory() + "&bookTitle=" + bean.getTitle() + "'>Add to cart button</A>";
 					result = result + "<TR>"
-							+"<TD><A href='" + url + "?bid="+ bean.getBid() +"&bookTitle=" +bean.getTitle()+"'> " + bean.getTitle() + "</A>" + addToCartButton + "</TD>"
+							+"<TD><A href='" + url + "?bid="+ bean.getBid() +"&bookTitle=" +bean.getTitle()+"'> " + bean.getTitle() + "</A></TD>"
 							+"<TD>"+bean.getPrice()+"</TD>"
 							+"<TD><A href='http://localhost:8080/4413-Project/Category/?categoryName="+ bean.getCategory() +"'>" +bean.getCategory()+"</A></TD>"
+							+"<TD>"+addToCartButton+"</TD>"
 							+"</TR>";
 				}
 				result = result + "</TABLE>";
