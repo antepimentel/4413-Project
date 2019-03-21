@@ -42,11 +42,16 @@ public class Main extends HttpServlet {
 	private static final String REVIEW_TEXT = "reviewText";
 	private static final String CID = "cid";
 	private static final String REVIEW_LIST = "reviewList";
+	private static final String BOOK_LIST = "bookList";
+	private static final String ERROR = "error";
 	
 	// Page names/filename
 	private static final String JSP_MAIN = "/MainPage.jspx";
 	private static final String JSP_VIEWBOOK = "/ViewBook.jspx";
+	
+	// URL Tags
 	private static final String SEARCH_TAG = "/Main/search";
+	private static final String VIEW_TAG = "/Main/view";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -86,72 +91,70 @@ public class Main extends HttpServlet {
 		
 		ServletContext application = getServletContext();
 		Model model = (Model)application.getAttribute(MODEL_TAG);
+
+		// This is a first time visit to the site
+		if (request.getQueryString() == null) {
+			System.out.println("GETL Request: fresh visit");
+			response.sendRedirect(this.getServletContext().getContextPath() + JSP_MAIN);
 		
-		String type = request.getParameter(COMM_TAG);
-		
-		if(type != null && type.equals("ajax")) {
-			System.out.println("AJAX Request");
+		// This is a search request
+		} else if (request.getRequestURI().endsWith(SEARCH_TAG)) {
+			System.out.println("GET Request: SEARCH");
 			
 			Map<String, BookBean> books;
-			String responseMsg;
+			String responseMsg = "";
+			String target = "";
 			try {
 				String title = request.getParameter("title");
 				String category = request.getParameter("category");
 				
 				books = model.getBooks(title, "", "", category);
-				responseMsg = getHTMLResponse(books);
+				
+				request.setAttribute(BOOK_LIST, books.values());
+				
+				target = JSP_MAIN;
+				responseMsg = "none";
+				
 			} catch (SQLException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				responseMsg = "There was an issue handling your request";
+				target = JSP_MAIN;
 			} 
-			response.getWriter().append(responseMsg);
+			request.setAttribute(ERROR, responseMsg);
+			request.getRequestDispatcher(target).forward(request, response);
 			
-			
-		} else if (request.getQueryString() == null) {
-			System.out.println("NORMAL Request: fresh visit");
-			response.sendRedirect(this.getServletContext().getContextPath() + JSP_MAIN);
-			
-		} else if (request.getRequestURI().endsWith(SEARCH_TAG)){
+		// This is a view request
+		} else if (request.getRequestURI().endsWith(VIEW_TAG)){
+			System.out.println("GET Request: VIEW");
 			
 			//If statement for when a book title hyperlink is clicked
 			String bookTitle = request.getParameter(BOOK_TITLE);
 			String categoryName = request.getParameter(CATEGORY_NAME);
 			String bid = request.getParameter(BID);
 			
-			// I can add this into the main servlet and make the search look nicer in code, we dont need another servelet for searching
-			// If a category name link is clicked forward to the category servlet 
-			if (categoryName != null && bookTitle == null) {
-				response.sendRedirect("http://localhost:8080/4413-Project/Category/?" + CATEGORY_NAME +"="+  categoryName);
-				return;
-			}
-			
-			
-			//If a book title link has been clicked String bid will have its value as the clicked book title's corresponding bid
-
-			if (bid != null) {
+			String responseMsg = "";
+			String target = "";
+			try {
+				Map<String, BookBean> books = model.getBooks(bookTitle, "", bid, categoryName);
+				ArrayList<BookReviewBean> reviews = model.getReviewsDB(bid);
 				
-				String responseMsg;
-				try {
-					Map<String, BookBean> books = model.getBooks(bookTitle, "", bid, categoryName);
-					ArrayList<BookReviewBean> reviews = model.getReviewsDB(bid);
-					
-					//responseMsg = getHTMLResponse(books);
-					BookBean book = (BookBean)books.values().toArray()[0];
-					request.setAttribute(BID, book.getBid());
-					request.setAttribute(CATEGORY_NAME, book.getCategory());
-					request.setAttribute(PRICE, book.getPrice());
-					request.setAttribute(TITLE, book.getTitle());
-					request.setAttribute(REVIEW_LIST, reviews);
-					
-					//response.getWriter().append(responseMsg);
-					
-					request.getRequestDispatcher(JSP_VIEWBOOK).forward(request, response);
-					//System.out.println(responseMsg);				
+				BookBean book = (BookBean)books.values().toArray()[0];
+				request.setAttribute(BID, book.getBid());
+				request.setAttribute(CATEGORY_NAME, book.getCategory());
+				request.setAttribute(PRICE, book.getPrice());
+				request.setAttribute(TITLE, book.getTitle());
+				request.setAttribute(REVIEW_LIST, reviews);
+				
+				responseMsg = "none";
+				target = JSP_VIEWBOOK;
 
-				} catch (SQLException e) {
-					responseMsg = "There was an issue handling your request";
-				} 			
+			} catch (SQLException e) {
+				responseMsg = "There was an issue handling your request";
+				target = JSP_VIEWBOOK;
 			}
+			request.setAttribute(ERROR, responseMsg);
+			request.getRequestDispatcher(target).forward(request, response);
+			
 		}
 	}
 
@@ -177,79 +180,11 @@ public class Main extends HttpServlet {
 			
 			model.addBookReview(bid, Integer.parseInt(cid.trim()), Integer.parseInt(numberRating.trim()), reviewText);
 			response.sendRedirect(this.getServletContext().getContextPath() 
-					+ SEARCH_TAG +"?bookTitle=" + request.getParameter(BOOK_TITLE) + "&bid=" + request.getParameter(BID));
+					+ VIEW_TAG +"?bookTitle=" + request.getParameter(BOOK_TITLE) + "&bid=" + request.getParameter(BID));
 		} else {
 			doGet(request, response);
 			
 		}
-	}
-	
-	/**
-	 * Creates an HTML formatted response for the ajax call used by the search button 
-	 * 
-	 * @param books
-	 * @return
-	 */
-	private String getHTMLResponse(Map<String, BookBean> books) {
-			
-		String url = "http://localhost:8080/4413-Project" + SEARCH_TAG;
-		
-			String result = "Displaying " + books.size() + " items.";
-			
-			if(books.size() > 0) {
-				result = result
-						+"<TABLE border='1'>"
-						+"<TR>"
-						+"<TD>Title</TD>"
-						+"<TD>Price</TD>"
-						+"<TD>Category</TD>"
-						+"<TD></TD>"
-						+"</TR>";
-				
-				for(BookBean bean: books.values()) {
-					String addToCartButton = "<A href='" + url + "?addTo=notNull&categoryName="+ bean.getCategory() + "&bookTitle=" + bean.getTitle() + "'>Add to cart button</A>";
-					result = result + "<TR>"
-							+"<TD><A href='" + url + "?bid="+ bean.getBid() +"&bookTitle=" +bean.getTitle()+"'> " + bean.getTitle() + "</A></TD>"
-							+"<TD>"+bean.getPrice()+"</TD>"
-							+"<TD><A href='http://localhost:8080/4413-Project/Category/?categoryName="+ bean.getCategory() +"'>" +bean.getCategory()+"</A></TD>"
-							+"<TD>"+addToCartButton+"</TD>"
-							+"</TR>";
-				}
-				result = result + "</TABLE>";
-			}		
-			return result;
-		}
-	
-	/**
-	 * Creates an HTML formatted response for the list of reviews
-	 * 
-	 * @param list
-	 * @return
-	 */
-	private String createReviewsTable(ArrayList<BookReviewBean> list) {
-		
-		String result = "There are  " + list.size() + " review(s) for this item.";
-		
-		if(list.size() > 0) {
-			result = result
-					+"<TABLE border='1'>"
-					+"<TR>"
-					+"<TD>cusID</TD>"
-					+"<TD>Number Rating</TD>"
-					+"<TD>Review</TD>"
-					+"</TR>";
-			
-			for(BookReviewBean bean: list) {
-				result = result + "<TR>"
-						+"<TD>" + bean.getCid() + "</TD>"
-						+"<TD>" + bean.getRating() +"</TD>"
-						+"<TD>" + bean.getReview_text() +"</TD>"
-						+"</TR>";
-			}
-			result = result + "</TABLE>";
-		}		
-		return result;
-				
 	}
 	
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+			xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<jsp:directive.page contentType="text/html; charset=ISO-8859-1"
 		pageEncoding="ISO-8859-1" session="false" />
 	<jsp:output doctype-root-element="html"
@@ -15,9 +16,16 @@
 </head>
 <body>
 
-	<form action="">
+	<c:choose>
+		<c:when test="${error != 'none'}">
+			<span style="color:red"> ${error}</span>
+		</c:when>
+	</c:choose>
+			
+	<form action="Main/search" method="GET">
 		<fieldset>
 			<legend>Search the Store</legend>
+
 			<TABLE>
 				<tr>
 					<TD>
@@ -44,8 +52,9 @@
 				</tr>
 				<tr>
 					<TD>
-						<BUTTON type="button" id="ajaxReport" name="ajaxReport" value="true"
-										 onclick="doAjaxQuery('Main/');">Search</BUTTON>
+						<input type='submit' name='searchSubmit' value='Search'></input>
+						<!--  <BUTTON type="button" id="ajaxReport" name="ajaxReport" value="true"
+										 onclick="doAjaxQuery('Main/');">Search</BUTTON>-->
 					</TD>
 				</tr>
 			</TABLE>
@@ -53,6 +62,32 @@
 	</form>
 	
 	<SPAN id="ajaxTarget"></SPAN>
+	
+	<c:choose>
+		<c:when test="${empty bookList}">
+			<!-- Do nothing -->
+		</c:when>
+		<c:otherwise>
+			<TABLE border='1'>
+				<tr>
+					<TD>Title</TD>
+					<TD>Price</TD>
+					<TD>Category</TD>
+					<TD></TD>
+				</tr>
+				
+				<c:forEach var="book" items="${bookList}">
+					<tr>
+						<TD><A href='http://localhost:8080/4413-Project/Main/view?bid=${book.bid}'> ${book.title}</A></TD>
+						<TD>${book.price}</TD>
+						<TD><A href='http://localhost:8080/4413-Project/Main/search?category=${book.category}'> ${book.category}</A></TD>
+						<TD><BUTTON>Add to Cart</BUTTON></TD>
+					</tr>
+				</c:forEach>
+				
+			</TABLE>
+		</c:otherwise>
+	</c:choose>
 	
 	
 </body>

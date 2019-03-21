@@ -12,23 +12,38 @@
 <title>Viewing Book</title>
 </head>
 <body>
-
-	<TABLE border='1'>
-		<tr>
-			<TD>CID</TD>
-			<TD>Rating</TD>
-			<TD>Review</TD>
-		</tr>
-		
-		<c:forEach var="review" items="${reviewList}">
-			<tr>
-				<TD>${review.cid}</TD>
-				<TD>${review.rating}</TD>
-				<TD>${review.review_text}</TD>
-			</tr>
-		</c:forEach>
-		
-	</TABLE>
+	
+	<c:choose>
+		<c:when test="${error != 'none'}">
+			<span style="color:red"> ${error}</span>
+		</c:when>
+	</c:choose>
+	
+	<c:choose>
+		<c:when test="${empty reviewList}">
+			There are no reviews for this item
+			<BR />
+		</c:when>
+		<c:otherwise>
+			<TABLE border='1'>
+				<tr>
+					<TD>CID</TD>
+					<TD>Rating</TD>
+					<TD>Review</TD>
+				</tr>
+				
+				<c:forEach var="review" items="${reviewList}">
+					<tr>
+						<TD>${review.cid}</TD>
+						<TD>${review.rating}</TD>
+						<TD>${review.review_text}</TD>
+					</tr>
+				</c:forEach>
+				
+			</TABLE>
+		</c:otherwise>
+	</c:choose>
+	
 	
 	Add your review below:
 	<form action='' method='POST'>
