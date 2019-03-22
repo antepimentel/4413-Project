@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.BookBean;
 import bean.BookReviewBean;
@@ -90,7 +91,14 @@ public class Main extends HttpServlet {
 		System.out.println("Recieved GET request: URL -> " + request.getRequestURL());
 		
 		ServletContext application = getServletContext();
+		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(MODEL_TAG);
+		
+		// Check if logged in
+		if(session.getAttribute("userID") == null) {
+			request.setAttribute(ERROR, "You must login first!");
+			request.getRequestDispatcher("/Login.jspx").forward(request, response);
+		}
 
 		// This is a first time visit to the site
 		if (request.getQueryString() == null) {

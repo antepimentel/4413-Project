@@ -22,7 +22,7 @@ public class DBSchema {
 	public static final String COL_ADD_PHONE = "phone";
 	
 	// Customer
-	public static final String TABLE_CUS = "Address";
+	public static final String TABLE_CUS = "Customer";
 	public static final String COL_CUS_ID = "id";
 	public static final String COL_CUS_USER = "username";
 	public static final String COL_CUS_PASS = "password";

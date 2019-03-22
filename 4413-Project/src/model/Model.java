@@ -15,6 +15,7 @@ public class Model {
 	private PODAO projectOrderDAO; 
 	private POItemDAO poItemDAO;
 	private BookReviewDAO bookReviewDAO;
+	private CustomerDAO customerDAO;
 	
 	public Model() throws NamingException {
 		this.addressDAO = new AddressDAO();
@@ -23,6 +24,7 @@ public class Model {
 		this.projectOrderDAO = new PODAO();
 		this.poItemDAO = new POItemDAO();
 		this.bookReviewDAO = new BookReviewDAO();
+		this.customerDAO = new CustomerDAO();
 	}
 	
 	public Map<String, BookBean> getBooks(String title, String price, String author, String category) throws SQLException{
@@ -33,13 +35,9 @@ public class Model {
 		return bookDAO.retrieveAllBooks();
 	}
 	
-//	public String getReviews(String bid) {
-//		
-//		bookReviewDAO.retrieveByBook(bid);
-//		
-//		return "";
-//		
-//	}
+	public CustomerBean getCustoemrLogin(String user, String pass) throws SQLException {
+		return customerDAO.retrieveByLogin(user, pass);
+	}
 	
 	public ArrayList<BookReviewBean> getReviewsDB(String bid) {
 		ArrayList<BookReviewBean> result = null;
