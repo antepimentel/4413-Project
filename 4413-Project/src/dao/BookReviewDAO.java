@@ -82,11 +82,34 @@ public class BookReviewDAO {
 		return result;
 	}
 	
-	/*
-	 * Retrieve the average rating of a book by bid for Main Page Display
-	 */
+/*
+ * Check for any existing reviews	
+ */
 	
-public double retrieveAverageRating(String bid) throws SQLException {
+public boolean hasReviews(String bid) throws SQLException {
+	boolean result = false;
+
+	String query = "select * from " + DBSchema.TABLE_REVIEW + " where "
+			+ DBSchema.COL_REVIEW_BID + " = ?";
+
+	Connection conn = this.ds.getConnection();
+	PreparedStatement stmtObj = conn.prepareStatement(query);
+	stmtObj.setString(1, bid);
+	
+	System.out.println("SQL: " + stmtObj.toString());
+	ResultSet rs = stmtObj.executeQuery();
+	if (rs.next()== false) {
+		return result;
+	}
+	
+	return true;
+}
+
+
+/*
+ * Retrieve the average rating of a book by bid for Main Page Display
+ */
+public String retrieveAverageRating(String bid) throws SQLException {
 		
 		String query = "select * from " + DBSchema.TABLE_REVIEW + " where "
 				+ DBSchema.COL_REVIEW_BID + " = ?";
@@ -97,26 +120,31 @@ public double retrieveAverageRating(String bid) throws SQLException {
 		
 		System.out.println("SQL: " + stmtObj.toString());
 		ResultSet rs = stmtObj.executeQuery();
-
-		double result = 0.0;
+		String result = "";
+		double ave = 0.0;
 		double numRatings=0.0;
 
 		while (rs.next()) {
 		
-			result += rs.getInt(DBSchema.COL_REVIEW_RATING);
+			ave += rs.getInt(DBSchema.COL_REVIEW_RATING);
 			numRatings++;
 			
 		}
 		
 		if (numRatings>0) {
-		result = result/numRatings;
-		
+		ave = ave/numRatings;
+		ave = Math.round(ave *100)/100.0;
+		result = String.valueOf(ave);
 		}
+		else {
+			result = "No Reviews Yet";
+		}
+		
 		
 		rs.close();
 		stmtObj.close();
 		conn.close();
-		return Math.round(result *100)/100.0;
+		return result;
 	}
 	
 }

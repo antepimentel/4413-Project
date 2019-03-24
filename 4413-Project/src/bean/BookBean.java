@@ -1,5 +1,7 @@
 package bean;
 
+import java.util.ArrayList;
+
 public class BookBean {
 
 	private final String[] categories = {"Science", "Fiction", "Engineering"};
@@ -8,7 +10,8 @@ public class BookBean {
 	private String title;
 	private int price;
 	private String category;
-	private double rating;
+	private String rating;
+	private ArrayList<BookReviewBean> reviews;
 	
 	public BookBean(String bid, String title, int price, String category) {
 		this.bid = bid;
@@ -21,7 +24,7 @@ public class BookBean {
 	}
 	
 	
-	public BookBean(String bid, String title, int price, String category, double rating) {
+	public BookBean(String bid, String title, int price, String category, String rating) {
 		this.bid = bid;
 		this.title = title;
 		this.price = price;
@@ -69,12 +72,22 @@ public class BookBean {
 	}
 
 
-	public double getRating() {
+	public String getRating() {
 		return rating;
 	}
 
 
-	public void setRating(double rating) {
-		this.rating = rating;
+	public void setRating(String rate) {
+		this.rating = rate;
+	}
+
+
+	public ArrayList<BookReviewBean> getReviews() {
+		return reviews;
+	}
+
+
+	public void setReviews(ArrayList<BookReviewBean> reviews) {
+		this.reviews = reviews;
 	}
 }
