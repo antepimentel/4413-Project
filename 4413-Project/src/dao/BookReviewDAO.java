@@ -81,4 +81,41 @@ public class BookReviewDAO {
 		conn.close();
 		return result;
 	}
+	
+	/*
+	 * Retrieve the average rating of a book by bid for Main Page Display
+	 */
+	
+public int retrieveAverageRating(String bid) throws SQLException {
+		
+		String query = "select * from " + DBSchema.TABLE_REVIEW + " where "
+				+ DBSchema.COL_REVIEW_BID + " = ?";
+
+		Connection conn = this.ds.getConnection();
+		PreparedStatement stmtObj = conn.prepareStatement(query);
+		stmtObj.setString(1, bid);
+		
+		System.out.println("SQL: " + stmtObj.toString());
+		ResultSet rs = stmtObj.executeQuery();
+
+		int result = 0;
+		int numRatings=0;
+
+		while (rs.next()) {
+		
+			result += rs.getInt(DBSchema.COL_REVIEW_RATING);
+			numRatings++;
+			
+		}
+		
+		if (numRatings>0) {
+		result = result/numRatings;
+		}
+		
+		rs.close();
+		stmtObj.close();
+		conn.close();
+		return result;
+	}
+	
 }

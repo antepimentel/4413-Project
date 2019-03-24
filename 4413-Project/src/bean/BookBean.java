@@ -8,12 +8,25 @@ public class BookBean {
 	private String title;
 	private int price;
 	private String category;
+	private int rating;
 	
 	public BookBean(String bid, String title, int price, String category) {
 		this.bid = bid;
 		this.title = title;
 		this.price = price;
 		this.category = category;
+		
+		
+		// TODO: Validate 
+	}
+	
+	
+	public BookBean(String bid, String title, int price, String category, int rating) {
+		this.bid = bid;
+		this.title = title;
+		this.price = price;
+		this.category = category;
+		this.setRating(rating);
 		
 		
 		// TODO: Validate 
@@ -53,5 +66,15 @@ public class BookBean {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+
+	public int getRating() {
+		return rating;
+	}
+
+
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 }

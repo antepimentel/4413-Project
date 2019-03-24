@@ -63,8 +63,20 @@ public class BookDAO {
 			String currentTitle = rs.getString(DBSchema.COL_BK_TITLE);
 			int currentPrice = rs.getInt(DBSchema.COL_BK_PRICE);
 			String currentCategory = rs.getString(DBSchema.COL_BK_CATEGORY);
+			
+			int currentAveRating = 5;
+			
+			BookReviewDAO averageRating;
+			try {
+				averageRating = new BookReviewDAO();
+				 currentAveRating = averageRating.retrieveAverageRating(currentBid);
 
-			BookBean book = new BookBean(currentBid, currentTitle, currentPrice, currentCategory);
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+			
+			BookBean book = new BookBean(currentBid, currentTitle, currentPrice, currentCategory, currentAveRating);
 			result.put(currentBid, book);
 		}
 		

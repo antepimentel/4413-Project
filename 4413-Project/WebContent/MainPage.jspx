@@ -82,6 +82,7 @@
 					<TD>Title</TD>
 					<TD>Price</TD>
 					<TD>Category</TD>
+					<TD>Average Rating</TD>
 					<TD></TD>
 				</tr>
 				
@@ -90,6 +91,7 @@
 						<TD><A href='http://localhost:8080/4413-Project/Main/view?bid=${book.bid}'> ${book.title}</A></TD>
 						<TD>${book.price}</TD>
 						<TD><A href='http://localhost:8080/4413-Project/Main/search?category=${book.category}'> ${book.category}</A></TD>
+						<TD>${book.rating}</TD>
 						<TD><BUTTON>Add to Cart</BUTTON></TD>
 					</tr>
 				</c:forEach>
