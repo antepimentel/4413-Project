@@ -40,7 +40,7 @@ public class DBSchema {
 	// BookReivew
 	public static final String TABLE_REVIEW = "BookReview";
 	public static final String COL_REVIEW_BID = "bid";
-	public static final String COL_REVIEW_CID = "cid";
+	public static final String COL_REVIEW_UID = "uid";
 	public static final String COL_REVIEW_RATING = "rating";
 	public static final String COL_REVIEW_TEXT = "review";
 	
@@ -63,6 +63,7 @@ public class DBSchema {
 	public static final String COL_VE_DAY = "day";
 	public static final String COL_VE_BID = "bid";
 	public static final String COL_VE_TYPE = "eventtype";
+
 	
 }
 

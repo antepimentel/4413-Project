@@ -49,10 +49,10 @@ public class Model {
 		}
 		return result;
 	}
-	public void addBookReview(String bid, int cid, int numberRating, String textReview) {
+	public void addBookReview(String bid, String uid, int numberRating, String textReview) {
 		try {
 			System.out.println("check");
-			bookReviewDAO.addReview(bid, cid, numberRating, textReview);
+			bookReviewDAO.addReview(bid, uid, numberRating, textReview);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

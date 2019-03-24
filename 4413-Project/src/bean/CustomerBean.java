@@ -9,8 +9,7 @@ public class CustomerBean {
 	private String lname;
 	private int address;
 	
-	public CustomerBean(int id, String username, String password, String fname, String lname, int address) {
-		this.id = id;
+	public CustomerBean(String username, String password, String fname, String lname, int address) {
 		this.username = username;
 		this.password = password;
 		this.fname = fname;

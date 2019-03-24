@@ -23,10 +23,10 @@ public class BookReviewDAO {
 		this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
 	}
 	
-	public void addReview(String bid, int cid, int rating, String text) throws SQLException {
+	public void addReview(String bid, String uid, int rating, String text) throws SQLException {
 		String query = "insert into " + DBSchema.TABLE_REVIEW + "("
 				+ DBSchema.COL_REVIEW_BID + ","
-				+ DBSchema.COL_REVIEW_CID + ","
+				+ DBSchema.COL_REVIEW_UID + ","
 				+ DBSchema.COL_REVIEW_RATING + ","
 				+ DBSchema.COL_REVIEW_TEXT 
 				+ ") values(?,?,?,?)";
@@ -34,7 +34,7 @@ public class BookReviewDAO {
 		Connection conn = this.ds.getConnection();
 		PreparedStatement stmtObj = conn.prepareStatement(query);
 		stmtObj.setString(1, bid);
-		stmtObj.setInt(2, cid);
+		stmtObj.setString(2, uid);
 		stmtObj.setInt(3, rating);
 		stmtObj.setString(4, text);
 		
@@ -68,11 +68,11 @@ public class BookReviewDAO {
 
 		while (rs.next()) {
 			String bookID = rs.getString(DBSchema.COL_REVIEW_BID);
-			int cusID = rs.getInt(DBSchema.COL_REVIEW_CID);
+			String usernameID = rs.getString(DBSchema.COL_REVIEW_UID);
 			int rating = rs.getInt(DBSchema.COL_REVIEW_RATING);
 			String review = rs.getString(DBSchema.COL_REVIEW_TEXT);
 
-			BookReviewBean reviewBean = new BookReviewBean(bookID, cusID, rating, review);
+			BookReviewBean reviewBean = new BookReviewBean(bookID, usernameID, rating, review);
 			result.add(reviewBean);
 		}
 		

@@ -35,14 +35,14 @@
 		<c:otherwise>
 			<TABLE border='1'>
 				<tr>
-					<TD>CID</TD>
+					<TD>UID</TD>
 					<TD>Rating</TD>
 					<TD>Review</TD>
 				</tr>
 				
 				<c:forEach var="review" items="${reviewList}">
 					<tr>
-						<TD>${review.cid}</TD>
+						<TD>${review.uid}</TD>
 						<TD>${review.rating}</TD>
 						<TD>${review.review_text}</TD>
 					</tr>
@@ -59,7 +59,7 @@
 			
 			<tr><td> Number rating out of 10 <input type='number' name='numberRating'></input></td></tr> 
 			
-			<tr><td> Your customer id <input type='text' name='cid'></input></td></tr>
+			<tr><td> Your username <input type='text' name='uid' readonly="true" value="${sessionScope['username']}"></input></td></tr>
 			 
 			<tr><td> The book id <input type='text' name='bid' value='${bid}' ></input></td> </tr>
 			

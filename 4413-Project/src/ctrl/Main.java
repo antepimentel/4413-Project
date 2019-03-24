@@ -42,6 +42,7 @@ public class Main extends HttpServlet {
 	private static final String NUMBER_RATING = "numberRating";
 	private static final String REVIEW_TEXT = "reviewText";
 	private static final String CID = "cid";
+	private static final String USERNAME_ID = "uid";
 	private static final String REVIEW_LIST = "reviewList";
 	private static final String BOOK_LIST = "bookList";
 	private static final String ERROR = "error";
@@ -172,7 +173,7 @@ public class Main extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Recieved POST request");
 		
-		String cid = request.getParameter(CID), 
+		String UID = request.getParameter(USERNAME_ID), 
 				reviewText = request.getParameter(REVIEW_TEXT), 
 				numberRating = request.getParameter(NUMBER_RATING),
 				bid = request.getParameter(BID);
@@ -180,13 +181,13 @@ public class Main extends HttpServlet {
 		Model model = (Model) request.getServletContext().getAttribute(MODEL_TAG);
 
 		//If statement for the submission of a review 
-		if (cid != null && reviewText != null && numberRating != null && bid != null) {
+		if (UID != null && reviewText != null && numberRating != null && bid != null) {
 			System.out.println("BID " + bid + "\n"
-					+ "cid " + Integer.parseInt(cid.trim()) 
+					+ "USERID " + UID 
 					+"\n rated " + Integer.parseInt(numberRating.trim()) 
 					+ "\n text: " + reviewText);
 			
-			model.addBookReview(bid, Integer.parseInt(cid.trim()), Integer.parseInt(numberRating.trim()), reviewText);
+			model.addBookReview(bid, UID.trim(), Integer.parseInt(numberRating.trim()), reviewText);
 			response.sendRedirect(this.getServletContext().getContextPath() 
 					+ VIEW_TAG +"?bookTitle=" + request.getParameter(BOOK_TITLE) + "&bid=" + request.getParameter(BID));
 		} else {

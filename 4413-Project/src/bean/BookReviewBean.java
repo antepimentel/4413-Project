@@ -3,19 +3,19 @@ package bean;
 public class BookReviewBean {
 
 	private String bid;
-	private int cid;
+	private String uid;
 	private int rating;
 	private String review_text;
 	/**
 	 * @param bid
-	 * @param cid
+	 * @param usernameID
 	 * @param rating
 	 * @param review_text
 	 */
-	public BookReviewBean(String bid, int cid, int rating, String review_text) {
+	public BookReviewBean(String bid, String usernameID, int rating, String review_text) {
 		super();
 		this.bid = bid;
-		this.cid = cid;
+		this.uid = usernameID;
 		this.rating = rating;
 		this.review_text = review_text;
 	}
@@ -28,8 +28,8 @@ public class BookReviewBean {
 	/**
 	 * @return the cid
 	 */
-	public int getCid() {
-		return cid;
+	public String getUid() {
+		return uid;
 	}
 	/**
 	 * @return the rating
@@ -52,8 +52,8 @@ public class BookReviewBean {
 	/**
 	 * @param cid the cid to set
 	 */
-	public void setCid(int cid) {
-		this.cid = cid;
+	public void setUID(String uid) {
+		this.uid = uid;
 	}
 	/**
 	 * @param rating the rating to set

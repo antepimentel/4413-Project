@@ -34,19 +34,18 @@ VALUES (3, '789 Keele St.', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
 */
 DROP TABLE if exists Customer;
 CREATE TABLE Customer (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	username varchar(20) NOT NULL,
 	password varchar(20) NOT NULL,
 	fname VARCHAR(20) NOT NULL,
 	lname VARCHAR(20) NOT NULL,
 	address INT UNSIGNED NOT NULL,
-	PRIMARY KEY(id),
+	PRIMARY KEY(username),
 	FOREIGN KEY (address) REFERENCES Address (id) ON DELETE CASCADE
 );
-INSERT INTO Customer  (id, username, password, fname, lname, address) VALUES (1, 'antep', 'password', 'Ante', 'Pimentel', 1);
-INSERT INTO Customer  (id, username, password, fname, lname, address) VALUES (2, 'rajan', 'password', 'Sukhrajan', 'Johal', 1);
-INSERT INTO Customer  (id, username, password, fname, lname, address) VALUES (3, 'sara1', 'password', 'Sara', 'Attalla', 1);
-INSERT INTO Customer  (id, username, password, fname, lname, address) VALUES (4, 'sarah2', 'password', 'Sarah', 'Feroz', 1);
+INSERT INTO Customer  (username, password, fname, lname, address) VALUES ('antep', 'password', 'Ante', 'Pimentel', 1);
+INSERT INTO Customer  (username, password, fname, lname, address) VALUES ('rajan', 'password', 'Sukhrajan', 'Johal', 1);
+INSERT INTO Customer  (username, password, fname, lname, address) VALUES ('sara1', 'password', 'Sara', 'Attalla', 1);
+INSERT INTO Customer  (username, password, fname, lname, address) VALUES ('sarah2', 'password', 'Sarah', 'Feroz', 1);
 
 /** bid: unique identifier of Book (like ISBN)
 * title: title of Book
