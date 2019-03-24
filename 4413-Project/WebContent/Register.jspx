@@ -11,6 +11,12 @@
 <title>Register</title>
 </head>
 <body>
+<c:choose>
+		<c:when test="${error != 'none'}">
+			<span style="color:red"> ${error}</span>
+		</c:when>
+	</c:choose>
+	
 <form action= "register" method="POST">
 	<TABLE>
 	<TR>
