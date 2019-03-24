@@ -64,7 +64,7 @@ public class BookDAO {
 			int currentPrice = rs.getInt(DBSchema.COL_BK_PRICE);
 			String currentCategory = rs.getString(DBSchema.COL_BK_CATEGORY);
 			
-			int currentAveRating = 5;
+			double currentAveRating = 5.0;
 			
 			BookReviewDAO averageRating;
 			try {

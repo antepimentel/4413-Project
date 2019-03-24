@@ -86,7 +86,7 @@ public class BookReviewDAO {
 	 * Retrieve the average rating of a book by bid for Main Page Display
 	 */
 	
-public int retrieveAverageRating(String bid) throws SQLException {
+public double retrieveAverageRating(String bid) throws SQLException {
 		
 		String query = "select * from " + DBSchema.TABLE_REVIEW + " where "
 				+ DBSchema.COL_REVIEW_BID + " = ?";
@@ -98,8 +98,8 @@ public int retrieveAverageRating(String bid) throws SQLException {
 		System.out.println("SQL: " + stmtObj.toString());
 		ResultSet rs = stmtObj.executeQuery();
 
-		int result = 0;
-		int numRatings=0;
+		double result = 0.0;
+		double numRatings=0.0;
 
 		while (rs.next()) {
 		
@@ -110,12 +110,13 @@ public int retrieveAverageRating(String bid) throws SQLException {
 		
 		if (numRatings>0) {
 		result = result/numRatings;
+		
 		}
 		
 		rs.close();
 		stmtObj.close();
 		conn.close();
-		return result;
+		return Math.round(result *100)/100.0;
 	}
 	
 }

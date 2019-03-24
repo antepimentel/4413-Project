@@ -8,7 +8,7 @@ public class BookBean {
 	private String title;
 	private int price;
 	private String category;
-	private int rating;
+	private double rating;
 	
 	public BookBean(String bid, String title, int price, String category) {
 		this.bid = bid;
@@ -21,7 +21,7 @@ public class BookBean {
 	}
 	
 	
-	public BookBean(String bid, String title, int price, String category, int rating) {
+	public BookBean(String bid, String title, int price, String category, double rating) {
 		this.bid = bid;
 		this.title = title;
 		this.price = price;
@@ -69,12 +69,12 @@ public class BookBean {
 	}
 
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 }
