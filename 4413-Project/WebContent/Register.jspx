@@ -11,6 +11,36 @@
 <title>Register</title>
 </head>
 <body>
+<form action= "register" method="POST">
+	<TABLE>
+	<TR>
+	<TD> <label for="email"> E-mail: <SPAN id="username-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='email'></input></TD>
+	
+	<TD> <label for="password"> Password: <SPAN id="password-error" style="color:red"></SPAN></label></TD>
+	TD><input type='password' name='password'></input></TD>
+	
+	<TD> <label for="firstname"> First Name: <SPAN id="firstname-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='firstname'></input></TD>
+	
+	<TD> <label for="lastname"> Last Name: <SPAN id="lastname-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='lastname'></input></TD>
+	
+	<TD> <label for="address"> Address: <SPAN id="address-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='address'></input></TD>
+	
+	<TD> <label for="country"> Country: <SPAN id="country-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='country'></input></TD>
+	
+	<TD> <label for="province"> Province: <SPAN id="province-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='email'></input></TD>
+	
+	</TABLE>
+
+
+
+
+</form>
 
 </body>
 </html>
