@@ -27,16 +27,15 @@ public class Model {
 		this.customerDAO = new CustomerDAO();
 	}
 	
+	//===========================
+	// BOOK METHODS
+	//===========================
 	public Map<String, BookBean> getBooks(String title, String price, String author, String category) throws SQLException{
 		return bookDAO.retrieve(title, price, author, category);
 	}
 	
 	public Map<String, BookBean> getAllBooks() throws SQLException{
 		return bookDAO.retrieveAllBooks();
-	}
-	
-	public CustomerBean getCustoemrLogin(String user, String pass) throws SQLException {
-		return customerDAO.retrieveByLogin(user, pass);
 	}
 	
 	public ArrayList<BookReviewBean> getReviewsDB(String bid) {
@@ -49,13 +48,27 @@ public class Model {
 		}
 		return result;
 	}
-	public void addBookReview(String bid, String uid, int numberRating, String textReview) {
+	
+	public void addBookReview(String bid, int cid, int numberRating, String textReview) {
 		try {
 			System.out.println("check");
-			bookReviewDAO.addReview(bid, uid, numberRating, textReview);
+			bookReviewDAO.addReview(bid, cid, numberRating, textReview);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	//===========================
+	// CUSTOMER METHODS
+	//===========================
+	
+	public CustomerBean getCustoemrLogin(String user, String pass) throws SQLException {
+		return customerDAO.retrieveByLogin(user, pass);
+	}
+	
+	public void registerCustomer(String username, String email, String password, String conf_password, String fname, String lname, String address, String country, String province, String postal, String phone) {
+		// TODO
+	}
+	
 }

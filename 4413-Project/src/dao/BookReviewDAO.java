@@ -26,7 +26,7 @@ public class BookReviewDAO {
 	public void addReview(String bid, String uid, int rating, String text) throws SQLException {
 		String query = "insert into " + DBSchema.TABLE_REVIEW + "("
 				+ DBSchema.COL_REVIEW_BID + ","
-				+ DBSchema.COL_REVIEW_UID + ","
+				+ DBSchema.COL_REVIEW_CID + ","
 				+ DBSchema.COL_REVIEW_RATING + ","
 				+ DBSchema.COL_REVIEW_TEXT 
 				+ ") values(?,?,?,?)";
@@ -34,7 +34,7 @@ public class BookReviewDAO {
 		Connection conn = this.ds.getConnection();
 		PreparedStatement stmtObj = conn.prepareStatement(query);
 		stmtObj.setString(1, bid);
-		stmtObj.setString(2, uid);
+		stmtObj.setInt(2, cid);
 		stmtObj.setInt(3, rating);
 		stmtObj.setString(4, text);
 		
@@ -68,11 +68,11 @@ public class BookReviewDAO {
 
 		while (rs.next()) {
 			String bookID = rs.getString(DBSchema.COL_REVIEW_BID);
-			String usernameID = rs.getString(DBSchema.COL_REVIEW_UID);
+			String cusID = rs.getString(DBSchema.COL_REVIEW_CID);
 			int rating = rs.getInt(DBSchema.COL_REVIEW_RATING);
 			String review = rs.getString(DBSchema.COL_REVIEW_TEXT);
 
-			BookReviewBean reviewBean = new BookReviewBean(bookID, usernameID, rating, review);
+			BookReviewBean reviewBean = new BookReviewBean(bookID, cusID, rating, review);
 			result.add(reviewBean);
 		}
 		
@@ -81,4 +81,70 @@ public class BookReviewDAO {
 		conn.close();
 		return result;
 	}
+	
+/*
+ * Check for any existing reviews	
+ */
+	
+public boolean hasReviews(String bid) throws SQLException {
+	boolean result = false;
+
+	String query = "select * from " + DBSchema.TABLE_REVIEW + " where "
+			+ DBSchema.COL_REVIEW_BID + " = ?";
+
+	Connection conn = this.ds.getConnection();
+	PreparedStatement stmtObj = conn.prepareStatement(query);
+	stmtObj.setString(1, bid);
+	
+	System.out.println("SQL: " + stmtObj.toString());
+	ResultSet rs = stmtObj.executeQuery();
+	if (rs.next()== false) {
+		return result;
+	}
+	
+	return true;
+}
+
+
+/*
+ * Retrieve the average rating of a book by bid for Main Page Display
+ */
+public String retrieveAverageRating(String bid) throws SQLException {
+		
+		String query = "select * from " + DBSchema.TABLE_REVIEW + " where "
+				+ DBSchema.COL_REVIEW_BID + " = ?";
+
+		Connection conn = this.ds.getConnection();
+		PreparedStatement stmtObj = conn.prepareStatement(query);
+		stmtObj.setString(1, bid);
+		
+		System.out.println("SQL: " + stmtObj.toString());
+		ResultSet rs = stmtObj.executeQuery();
+		String result = "";
+		double ave = 0.0;
+		double numRatings=0.0;
+
+		while (rs.next()) {
+		
+			ave += rs.getInt(DBSchema.COL_REVIEW_RATING);
+			numRatings++;
+			
+		}
+		
+		if (numRatings>0) {
+		ave = ave/numRatings;
+		ave = Math.round(ave *100)/100.0;
+		result = String.valueOf(ave);
+		}
+		else {
+			result = "No Reviews Yet";
+		}
+		
+		
+		rs.close();
+		stmtObj.close();
+		conn.close();
+		return result;
+	}
+	
 }

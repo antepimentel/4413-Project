@@ -1,5 +1,40 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+/**
+ * Drop all tables first
+ */
+DROP TABLE if exists Customer;
+DROP TABLE if exists Address;
+DROP TABLE if exists Book;
+DROP TABLE if exists BookReview;
+DROP TABLE if exists PO;
+DROP TABLE if exists POItem;
+DROP TABLE if exists VisitEvent;
+
+/** id: unique identifier of customer
+* username:
+* password:
+* fname:
+* lname:
+* address: address id (link to Address)
+*/
+CREATE TABLE Customer (
+	username VARCHAR(20) NOT NULL,
+	email VARCHAR(40) NOT NULL,
+	password varchar(20) NOT NULL,
+	fname VARCHAR(20) NOT NULL,
+	lname VARCHAR(20) NOT NULL,
+	c_type ENUM('CUSTOMER','ADMIN','PARTNER') NOT NULL,
+	PRIMARY KEY(username)
+);
+
+INSERT INTO Customer  (username, email, password, fname, lname, c_type) VALUES ('antep', 'email@123.com', 'password', 'Ante', 'Pimentel', 'CUSTOMER');
+INSERT INTO Customer  (username, email, password, fname, lname, c_type) VALUES ('rajan','email@123.com', 'password', 'Sukhrajan', 'Johal', 'CUSTOMER');
+INSERT INTO Customer  (username, email, password, fname, lname, c_type) VALUES ('sara1','email@123.com', 'password', 'Sara', 'Attalla', 'CUSTOMER');
+INSERT INTO Customer  (username, email, password, fname, lname, c_type) VALUES ('sarah2','email@123.com', 'password', 'Sarah', 'Feroz', 'CUSTOMER');
+INSERT INTO Customer  (username, email, password, fname, lname, c_type) VALUES ('admin','email@123.com', 'password', 'Sarah', 'Feroz', 'ADMIN');
+INSERT INTO Customer  (username, email, password, fname, lname, c_type) VALUES ('partner','email@123.com', 'password', 'Sarah', 'Feroz', 'PARTNER');
+
 /* Address
 * id: address id
 *
@@ -21,31 +56,8 @@ VALUES (1, '123 Yonge St', 'ON', 'Canada', 'K1E 6T5' ,'647-123-4567');
 INSERT INTO Address (id, street, province, country, zip, phone) 
 VALUES (2, '445 Avenue rd', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569');
 
-INSERT INTO Address (id, street, province, country, zip, phone) 
-VALUES (3, '789 Keele St.', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
-
-
-/** id: unique identifier of customer
-* username:
-* password:
-* fname:
-* lname:
-* address: address id (link to Address)
-*/
-DROP TABLE if exists Customer;
-CREATE TABLE Customer (
-	username varchar(20) NOT NULL,
-	password varchar(20) NOT NULL,
-	fname VARCHAR(20) NOT NULL,
-	lname VARCHAR(20) NOT NULL,
-	address INT UNSIGNED NOT NULL,
-	PRIMARY KEY(username),
-	FOREIGN KEY (address) REFERENCES Address (id) ON DELETE CASCADE
-);
-INSERT INTO Customer  (username, password, fname, lname, address) VALUES ('antep', 'password', 'Ante', 'Pimentel', 1);
-INSERT INTO Customer  (username, password, fname, lname, address) VALUES ('rajan', 'password', 'Sukhrajan', 'Johal', 1);
-INSERT INTO Customer  (username, password, fname, lname, address) VALUES ('sara1', 'password', 'Sara', 'Attalla', 1);
-INSERT INTO Customer  (username, password, fname, lname, address) VALUES ('sarah2', 'password', 'Sarah', 'Feroz', 1);
+INSERT INTO Address (cid, street, province, country, zip, phone) 
+VALUES ('sara2', '789 Keele St.', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
 
 /** bid: unique identifier of Book (like ISBN)
 * title: title of Book
@@ -53,7 +65,6 @@ INSERT INTO Customer  (username, password, fname, lname, address) VALUES ('sarah
 * author: name of authors
 * category: as specified
 */
-DROP TABLE if exists Book;
 CREATE TABLE Book (
 	bid VARCHAR(20) NOT NULL,
 	title VARCHAR(60) NOT NULL,
@@ -79,14 +90,13 @@ INSERT INTO Book (bid, title, price, category) VALUES ('b011', 'Lord of the Ring
 * rating: 1-5 rating
 * review: 200 char review 
 */
-DROP TABLE if exists BookReview;
 CREATE TABLE BookReview (
 	bid VARCHAR(20) NOT NULL,
-	cid INT UNSIGNED NOT NULL,
+	cid VARCHAR(20) NOT NULL,
 	rating INT UNSIGNED NOT NULL,
 	review VARCHAR(200),
 	FOREIGN KEY (bid) REFERENCES Book (bid) ON DELETE CASCADE,
-	FOREIGN KEY (cid) REFERENCES Customer (id) ON DELETE CASCADE
+	FOREIGN KEY(cid) REFERENCES Customer (username)
 );
 
 
@@ -96,28 +106,24 @@ CREATE TABLE BookReview (
 * id: purchase order id
 * status:status of purchase
 */
-DROP TABLE if exists PO;
 CREATE TABLE PO (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	lname VARCHAR(20) NOT NULL,
-	fname VARCHAR(20) NOT NULL,
+	cid VARCHAR(20) NOT NULL,
 	status ENUM('ORDERED','PROCESSED','DENIED') NOT NULL,
-	address INT UNSIGNED NOT NULL,
 	PRIMARY KEY(id),
-	INDEX (address),
-	FOREIGN KEY (address) REFERENCES Address (id) ON DELETE CASCADE
+	INDEX (cid),
+	FOREIGN KEY (cid) REFERENCES Customer (username) ON DELETE CASCADE
 );
 
-INSERT INTO PO (id, lname, fname, status, address) VALUES (1, 'John', 'White', 'PROCESSED', '1');
-INSERT INTO PO (id, lname, fname, status, address) VALUES (2, 'Peter', 'Black', 'DENIED', '2');
-INSERT INTO PO (id, lname, fname, status, address) VALUES (3, 'Andy', 'Green', 'ORDERED', '3');
+INSERT INTO PO (id, cid, status) VALUES (1, 'antep', 'PROCESSED');
+INSERT INTO PO (id, cid, status) VALUES (2, 'sarah1', 'DENIED');
+INSERT INTO PO (id, cid, status) VALUES (3, 'sara2', 'ORDERED');
 
 /* Items on order
 * id : purchase order id
 * bid: unique identifier of Book
 * price: unit price
 */
-DROP TABLE if exists POItem;
 CREATE TABLE POItem (
 	id INT UNSIGNED NOT NULL,
 	bid VARCHAR(20) NOT NULL,
@@ -139,7 +145,6 @@ INSERT INTO POItem (id, bid, price) VALUES (3, 'b003', '100');
 * bid: unique identifier of Book
 * eventtype: status of purchase
 */ 
-DROP TABLE if exists VisitEvent;
 CREATE TABLE VisitEvent (
 	day varchar(8) NOT NULL,
 	bid varchar(20) not null REFERENCES Book.bid,
