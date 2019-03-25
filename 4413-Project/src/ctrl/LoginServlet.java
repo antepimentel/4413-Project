@@ -19,10 +19,12 @@ import model.Model;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet({"/login", "/login/*"})
+@WebServlet({"/login"})
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	private static final String JSP_LOGIN = "/Login.jspx";
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -53,9 +55,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		
-		response.sendRedirect(this.getServletContext().getContextPath() + "/Login.jspx");
+		response.sendRedirect(this.getServletContext().getContextPath() + JSP_LOGIN);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class LoginServlet extends HttpServlet {
 		
 		request.setAttribute("error", responseMsg);
 		request.getRequestDispatcher(target).forward(request, response);
-		
-	}
 
+	
+	}
 }

@@ -37,7 +37,7 @@
 			</TR>
 			<TR>
 				<TD>Don't have an account?</TD>
-				<TD><BUTTON>Register</BUTTON></TD>
+				<TD><A href='http://localhost:8080/4413-Project/register'>Register</A></TD>
 			</TR>
 			<TR>
 				<TD>FOR TESTING ONLY</TD>
