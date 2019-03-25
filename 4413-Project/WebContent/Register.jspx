@@ -11,36 +11,41 @@
 <title>Register</title>
 </head>
 <body>
-<c:choose>
-		<c:when test="${error != 'none'}">
-			<span style="color:red"> ${error}</span>
-		</c:when>
-	</c:choose>
+
 	
 <form action= "register" method="POST">
+
+<title> Register</title>
+
+
+
+<text> Please fill out the following: </text>
 	<TABLE>
 	<TR>
 	<TD> <label for="email"> E-mail: <SPAN id="username-error" style="color:red"></SPAN></label></TD>
 	<TD><input type='text' name='email'></input></TD>
-	
+	</TR>
+	<TR>
 	<TD> <label for="password"> Password: <SPAN id="password-error" style="color:red"></SPAN></label></TD>
-	TD><input type='password' name='password'></input></TD>
-	
+	<TD><input type='password' name='password'></input></TD>
+	</TR>
 	<TD> <label for="firstname"> First Name: <SPAN id="firstname-error" style="color:red"></SPAN></label></TD>
 	<TD><input type='text' name='firstname'></input></TD>
-	
+	<TR>
 	<TD> <label for="lastname"> Last Name: <SPAN id="lastname-error" style="color:red"></SPAN></label></TD>
 	<TD><input type='text' name='lastname'></input></TD>
-	
+	</TR>
 	<TD> <label for="address"> Address: <SPAN id="address-error" style="color:red"></SPAN></label></TD>
 	<TD><input type='text' name='address'></input></TD>
-	
+	<TR>
 	<TD> <label for="country"> Country: <SPAN id="country-error" style="color:red"></SPAN></label></TD>
 	<TD><input type='text' name='country'></input></TD>
-	
+	</TR>
+	<TR>
 	<TD> <label for="province"> Province: <SPAN id="province-error" style="color:red"></SPAN></label></TD>
 	<TD><input type='text' name='email'></input></TD>
-	
+	</TR>
+	<tr><td><input type='submit' name='register' value='Register'></input></td> </tr>
 	</TABLE>
 
 
