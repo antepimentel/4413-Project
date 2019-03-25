@@ -2,27 +2,52 @@ package bean;
 
 public class CustomerBean {
 
-	private int id;
+	private String[] types = {"CUSTOMER", "ADMIN", "PARTNER"};
+	
 	private String username;
+	private String email;
 	private String password;
 	private String fname;
 	private String lname;
-	private int address;
+	private String c_type;
 	
-	public CustomerBean(int id, String username, String password, String fname, String lname, int address) {
-		this.id = id;
+	public CustomerBean(String username, String email, String password, String fname, String lname, String c_type) {
 		this.username = username;
+		this.email = email;
 		this.password = password;
 		this.fname = fname;
 		this.lname = lname;
-		this.address = address;
+		this.c_type = c_type;
 	}
+	
 	/**
-	 * @return the id
+	 * @return the email
 	 */
-	public int getId() {
-		return id;
+	public String getEmail() {
+		return email;
 	}
+
+	/**
+	 * @return the c_type
+	 */
+	public String getC_type() {
+		return c_type;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @param c_type the c_type to set
+	 */
+	public void setC_type(String c_type) {
+		this.c_type = c_type;
+	}
+
 	/**
 	 * @return the username
 	 */
@@ -47,18 +72,7 @@ public class CustomerBean {
 	public String getLname() {
 		return lname;
 	}
-	/**
-	 * @return the address
-	 */
-	public int getAddress() {
-		return address;
-	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	/**
 	 * @param username the username to set
 	 */
@@ -83,13 +97,5 @@ public class CustomerBean {
 	public void setLname(String lname) {
 		this.lname = lname;
 	}
-	/**
-	 * @param address the address to set
-	 */
-	public void setAddress(int address) {
-		this.address = address;
-	}
-	
-	
 
 }

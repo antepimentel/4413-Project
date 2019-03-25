@@ -14,7 +14,7 @@ public class DBSchema {
 	
 	// Address
 	public static final String TABLE_ADD = "Address";
-	public static final String COL_ADD_ID = "id";
+	public static final String COL_ADD_CID = "cid";
 	public static final String COL_ADD_STREET = "street";
 	public static final String COL_ADD_PROV = "province";
 	public static final String COL_ADD_COUNTRY = "country";
@@ -23,12 +23,12 @@ public class DBSchema {
 	
 	// Customer
 	public static final String TABLE_CUS = "Customer";
-	public static final String COL_CUS_ID = "id";
 	public static final String COL_CUS_USER = "username";
+	public static final String COL_CUS_EMAIL = "email";
 	public static final String COL_CUS_PASS = "password";
 	public static final String COL_CUS_FNAME = "fname";
 	public static final String COL_CUS_LNAME = "lname";
-	public static final String COL_CUS_ADD = "address";
+	public static final String COL_CUS_C_TYPE = "c_type";
 	
 	// Book
 	public static final String TABLE_BK = "Book";
@@ -47,10 +47,8 @@ public class DBSchema {
 	// PO
 	public static final String TABLE_PO = "PO";
 	public static final String COL_PO_ID = "id";
-	public static final String COL_PO_LNAME = "lname";
-	public static final String COL_PO_FNAME = "fname";
+	public static final String COL_PO_CID = "cid";
 	public static final String COL_PO_STATUS = "status";
-	public static final String COL_PO_ADDRESS = "address";
 	
 	// POItem
 	public static final String TABLE_POI = "POItem";

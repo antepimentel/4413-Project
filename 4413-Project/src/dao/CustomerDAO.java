@@ -39,14 +39,14 @@ public class CustomerDAO {
 		if(rs.next() == false) {
 			customer = null;
 		} else {
-			int id = rs.getInt(DBSchema.COL_CUS_ID);
 			String user = rs.getString(DBSchema.COL_CUS_USER);
+			String email = rs.getString(DBSchema.COL_CUS_EMAIL);
 			String pass = rs.getString(DBSchema.COL_CUS_PASS);
 			String fname = rs.getString(DBSchema.COL_CUS_FNAME);
 			String lname = rs.getString(DBSchema.COL_CUS_LNAME);
-			int address = rs.getInt(DBSchema.COL_CUS_ADD);
+			String c_type = rs.getString(DBSchema.COL_CUS_C_TYPE);
 			
-			customer = new CustomerBean(id, user, pass, fname, lname, address);
+			customer = new CustomerBean(user, email, pass, fname, lname, c_type);
 		}
 		
 		rs.close();

@@ -95,7 +95,7 @@ public class Main extends HttpServlet {
 		Model model = (Model)application.getAttribute(MODEL_TAG);
 		
 		// Check if logged in
-		if(session.getAttribute("userID") == null) {
+		if(session.getAttribute("username") == null) {
 			request.setAttribute(ERROR, "You must login first!");
 			request.getRequestDispatcher("/Login.jspx").forward(request, response);
 		}

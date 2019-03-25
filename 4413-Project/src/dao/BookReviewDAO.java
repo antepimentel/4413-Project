@@ -68,7 +68,7 @@ public class BookReviewDAO {
 
 		while (rs.next()) {
 			String bookID = rs.getString(DBSchema.COL_REVIEW_BID);
-			int cusID = rs.getInt(DBSchema.COL_REVIEW_CID);
+			String cusID = rs.getString(DBSchema.COL_REVIEW_CID);
 			int rating = rs.getInt(DBSchema.COL_REVIEW_RATING);
 			String review = rs.getString(DBSchema.COL_REVIEW_TEXT);
 
