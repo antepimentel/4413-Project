@@ -94,6 +94,13 @@ public class Main extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(MODEL_TAG);
 		
+		
+		
+		//Register
+		if(request.getParameter("register") != null) {
+			request.getRequestDispatcher("/Register.jspx").forward(request, response);
+		}
+		
 		// Check if logged in
 		if(session.getAttribute("userID") == null) {
 			request.setAttribute(ERROR, "You must login first!");

@@ -21,9 +21,14 @@
 	<td><button type = "submit" name= "delete" value="$book"> Delete</button></td>
 	<td><input type = "number" name= "quantity" value="${requestScope.quantities[status.index]}"> Quantity</input></td>
 	<td><button type ="submit" name= "update" value="${book }"></button></td>
+	<h4> Grand Total: <f:formatNumber type = "currency"> ${requestScope.totalPrice}</f:formatNumber></h4>
 </c:forEach>
 <td>
-<h4> Grand Total: <f:formatNumber type = "currency"> ${requestScope.totalPrice}</f:formatNumber></h4>
+
+
+
+<h4>Looks like you have nothing in your cart!</h4>
+<td> <button type = "submit" name="shopping" value="shopping">Start Shopping!</button></td>
 </td>
 </form>
 </body>
