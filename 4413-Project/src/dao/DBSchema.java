@@ -22,13 +22,14 @@ public class DBSchema {
 	public static final String COL_ADD_PHONE = "phone";
 	
 	// Customer
+
 	public static final String TABLE_CUS = "Customer";
-	public static final String COL_CUS_ID = "id";
 	public static final String COL_CUS_USER = "username";
+	public static final String COL_CUS_EMAIL = "email";
 	public static final String COL_CUS_PASS = "password";
 	public static final String COL_CUS_FNAME = "fname";
 	public static final String COL_CUS_LNAME = "lname";
-	public static final String COL_CUS_ADD = "address";
+	public static final String COL_CUS_C_TYPE = "c_type";
 	
 	// Book
 	public static final String TABLE_BK = "Book";
@@ -40,7 +41,7 @@ public class DBSchema {
 	// BookReivew
 	public static final String TABLE_REVIEW = "BookReview";
 	public static final String COL_REVIEW_BID = "bid";
-	public static final String COL_REVIEW_UID = "uid";
+	public static final String COL_REVIEW_CID = "cid";
 	public static final String COL_REVIEW_RATING = "rating";
 	public static final String COL_REVIEW_TEXT = "review";
 	
@@ -63,6 +64,7 @@ public class DBSchema {
 	public static final String COL_VE_DAY = "day";
 	public static final String COL_VE_BID = "bid";
 	public static final String COL_VE_TYPE = "eventtype";
+
 
 	
 }

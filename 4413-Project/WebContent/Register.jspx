@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
-			xmlns:c="http://java.sun.com/jsp/jstl/core">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html; charset=ISO-8859-1" 
 		pageEncoding="ISO-8859-1" session="false"/>
 	<jsp:output doctype-root-element="html"
@@ -12,62 +11,35 @@
 <title>Register</title>
 </head>
 <body>
-
-	
 <form action= "register" method="POST">
-	<fieldset>
-		<legend>Please fill out the information below.</legend>
-		<TABLE>
-			
-			<TR>
-				<TD> <label for="username"> Username: <SPAN id="username-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='text' name='username'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="email"> E-mail: <SPAN id="email-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='text' name='email'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="password"> Password: <SPAN id="password-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='password' name='password'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="-conf-password"> Confirm Password: <SPAN id="conf-password-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='password' name='conf-password'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="fname"> First Name: <SPAN id="firstname-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='text' name='firstname'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="lname"> Last Name: <SPAN id="lastname-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='text' name='lastname'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="address"> Address: <SPAN id="address-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='text' name='address'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="country"> Country: <SPAN id="country-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='text' name='country'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="province"> Province: <SPAN id="province-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='text' name='email'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="postal"> Postal Code: <SPAN id="postal-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='text' name='postal'></input></TD>
-			</TR>
-			<TR>
-				<TD> <label for="phone"> Phone: <SPAN id="phone-error" style="color:red"></SPAN></label></TD>
-				<TD><input type='text' name='phone'></input></TD>
-			</TR>
-			<TR>
-				<TD><input type='submit' name='register' value='Register'></input></TD>
-			</TR>
-		</TABLE>
-	</fieldset>
+	<TABLE>
+	<TR>
+	<TD> <label for="email"> E-mail: <SPAN id="username-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='email'></input></TD>
+	
+	<TD> <label for="password"> Password: <SPAN id="password-error" style="color:red"></SPAN></label></TD>
+	TD><input type='password' name='password'></input></TD>
+	
+	<TD> <label for="firstname"> First Name: <SPAN id="firstname-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='firstname'></input></TD>
+	
+	<TD> <label for="lastname"> Last Name: <SPAN id="lastname-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='lastname'></input></TD>
+	
+	<TD> <label for="address"> Address: <SPAN id="address-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='address'></input></TD>
+	
+	<TD> <label for="country"> Country: <SPAN id="country-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='country'></input></TD>
+	
+	<TD> <label for="province"> Province: <SPAN id="province-error" style="color:red"></SPAN></label></TD>
+	<TD><input type='text' name='email'></input></TD>
+	
+	</TABLE>
+
+
+
+
 </form>
 
 </body>

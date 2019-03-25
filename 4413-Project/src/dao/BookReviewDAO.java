@@ -34,7 +34,7 @@ public class BookReviewDAO {
 		Connection conn = this.ds.getConnection();
 		PreparedStatement stmtObj = conn.prepareStatement(query);
 		stmtObj.setString(1, bid);
-		stmtObj.setInt(2, cid);
+		stmtObj.setString(2, uid);
 		stmtObj.setInt(3, rating);
 		stmtObj.setString(4, text);
 		

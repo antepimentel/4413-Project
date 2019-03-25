@@ -87,7 +87,6 @@ public class LoginServlet extends HttpServlet {
 				// persist to session?
 				responseMsg = "Success! Signed in as " + customer.getFname() + " " + customer.getLname();
 				target = "/MainPage.jspx";
-				session.setAttribute("userID", customer.getId());
 				session.setAttribute("username", customer.getUsername());
 			} else {
 				responseMsg = "no matching username and password, try again";

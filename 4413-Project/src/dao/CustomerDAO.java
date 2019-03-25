@@ -46,6 +46,7 @@ public class CustomerDAO {
 			String lname = rs.getString(DBSchema.COL_CUS_LNAME);
 			String c_type = rs.getString(DBSchema.COL_CUS_C_TYPE);
 			
+
 			customer = new CustomerBean(user, email, pass, fname, lname, c_type);
 		}
 		
