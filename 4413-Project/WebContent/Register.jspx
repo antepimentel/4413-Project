@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+			xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<jsp:directive.page contentType="text/html; charset=ISO-8859-1" 
-		pageEncoding="ISO-8859-1" session="false"/>
+		pageEncoding="ISO-8859-1" session="true"/>
 	<jsp:output doctype-root-element="html"
 		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
@@ -11,35 +12,66 @@
 <title>Register</title>
 </head>
 <body>
+
+<c:choose>
+	<c:when test="${error != 'none'}">
+		<span style="color:red"> ${error}</span>
+	</c:when>
+</c:choose>
 <form action= "register" method="POST">
-	<TABLE>
-	<TR>
-	<TD> <label for="email"> E-mail: <SPAN id="username-error" style="color:red"></SPAN></label></TD>
-	<TD><input type='text' name='email'></input></TD>
-	
-	<TD> <label for="password"> Password: <SPAN id="password-error" style="color:red"></SPAN></label></TD>
-	TD><input type='password' name='password'></input></TD>
-	
-	<TD> <label for="firstname"> First Name: <SPAN id="firstname-error" style="color:red"></SPAN></label></TD>
-	<TD><input type='text' name='firstname'></input></TD>
-	
-	<TD> <label for="lastname"> Last Name: <SPAN id="lastname-error" style="color:red"></SPAN></label></TD>
-	<TD><input type='text' name='lastname'></input></TD>
-	
-	<TD> <label for="address"> Address: <SPAN id="address-error" style="color:red"></SPAN></label></TD>
-	<TD><input type='text' name='address'></input></TD>
-	
-	<TD> <label for="country"> Country: <SPAN id="country-error" style="color:red"></SPAN></label></TD>
-	<TD><input type='text' name='country'></input></TD>
-	
-	<TD> <label for="province"> Province: <SPAN id="province-error" style="color:red"></SPAN></label></TD>
-	<TD><input type='text' name='email'></input></TD>
-	
-	</TABLE>
-
-
-
-
+	<fieldset>
+		<legend>Please fill out the information below.</legend>
+		<TABLE>
+			
+			<TR>
+				<TD> <label for="username"> Username: <SPAN id="username-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='username' value='${sessionScope.username}'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="email"> E-mail: <SPAN id="email-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='email' value='${sessionScope.email}'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="password"> Password: <SPAN id="password-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='password' name='password'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="-conf-password"> Confirm Password: <SPAN id="conf-password-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='password' name='conf-password'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="fname"> First Name: <SPAN id="firstname-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='fname' value='${sessionScope.fname}'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="lname"> Last Name: <SPAN id="lastname-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='lname' value='${sessionScope.lname}'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="address"> Address: <SPAN id="address-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='address' value='${sessionScope.address}'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="country"> Country: <SPAN id="country-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='country' value='${sessionScope.country}'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="province"> Province: <SPAN id="province-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='province' value='${sessionScope.province}'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="postal"> Postal Code: <SPAN id="postal-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='postal' value='${sessionScope.postal}'></input></TD>
+			</TR>
+			<TR>
+				<TD> <label for="phone"> Phone: <SPAN id="phone-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='phone' value='${sessionScope.phone}'></input></TD>
+			</TR>
+			<TR>
+				<TD><input type='submit' name='register' value='Register'></input></TD>
+			</TR>
+		</TABLE>
+	</fieldset>
 </form>
 
 </body>

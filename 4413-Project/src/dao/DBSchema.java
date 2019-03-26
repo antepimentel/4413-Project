@@ -14,7 +14,7 @@ public class DBSchema {
 	
 	// Address
 	public static final String TABLE_ADD = "Address";
-	public static final String COL_ADD_ID = "id";
+	public static final String COL_ADD_CID = "cid";
 	public static final String COL_ADD_STREET = "street";
 	public static final String COL_ADD_PROV = "province";
 	public static final String COL_ADD_COUNTRY = "country";
@@ -22,7 +22,6 @@ public class DBSchema {
 	public static final String COL_ADD_PHONE = "phone";
 	
 	// Customer
-
 	public static final String TABLE_CUS = "Customer";
 	public static final String COL_CUS_USER = "username";
 	public static final String COL_CUS_EMAIL = "email";

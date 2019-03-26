@@ -1,11 +1,20 @@
 package ctrl;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import bean.AddressBean;
+import bean.CustomerBean;
+import model.CustomException;
+import model.Model;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -15,7 +24,12 @@ public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final String JSP_REGISTER = "/Register.jspx";
+	private static final String JSP_MAIN = "/MainPage.jspx";
+	
+	private static final String MODEL_TAG = "model";
+	private static final String ERROR = "error";
 
+	// Form Names
 	private static final String USERNAME = "username";
 	private static final String EMAIL = "email";
 	private static final String PASSWORD = "password";
@@ -48,6 +62,10 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Recieved POST request: URL -> " + request.getRequestURL());
+		
+		ServletContext application = getServletContext();
+		HttpSession session = request.getSession(true);
+		Model model = (Model)application.getAttribute(MODEL_TAG);
 
 		// Get all the form values
 		String username = request.getParameter(USERNAME);
@@ -56,17 +74,53 @@ public class RegisterServlet extends HttpServlet {
 		String conf_password = request.getParameter(CONF_PASSWORD);
 		String fname = request.getParameter(FNAME);
 		String lname = request.getParameter(LNAME);
-		String address = request.getParameter(ADDRESS);
+		String street = request.getParameter(ADDRESS);
 		String country = request.getParameter(COUNTRY);
 		String province = request.getParameter(PROV);
 		String postal = request.getParameter(POSTAL);
 		String phone = request.getParameter(PHONE);
+		
+		CustomerBean customer = new CustomerBean(username, email, password, fname, lname, "CUSTOMER");
+		AddressBean address = new AddressBean(username, street, province, country, postal, phone);
 
+		String responseMsg = "";
+		String target = "";
 		// Pass info to model 
-		// TODO
+		try {
+			model.registerCustomer(customer, conf_password, address);
+			target = JSP_MAIN;
+			responseMsg = "Success! Signed in as " + customer.getFname() + " " + customer.getLname();
+			session.setAttribute("username", customer.getUsername());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			target = JSP_REGISTER;
+			responseMsg = "Database error";
+			pushInfoToSession(request, customer, address);
+		} catch (CustomException e) {
+			//e.printStackTrace();
+			target = JSP_REGISTER;
+			responseMsg = e.getMsg();
+			pushInfoToSession(request, customer, address);
+		}
 
-		// Go to Search page
-		// TODO
+		request.setAttribute(ERROR, responseMsg);
+		request.getRequestDispatcher(target).forward(request, response);
+	}
+	
+	private static void pushInfoToSession(HttpServletRequest request, CustomerBean customer, AddressBean address) {
+		
+		HttpSession session = request.getSession(true);
+		
+		session.setAttribute(USERNAME, customer.getUsername());
+		session.setAttribute(EMAIL, customer.getEmail());
+		session.setAttribute(FNAME, customer.getFname());
+		session.setAttribute(LNAME, customer.getLname());
+		session.setAttribute(ADDRESS, address.getStreet());
+		session.setAttribute(COUNTRY, address.getCountry());
+		session.setAttribute(PROV, address.getProvince());
+		session.setAttribute(POSTAL, address.getZip());
+		session.setAttribute(PHONE, address.getPhone());
 	}
 
 }

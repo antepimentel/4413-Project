@@ -12,11 +12,11 @@ public class Model {
 	private VisitEventDAO visitDAO;
 	private BookDAO bookDAO;
 	private AddressDAO addressDAO;
-	private PODAO projectOrderDAO; 
+	private PODAO projectOrderDAO;
 	private POItemDAO poItemDAO;
 	private BookReviewDAO bookReviewDAO;
 	private CustomerDAO customerDAO;
-	
+
 	public Model() throws NamingException {
 		this.addressDAO = new AddressDAO();
 		this.bookDAO = new BookDAO();
@@ -26,18 +26,19 @@ public class Model {
 		this.bookReviewDAO = new BookReviewDAO();
 		this.customerDAO = new CustomerDAO();
 	}
-	
-	//===========================
+
+	// ===========================
 	// BOOK METHODS
-	//===========================
-	public Map<String, BookBean> getBooks(String title, String price, String author, String category) throws SQLException{
+	// ===========================
+	public Map<String, BookBean> getBooks(String title, String price, String author, String category)
+			throws SQLException {
 		return bookDAO.retrieve(title, price, author, category);
 	}
-	
-	public Map<String, BookBean> getAllBooks() throws SQLException{
+
+	public Map<String, BookBean> getAllBooks() throws SQLException {
 		return bookDAO.retrieveAllBooks();
 	}
-	
+
 	public ArrayList<BookReviewBean> getReviewsDB(String bid) {
 		ArrayList<BookReviewBean> result = null;
 		try {
@@ -48,7 +49,7 @@ public class Model {
 		}
 		return result;
 	}
-	
+
 	public void addBookReview(String bid, String cid, int numberRating, String textReview) {
 		try {
 			System.out.println("check");
@@ -58,17 +59,85 @@ public class Model {
 			e.printStackTrace();
 		}
 	}
-	
-	//===========================
+
+	// ===========================
 	// CUSTOMER METHODS
-	//===========================
-	
+	// ===========================
+
 	public CustomerBean getCustoemrLogin(String user, String pass) throws SQLException {
 		return customerDAO.retrieveByLogin(user, pass);
 	}
-	
-	public void registerCustomer(String username, String email, String password, String conf_password, String fname, String lname, String address, String country, String province, String postal, String phone) {
-		// TODO
+
+	public void registerCustomer(CustomerBean customer, String conf_password, AddressBean address)
+			throws SQLException, CustomException {
+
+		int FIELD_LENGTH_LIMIT = 20;
+
+		// Server side validation
+		if (customerDAO.retrieveByUsername(customer.getUsername()) == true) {
+			throw new CustomException("Username is taken");
+
+		} else if (checkPasswordFormat(customer.getPassword()) == false) {
+			throw new CustomException("Password must be of this format...");
+
+		} else if (!customer.getPassword().equals(conf_password)) {
+			throw new CustomException("Passwords must match");
+
+		} else if (address.getStreet().length() > FIELD_LENGTH_LIMIT) {
+			throw new CustomException("Address field is too long");
+
+		} else if (address.getCountry().length() > FIELD_LENGTH_LIMIT) {
+			throw new CustomException("Country field is too long");
+
+		} else if (address.getCountry().length() > FIELD_LENGTH_LIMIT) {
+			throw new CustomException("Province/State field is too long");
+
+		} else if (address.getZip().length() > FIELD_LENGTH_LIMIT) {
+			throw new CustomException("Postal/Zip Code field is too long");
+
+		} else if (checkPhoneFormat(address.getPhone()) == false) {
+			throw new CustomException("Phone field is not the proper format");
+
+		} 
+		
+		// Add info into DB
+		customerDAO.insertCustomer(customer);
+		addressDAO.insertAddress(address);
+		
 	}
-	
+
+	/**
+	 * Checks format of the password
+	 * 
+	 * @param password
+	 * @return true if format is good
+	 */
+	private boolean checkPasswordFormat(String password) {
+		// TODO
+		boolean result = true;
+
+		if (password.length() > 20) {
+			result = false;
+		}
+
+		return result;
+	}
+
+	/**
+	 * Checks the format of the phone number
+	 * 
+	 * @param phone
+	 * @return
+	 */
+	private boolean checkPhoneFormat(String phone) {
+		// TODO
+		boolean result = true;
+
+		if (phone.length() > 20) {
+			result = false;
+		}
+
+		return result;
+	}
+
 }

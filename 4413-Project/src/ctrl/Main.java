@@ -96,13 +96,10 @@ public class Main extends HttpServlet {
 		Model model = (Model)application.getAttribute(MODEL_TAG);
 		
 		// Check if logged in
-		if(session.getAttribute("userID") == null) {
+		if(session.getAttribute("username") == null) {
 			request.setAttribute(ERROR, "You must login first!");
 			request.getRequestDispatcher("/Login.jspx").forward(request, response);
-		}
-
-		// This is a first time visit to the site
-		if (request.getQueryString() == null) {
+		} else if (request.getQueryString() == null) { // This is a first time visit to the site
 			System.out.println("GETL Request: fresh visit");
 			response.sendRedirect(this.getServletContext().getContextPath() + JSP_MAIN);
 		
