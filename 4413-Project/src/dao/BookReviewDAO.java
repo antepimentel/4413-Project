@@ -98,10 +98,13 @@ public boolean hasReviews(String bid) throws SQLException {
 	
 	System.out.println("SQL: " + stmtObj.toString());
 	ResultSet rs = stmtObj.executeQuery();
+	stmtObj.close();
+	conn.close();
 	if (rs.next()== false) {
+		rs.close();
 		return result;
 	}
-	
+	rs.close();
 	return true;
 }
 
