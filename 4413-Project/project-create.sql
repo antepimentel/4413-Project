@@ -10,6 +10,7 @@ DROP TABLE if exists BookReview;
 DROP TABLE if exists PO;
 DROP TABLE if exists POItem;
 DROP TABLE if exists VisitEvent;
+DROP TABLE if exists ShoppingCart;
 
 /** id: unique identifier of customer
 * username:
@@ -39,22 +40,21 @@ INSERT INTO Customer  (username, email, password, fname, lname, c_type) VALUES (
 * id: address id
 *
 */
-DROP TABLE if exists Address;
 CREATE TABLE Address (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	cid VARCHAR(20) NOT NULL,
 	street VARCHAR(100) NOT NULL,
 	province VARCHAR(20) NOT NULL,
 	country VARCHAR(20) NOT NULL,
 	zip VARCHAR(20) NOT NULL,
 	phone VARCHAR(20),
-	PRIMARY KEY(id)
+	FOREIGN KEY(cid) REFERENCES Customer (username)
 );
 
-INSERT INTO Address (id, street, province, country, zip, phone) 
-VALUES (1, '123 Yonge St', 'ON', 'Canada', 'K1E 6T5' ,'647-123-4567');
+INSERT INTO Address (cid, street, province, country, zip, phone) 
+VALUES ('antep', '123 Yonge St', 'ON', 'Canada', 'K1E 6T5' ,'647-123-4567');
 
-INSERT INTO Address (id, street, province, country, zip, phone) 
-VALUES (2, '445 Avenue rd', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569');
+INSERT INTO Address (cid, street, province, country, zip, phone) 
+VALUES ('sarah1', '445 Avenue rd', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569');
 
 INSERT INTO Address (cid, street, province, country, zip, phone) 
 VALUES ('sara2', '789 Keele St.', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
@@ -169,6 +169,6 @@ CREATE TABLE ShoppingCart (
 	quantity int not NULL,
 	FOREIGN KEY(username) REFERENCES CUSTOMER(username),
 	FOREIGN KEY(bid) REFERENCES BOOK(bid)
-)
+);
 
 SET FOREIGN_KEY_CHECKS = 1;
