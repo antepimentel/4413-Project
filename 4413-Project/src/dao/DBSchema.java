@@ -65,6 +65,11 @@ public class DBSchema {
 	public static final String COL_VE_BID = "bid";
 	public static final String COL_VE_TYPE = "eventtype";
 
+	// ShoppingCart 
+	public static final String TABLE_SC = "ShoppingCart";
+	public static final String COL_SC_QUANTITY = "quantity";
+	public static final String COL_SC_CID = "username";
+	public static final String COL_SC_BID = "bid";
 
 	
 }

@@ -156,4 +156,19 @@ INSERT INTO VisitEvent (day, bid, eventtype) VALUES ('12202015', 'b001', 'VIEW')
 INSERT INTO VisitEvent (day, bid, eventtype) VALUES ('12242015', 'b001', 'CART');
 INSERT INTO VisitEvent (day, bid, eventtype) VALUES ('12252015', 'b001', 'PURCHASE');
 
+/* Shopping cart items for all shopping carts
+* username: customer of cid
+* price: date
+* bid: unique identifier of Book
+* quantity: number of items
+*/ 
+CREATE TABLE ShoppingCart (
+	username varchar(20) NOT NULL REFERENCES CUSTOMER.username,
+	bid varchar(20) not null REFERENCES Book.bid,
+	unitPrice int not NULL REFERENCES Book.price,
+	quantity int not NULL,
+	FOREIGN KEY(username) REFERENCES CUSTOMER(username),
+	FOREIGN KEY(bid) REFERENCES BOOK(bid)
+)
+
 SET FOREIGN_KEY_CHECKS = 1;
