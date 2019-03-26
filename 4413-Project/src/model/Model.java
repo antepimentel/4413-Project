@@ -16,6 +16,7 @@ public class Model {
 	private POItemDAO poItemDAO;
 	private BookReviewDAO bookReviewDAO;
 	private CustomerDAO customerDAO;
+	private ShoppingCartDAO shoppingCartDAO;
 	
 	public Model() throws NamingException {
 		this.addressDAO = new AddressDAO();
@@ -25,6 +26,7 @@ public class Model {
 		this.poItemDAO = new POItemDAO();
 		this.bookReviewDAO = new BookReviewDAO();
 		this.customerDAO = new CustomerDAO();
+		this.shoppingCartDAO = new ShoppingCartDAO();
 	}
 	
 	//===========================
@@ -69,6 +71,41 @@ public class Model {
 	
 	public void registerCustomer(String username, String email, String password, String conf_password, String fname, String lname, String address, String country, String province, String postal, String phone) {
 		// TODO
+	}
+	
+	//===========================
+	// SHOPPING CART METHODS
+	//===========================
+	
+	public ArrayList<ShoppingCartBean> getCart(String cid){
+		try {
+			return this.shoppingCartDAO.getShoppingCartContents(cid);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public ArrayList<ShoppingCartBean> getCompleteCart(String cid, ArrayList<ShoppingCartBean> cart)
+	{
+		Map<String, BookBean> books = null;
+		try {
+			books = getAllBooks();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//For every cartBean item add the BookBean corresponding to the bid so the CartBean has all the bid's book info
+		for (ShoppingCartBean cartBean: cart) {
+			if (books.containsKey(cartBean.getBid())) {
+				cartBean.setBook(books.get(cartBean.getBid()));
+			}
+		}
+		
+		return cart;
+		
 	}
 	
 }
