@@ -109,6 +109,7 @@ public class BookDAO {
 
 		return result;
 	}
+	
 	/**
 	 * Helper method to avoid database errors
 	 * 
