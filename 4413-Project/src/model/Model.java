@@ -69,8 +69,77 @@ public class Model {
 		return customerDAO.retrieveByLogin(user, pass);
 	}
 	
-	public void registerCustomer(String username, String email, String password, String conf_password, String fname, String lname, String address, String country, String province, String postal, String phone) {
+
+	public void registerCustomer(CustomerBean customer, String conf_password, AddressBean address)
+			throws SQLException, CustomException {
+
+		int FIELD_LENGTH_LIMIT = 20;
+
+		// Server side validation
+		if (customerDAO.retrieveByUsername(customer.getUsername()) == true) {
+			throw new CustomException("Username is taken");
+
+		} else if (checkPasswordFormat(customer.getPassword()) == false) {
+			throw new CustomException("Password must be of this format...");
+
+		} else if (!customer.getPassword().equals(conf_password)) {
+			throw new CustomException("Passwords must match");
+
+		} else if (address.getStreet().length() > FIELD_LENGTH_LIMIT) {
+			throw new CustomException("Address field is too long");
+
+		} else if (address.getCountry().length() > FIELD_LENGTH_LIMIT) {
+			throw new CustomException("Country field is too long");
+
+		} else if (address.getCountry().length() > FIELD_LENGTH_LIMIT) {
+			throw new CustomException("Province/State field is too long");
+
+		} else if (address.getZip().length() > FIELD_LENGTH_LIMIT) {
+			throw new CustomException("Postal/Zip Code field is too long");
+
+		} else if (checkPhoneFormat(address.getPhone()) == false) {
+			throw new CustomException("Phone field is not the proper format");
+
+		} 
+
+		// Add info into DB
+		customerDAO.insertCustomer(customer);
+		addressDAO.insertAddress(address);
+
+	}
+
+	/**
+	 * Checks format of the password
+	 * 
+	 * @param password
+	 * @return true if format is good
+	 */
+	private boolean checkPasswordFormat(String password) {
 		// TODO
+		boolean result = true;
+
+		if (password.length() > 20) {
+			result = false;
+		}
+
+		return result;
+	}
+
+	/**
+	 * Checks the format of the phone number
+	 * 
+	 * @param phone
+	 * @return
+	 */
+	private boolean checkPhoneFormat(String phone) {
+		// TODO
+		boolean result = true;
+
+		if (phone.length() > 20) {
+			result = false;
+		}
+
+		return result;
 	}
 	
 	//===========================
