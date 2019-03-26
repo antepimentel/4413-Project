@@ -1,40 +1,64 @@
 package bean;
 
 public class ShoppingCartBean {
+	
+	private String cid; 
+	private int quantity;
+	private String bid;
+//	private String bookCover;
+	private int priceOfAllCopies;
+	public BookBean book;
+	
+	public BookBean getBook() {
+		return book;
+	}
 
-		public ShoppingCartBean(String title, int quantity, int price, String bookCover) {
+	public void setBook(BookBean book) {
+		this.book = book;
+	}
+
+	public int getPrice() {
+		return book.getPrice();
+	}
+
+	public ShoppingCartBean(String cid, String bid, int quantity) {
 		super();
-		this.title = title;
+		this.cid = cid;
 		this.quantity = quantity;
-		this.price = price;
-		this.bookCover = bookCover;
+		this.bid = bid;
 	}
-		public String getTitle() {
-		return title;
+
+	public String getCid() {
+		return cid;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+
+	public void setCid(String cid) {
+		this.cid = cid;
 	}
+
 	public int getQuantity() {
 		return quantity;
 	}
+
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public int getPrice() {
-		return price;
+
+	public String getBid() {
+		return bid;
 	}
-	public void setPrice(int price) {
-		this.price = price;
+
+	public void setBid(String bid) {
+		this.bid = bid;
 	}
-	public String getBookCover() {
-		return bookCover;
+
+	public int getPriceOfAllCopies() {
+		return priceOfAllCopies;
 	}
-	public void setBookCover(String bookCover) {
-		this.bookCover = bookCover;
+
+	public void setPriceOfAllCopies() {
+		this.priceOfAllCopies = book.getPrice() * quantity;
 	}
-		private String title; 
-		private int quantity;
-		private int price;
-		private String bookCover;
+	
+	
 }
