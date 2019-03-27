@@ -14,23 +14,39 @@
 <title>Shopping Cart</title>
 </head>
 <body>
-<form>
-
-<c:forEach var="book" items="${requestScope.cartItems}" varStatus="status">
-	<h4>${book}</h4>
-	<td><button type = "submit" name= "delete" value="$book"> Delete</button></td>
-	<td><input type = "number" name= "quantity" value="${requestScope.quantities[status.index]}"> Quantity</input></td>
-	<td><button type ="submit" name= "update" value="${book }"></button></td>
-	<h4> Grand Total: <f:formatNumber type = "currency"> ${requestScope.totalPrice}</f:formatNumber></h4>
-</c:forEach>
-<td>
-
-
-
-<h4>Looks like you have nothing in your cart!</h4>
-<td> <button type = "submit" name="shopping" value="shopping">Start Shopping!</button></td>
-</td>
+<table>
+<c:choose>
+<c:when test="${empty bookList}">
+	<c:forEach var="cartBean" items="${requestScope.cartItems}" varStatus="status">
+		<form action="/ShoppingCartServlet/?" method='GET'>
+		<tr><td><h4>${cartBean.book.title}</h4></td></tr>
+		<tr><td> Your current quantity of this is: ${cartBean.quantity} </td>
+		<td><input type="number" name="quantity" value="${requestScope.quantities[status.index]}">You may enter
+		 a new quantity</input></td>
+		</tr>
+		<tr><td> Each copy costs: ${cartBean.book.price} </td></tr>
+		<tr><td> All copies together cost: ${cartBean.priceOfAllCopies} </td></tr>
+		
+		<tr><td><button type="submit" name="update" value="Update Item Quantity"></button></td></tr>
+		</form>
+		
+		</c:forEach>
+		<tr><h4> Grand Total: <f:formatNumber type = "currency"> ${requestScope['cartTotal']}</f:formatNumber></h4></tr>
+	
+</c:when>
+<c:otherwise>
+<form action="/Main/" method='GET'>
+	<td>
+	<h4>Looks like you have nothing in your cart!</h4>
+	<td> <button type = "submit" name="shopping" value="shopping">Start Shopping!</button></td>
+	</td>
 </form>
+
+</c:otherwise>
+
+</c:choose>
+
+</table>
 </body>
 </html>
 </jsp:root> 

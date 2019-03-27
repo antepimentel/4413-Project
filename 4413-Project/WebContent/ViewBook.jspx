@@ -15,7 +15,7 @@
 	<TABLE>
 		<TR>
 			<TD>${sessionScope['username']}</TD>
-			<TD><BUTTON>View Cart</BUTTON></TD>
+			<TD><BUTTON action="">View Cart</BUTTON></TD>
 			<TD><BUTTON>Log Out</BUTTON></TD>
 		</TR>
 	</TABLE>

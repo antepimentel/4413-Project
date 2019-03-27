@@ -146,7 +146,7 @@ public class Model {
 	// SHOPPING CART METHODS
 	//===========================
 	
-	public ArrayList<ShoppingCartBean> getCart(String cid){
+	private ArrayList<ShoppingCartBean> getCart(String cid){
 		try {
 			return this.shoppingCartDAO.getShoppingCartContents(cid);
 		} catch (SQLException e) {
@@ -156,7 +156,7 @@ public class Model {
 		return null;
 	}
 	
-	public ArrayList<ShoppingCartBean> getCompleteCart(String cid, ArrayList<ShoppingCartBean> cart)
+	public ArrayList<ShoppingCartBean> getCompleteCart(String cid)
 	{
 		Map<String, BookBean> books = null;
 		try {
@@ -166,85 +166,26 @@ public class Model {
 			e.printStackTrace();
 		}
 		
+		ArrayList<ShoppingCartBean> cart = getCart(cid);
 		//For every cartBean item add the BookBean corresponding to the bid so the CartBean has all the bid's book info
 		for (ShoppingCartBean cartBean: cart) {
 			if (books.containsKey(cartBean.getBid())) {
 				cartBean.setBook(books.get(cartBean.getBid()));
+				cartBean.setPriceOfAllCopies();
 			}
 		}
 		
 		return cart;
 	}
-	public void registerCustomer(CustomerBean customer, String conf_password, AddressBean address)
-			throws SQLException, CustomException {
-
-		int FIELD_LENGTH_LIMIT = 20;
-
-		// Server side validation
-		if (customerDAO.retrieveByUsername(customer.getUsername()) == true) {
-			throw new CustomException("Username is taken");
-
-		} else if (checkPasswordFormat(customer.getPassword()) == false) {
-			throw new CustomException("Password must be of this format...");
-
-		} else if (!customer.getPassword().equals(conf_password)) {
-			throw new CustomException("Passwords must match");
-
-		} else if (address.getStreet().length() > FIELD_LENGTH_LIMIT) {
-			throw new CustomException("Address field is too long");
-
-		} else if (address.getCountry().length() > FIELD_LENGTH_LIMIT) {
-			throw new CustomException("Country field is too long");
-
-		} else if (address.getCountry().length() > FIELD_LENGTH_LIMIT) {
-			throw new CustomException("Province/State field is too long");
-
-		} else if (address.getZip().length() > FIELD_LENGTH_LIMIT) {
-			throw new CustomException("Postal/Zip Code field is too long");
-
-		} else if (checkPhoneFormat(address.getPhone()) == false) {
-			throw new CustomException("Phone field is not the proper format");
-
-		} 
-		
-		// Add info into DB
-		customerDAO.insertCustomer(customer);
-		addressDAO.insertAddress(address);
-		
-	}
-
-	/**
-	 * Checks format of the password
-	 * 
-	 * @param password
-	 * @return true if format is good
-	 */
-	private boolean checkPasswordFormat(String password) {
-		// TODO
-		boolean result = true;
-
-		if (password.length() > 20) {
-			result = false;
+	public int getCartTotal(ArrayList<ShoppingCartBean> cart) {
+		int total = 0;
+		if (cart != null) {
+			for(ShoppingCartBean cartBean: cart) {
+				total += cartBean.getPriceOfAllCopies();
+			}
 		}
-
-		return result;
+		return total;
 	}
 
-	/**
-	 * Checks the format of the phone number
-	 * 
-	 * @param phone
-	 * @return
-	 */
-	private boolean checkPhoneFormat(String phone) {
-		// TODO
-		boolean result = true;
-
-		if (phone.length() > 20) {
-			result = false;
-		}
-
-		return result;
-	}
 
 }

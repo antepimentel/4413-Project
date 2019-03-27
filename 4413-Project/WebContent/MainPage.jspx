@@ -15,15 +15,15 @@
 </script>
 </head>
 <body>
-
+	<form action='Main/Cart' method="GET">
 	<TABLE>
 		<TR>
 			<TD>${sessionScope['username']}</TD>
-			<TD><BUTTON>View Cart</BUTTON></TD>
+			<TD><INPUT value='View Cart' type='submit'></INPUT></TD>
 			<TD><BUTTON>Log Out</BUTTON></TD>
 		</TR>
 	</TABLE>
-	
+	</form>
 	<HR />
 	<c:choose>
 		<c:when test="${error != 'none'}">

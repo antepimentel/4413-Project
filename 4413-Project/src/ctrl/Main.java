@@ -54,6 +54,10 @@ public class Main extends HttpServlet {
 	// URL Tags
 	private static final String SEARCH_TAG = "/Main/search";
 	private static final String VIEW_TAG = "/Main/view";
+	private static final String CART_TAG = "/Main/Cart";
+
+	
+	private String ShoppingCartServletURI;
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -91,10 +95,17 @@ public class Main extends HttpServlet {
 	
 		System.out.println("Recieved GET request: URL -> " + request.getRequestURL());
 		
+				
+		//Check if user clicked viewcart button
+		if(request.getRequestURI().endsWith(CART_TAG)) {
+			request.getRequestDispatcher("/ShoppingCartServlet/?cid=" + request.getSession().getAttribute("username")).forward(request, response);
+			return;
+		}
+		
+
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(MODEL_TAG);
-		
 		// Check if logged in
 		if(session.getAttribute("username") == null) {
 			request.setAttribute(ERROR, "You must login first!");
@@ -189,7 +200,6 @@ public class Main extends HttpServlet {
 					+ VIEW_TAG +"?bookTitle=" + request.getParameter(BOOK_TITLE) + "&bid=" + request.getParameter(BID));
 		} else {
 			doGet(request, response);
-			
 		}
 	}
 	
