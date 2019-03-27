@@ -31,7 +31,6 @@
 
 	</form>
 	
-
 	<HR />
 	<c:choose>
 		<c:when test="${error != 'none'}">
@@ -39,18 +38,19 @@
 		</c:when>
 	</c:choose>
 	<!-- Table below shows all the categories as links-->
-	<table>
+	<div class="tab">
 	<c:choose>
 		<c:when test="${empty categoryList}">
 		</c:when>
 		<c:otherwise>
 		<c:forEach var="category" items="${applicationScope.categoryList}" varStatus="status">
-		<tr><td><a href='http://localhost:8080/4413-Project/Main/search?category=${category}'>${category}</a></td></tr>
+		<a class="tablinks" href='http://localhost:8080/4413-Project/Main/search?category=${category}'>${category}</a>
+		
+		
 		</c:forEach>
 		</c:otherwise>
 	</c:choose>
-	
-	</table>
+	</div>
 	
 		
 	<form action="Main/search" method="GET">
