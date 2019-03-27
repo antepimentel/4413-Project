@@ -9,33 +9,42 @@
 		omit-xml-declaration="true" />
 	<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="StyleSheet" href="/4413-Project/res/MainPage.css" type="text/css" title="cse4413" media="screen, print"/>
 <title>Main Page</title>
 <script type="text/javascript" src="res/MainPageHelper.js?ver=1.1">
 	;
 </script>
 </head>
 <body>
+
 	<form action='Main/Cart' method="GET">
-	<TABLE>
-		<TR>
-			<TD>${sessionScope['username']}</TD>
-			<TD><INPUT value='View Cart' type='submit'></INPUT></TD>
-			<TD><BUTTON>Log Out</BUTTON></TD>
-		</TR>
-	</TABLE>
+<p >
+<text class="center">Mom and Pop's Online Book Store </text>
+	<BUTTON class="right">Log Out</BUTTON>
+	<INPUT class="right" value='View Cart' type='submit'></INPUT>
+	<c:choose>
+	<c:when test="${sessionScope['username']}">
+	<SPAN class="right">Hi ${sessionScope['username']} </SPAN>
+	</c:when>
+	</c:choose>
+</p>
+
 	</form>
+	
+
 	<HR />
 	<c:choose>
 		<c:when test="${error != 'none'}">
 			<span style="color:red"> ${error}</span>
 		</c:when>
 	</c:choose>
-			
+	
+		
 	<form action="Main/search" method="GET">
 		<fieldset>
 			<legend>Search the Store</legend>
 
-			<TABLE>
+			<TABLE >
 				<tr>
 					<TD>
 						<LABEL for="title">Book Title<SPAN id="title-error" style="color:red"></SPAN></LABEL>
@@ -77,7 +86,7 @@
 			<!-- Do nothing -->
 		</c:when>
 		<c:otherwise>
-			<TABLE border='1'>
+			<TABLE class="searchResults" border='1'>
 				<tr>
 					<TD>Title</TD>
 					<TD>Price</TD>
@@ -90,9 +99,7 @@
 						<TD><A href='http://localhost:8080/4413-Project/Main/view?bid=${book.bid}'> ${book.title}</A></TD>
 						<TD>${book.price}</TD>
 						<TD><A href='http://localhost:8080/4413-Project/Main/search?category=${book.category}'> ${book.category}</A></TD>
-						<form action='http://localhost:8080/4413-Project/ShoppingCartServlet/?addToCart=true&amp;bid=${book.bid}&amp;quantity=1&amp;username=${sessionScope["username"]}' method="POST">
-							<TD><INPUT type='submit' value='Add to Cart'></INPUT></TD>
-						</form>
+						<TD><BUTTON>Add to Cart</BUTTON></TD>
 					</tr>
 				</c:forEach>
 				
