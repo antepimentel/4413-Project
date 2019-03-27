@@ -30,7 +30,7 @@
 		<tr><td> All of your copies together cost: ${cartBean.priceOfAllCopies} </td></tr>
 		<tr><td><input type="submit" name="update" value="Update Item Quantity"></input></td></tr>
 		</form>
-		</c:forEach>
+	</c:forEach>
 		<tr><h4> Grand Total: <f:formatNumber type = "currency"> ${requestScope['cartTotal']}</f:formatNumber></h4></tr>
 	
 </c:when>

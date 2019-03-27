@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,7 +103,6 @@ public class BookDAO {
 			BookBean book = new BookBean(bid, title, price, category);
 			result.put(bid, book);
 		}
-		
 		rs.close();
 		stmtObj.close();
 		conn.close();
@@ -137,5 +137,28 @@ public class BookDAO {
 		}
 	}
 	
+	public ArrayList<String> retrieveAllCategories() throws SQLException {
+
+		String query = "SELECT DISTINCT " + DBSchema.COL_BK_CATEGORY + "  FROM " + DBSchema.TABLE_BK 
+				+ " ORDER BY " + DBSchema.COL_BK_CATEGORY + " DESC";
+
+		Connection conn = this.ds.getConnection();
+		PreparedStatement stmtObj = conn.prepareStatement(query);
+		
+		System.out.println("SQL: " + stmtObj.toString());
+		ResultSet rs = stmtObj.executeQuery();
+
+		ArrayList<String> result = new ArrayList<String>();
+
+		while (rs.next()) {
+			String category = rs.getString(DBSchema.COL_BK_CATEGORY);
+			result.add(category);
+		}
+		rs.close();
+		stmtObj.close();
+		conn.close();
+
+		return result;
+	}
  
 }

@@ -209,5 +209,16 @@ public class Model {
 		quantity++;
 		this.insertOrUpdateShoppingCart(cid, bid, quantity);
 	}
+	
+	public ArrayList<String> getCategories(){
+		ArrayList<String> result = null;
+		try {
+			return this.bookDAO.retrieveAllCategories();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

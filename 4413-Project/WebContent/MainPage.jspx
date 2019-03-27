@@ -30,7 +30,19 @@
 			<span style="color:red"> ${error}</span>
 		</c:when>
 	</c:choose>
-			
+	<!-- Table below shows all the categories as links-->
+	<table>
+	<c:choose>
+		<c:when test="${empty categoryList}">
+		</c:when>
+		<c:otherwise>
+		<c:forEach var="category" items="${applicationScope.categoryList}" varStatus="status">
+		<tr><td><a href='http://localhost:8080/4413-Project/Main/search?category=${category}'>${category}</a></td></tr>
+		</c:forEach>
+		</c:otherwise>
+	</c:choose>
+	
+	</table>
 	<form action="Main/search" method="GET">
 		<fieldset>
 			<legend>Search the Store</legend>

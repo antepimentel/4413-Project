@@ -2,6 +2,7 @@ package ctrl;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
@@ -22,7 +23,8 @@ import model.Model;
 @WebServlet({"/login", "/login/*"})
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static final String CATEGORY_LIST = "categoryList";
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,6 +32,7 @@ public class LoginServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+
     
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -68,6 +71,11 @@ public class LoginServlet extends HttpServlet {
 		
 		Model model = (Model) application.getAttribute("model");
 		
+		//Retrieve and store all categories 
+		ArrayList<String> categoryList = null;
+		categoryList = model.getCategories();
+		request.getServletContext().setAttribute(CATEGORY_LIST, categoryList);
+			
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		

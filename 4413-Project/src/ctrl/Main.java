@@ -102,7 +102,6 @@ public class Main extends HttpServlet {
 			return;
 		}
 		
-
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(MODEL_TAG);
@@ -114,6 +113,7 @@ public class Main extends HttpServlet {
 			System.out.println("GETL Request: fresh visit");
 			response.sendRedirect(this.getServletContext().getContextPath() + JSP_MAIN);
 		
+
 		// This is a search request
 		} else if (request.getRequestURI().endsWith(SEARCH_TAG)) {
 			System.out.println("GET Request: SEARCH");
