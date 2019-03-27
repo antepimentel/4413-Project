@@ -90,7 +90,7 @@
 						<TD><A href='http://localhost:8080/4413-Project/Main/view?bid=${book.bid}'> ${book.title}</A></TD>
 						<TD>${book.price}</TD>
 						<TD><A href='http://localhost:8080/4413-Project/Main/search?category=${book.category}'> ${book.category}</A></TD>
-						<form action='http://localhost:8080/4413-Project/ShoppingCartServlet/?update=true&amp;bid=${book.bid}&amp;quantity=1&amp;username=${sessionScope["username"]}' method="POST">
+						<form action='http://localhost:8080/4413-Project/ShoppingCartServlet/?addToCart=true&amp;bid=${book.bid}&amp;quantity=1&amp;username=${sessionScope["username"]}' method="POST">
 							<TD><INPUT type='submit' value='Add to Cart'></INPUT></TD>
 						</form>
 					</tr>

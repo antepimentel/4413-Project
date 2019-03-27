@@ -65,11 +65,20 @@ public class ShoppingCartServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(MODEL_TAG);
 		
+		String cid = request.getParameter(DBSchema.COL_SC_CID), bid = request.getParameter(DBSchema.COL_SC_BID);
+
 		// TODO Auto-generated method stub
 		if (request.getParameter("update") != null) {
-			String cid = request.getParameter(DBSchema.COL_SC_CID), bid = request.getParameter(DBSchema.COL_SC_BID);
 			int quantity = Integer.parseInt(request.getParameter(DBSchema.COL_SC_QUANTITY));
 			model.insertOrUpdateShoppingCart(cid, bid, quantity);
+			response.sendRedirect("/4413-Project/ShoppingCartServlet/username=" + cid);
+			return;
+		}
+		
+		//If add to cart is pressed 
+		if (request.getParameter("addToCart") != null) {
+			int quantity = Integer.parseInt(request.getParameter(DBSchema.COL_SC_QUANTITY));
+			model.addToCart(cid, bid);
 			response.sendRedirect("/4413-Project/ShoppingCartServlet/username=" + cid);
 			return;
 		}

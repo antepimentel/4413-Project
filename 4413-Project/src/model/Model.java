@@ -195,5 +195,19 @@ public class Model {
 			e.printStackTrace();
 		}
 	}
+	
+	public void addToCart(String cid, String bid) {
+		int quantity=0;
+
+		try {
+			quantity = this.shoppingCartDAO.checkBIDQuantity(cid, bid);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Increment current quantity to represent adding a copy of the bid item to the cart
+		quantity++;
+		this.insertOrUpdateShoppingCart(cid, bid, quantity);
+	}
 
 }

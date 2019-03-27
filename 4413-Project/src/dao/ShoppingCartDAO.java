@@ -86,6 +86,28 @@ public class ShoppingCartDAO {
 		return false;
 	}
 	
+	public int checkBIDQuantity(String cid, String bid) throws SQLException{
+		
+		if(this.checkShoppingCartContains_BID_CID_Pair(cid, bid) == false) {
+			return 0;
+		}
+		
+		String query = "SELECT * FROM " + DBSchema.TABLE_SC + " WHERE "
+				+ DBSchema.COL_SC_CID + " = ? AND " 
+				+ DBSchema.COL_SC_BID + " = ?";
+		
+		Connection conn = this.ds.getConnection();
+		PreparedStatement statement = conn.prepareStatement(query);
+		statement.setString(1,  cid);
+		statement.setString(2,  bid);
+
+		System.out.println("SQL check for item with query :" + statement.toString());
+		
+		ResultSet rs = statement.executeQuery();
+		rs.next();
+		return rs.getInt(DBSchema.COL_SC_QUANTITY);
+	}
+	
 	public ArrayList<ShoppingCartBean> getShoppingCartContents(String cid) throws SQLException{
 
 		ArrayList<ShoppingCartBean> result = new ArrayList<ShoppingCartBean>();
