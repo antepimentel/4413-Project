@@ -40,27 +40,39 @@ public class ShoppingCartServlet extends HttpServlet {
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+				
 		System.out.println(request.getRequestURL());
+		request.setAttribute("baseURL", request.getRequestURL());
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(MODEL_TAG);
 		
-		ArrayList<ShoppingCartBean> cartItems = model.getCompleteCart((String) request.getSession().getAttribute("username"));
+		String cid = (String) request.getSession().getAttribute("username");
+		ArrayList<ShoppingCartBean> cartItems = model.getCompleteCart(cid);
 		request.setAttribute("cartItems", cartItems);
 		
 		int cartTotal = model.getCartTotal(cartItems);
 		request.setAttribute("cartTotal", cartTotal);
-
 		request.getRequestDispatcher("/ShoppingCart.jspx").forward(request, response);
+		return;
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ServletContext application = getServletContext();
+		HttpSession session = request.getSession(true);
+		Model model = (Model)application.getAttribute(MODEL_TAG);
+		
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		if (request.getParameter("update") != null) {
+			String cid = request.getParameter(DBSchema.COL_SC_CID), bid = request.getParameter(DBSchema.COL_SC_BID);
+			int quantity = Integer.parseInt(request.getParameter(DBSchema.COL_SC_QUANTITY));
+			model.insertOrUpdateShoppingCart(cid, bid, quantity);
+			response.sendRedirect("/4413-Project/ShoppingCartServlet/username=" + cid);
+			return;
+		}
 	}
 
 }

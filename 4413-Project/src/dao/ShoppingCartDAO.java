@@ -24,12 +24,19 @@ public class ShoppingCartDAO {
 	public void addToCart(String cid, String bid, int quantity) throws SQLException {
 		PreparedStatement statement;
 		Connection conn = this.ds.getConnection();
-
-		if (checkShoppingCartContains_BID_CID_Pair(cid, bid)) {
-			String query = "UPDATE " + DBSchema.TABLE_SC + " SET "
-					+ DBSchema.COL_SC_QUANTITY + " = ? WHERE ["
+		if (checkShoppingCartContains_BID_CID_Pair(cid, bid) && quantity == 0) {
+			String query = "DELETE FROM "+ DBSchema.TABLE_SC + " WHERE "
 					+ DBSchema.COL_SC_CID + " = ? AND " 
-					+ DBSchema.COL_SC_BID + " = ?]" 
+					+ DBSchema.COL_SC_BID + " = ?";
+			statement = conn.prepareStatement(query);
+			statement.setString(1, cid);
+			statement.setString(2, bid);
+		}
+		else if (checkShoppingCartContains_BID_CID_Pair(cid, bid)) {
+			String query = "UPDATE " + DBSchema.TABLE_SC + " SET "
+					+ DBSchema.COL_SC_QUANTITY + " = ? WHERE "
+					+ DBSchema.COL_SC_CID + " = ? AND " 
+					+ DBSchema.COL_SC_BID + " = ?" 
 					;
 			statement = conn.prepareStatement(query);
 			statement.setInt(1, quantity);
@@ -49,20 +56,10 @@ public class ShoppingCartDAO {
 
 
 		System.out.println("SQL: " + statement.toString());
-		ResultSet rs = statement.executeQuery();
+		statement.execute();
 
 		ArrayList<ShoppingCartBean> result = new ArrayList<ShoppingCartBean>();
 
-		while (rs.next()) {
-			String bookID = rs.getString(DBSchema.COL_REVIEW_BID);
-			String cusID = rs.getString(DBSchema.COL_REVIEW_CID);
-			int rating = rs.getInt(DBSchema.COL_REVIEW_RATING);
-			String review = rs.getString(DBSchema.COL_REVIEW_TEXT);
-
-			ShoppingCartBean reviewBean = new ShoppingCartBean(cid, bid, quantity);
-			result.add(reviewBean);
-		}
-		rs.close();
 		statement.close();
 		conn.close();
 		return;

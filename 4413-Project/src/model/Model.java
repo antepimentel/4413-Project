@@ -187,5 +187,13 @@ public class Model {
 		return total;
 	}
 
+	public void insertOrUpdateShoppingCart(String cid, String bid, int quantity) {
+		try {
+			this.shoppingCartDAO.addToCart(cid, bid, quantity);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }
