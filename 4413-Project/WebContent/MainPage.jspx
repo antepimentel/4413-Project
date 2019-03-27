@@ -38,7 +38,6 @@
 			<span style="color:red"> ${error}</span>
 		</c:when>
 	</c:choose>
-<<<<<<< HEAD
 	<!-- Table below shows all the categories as links-->
 	<table>
 	<c:choose>
@@ -52,10 +51,8 @@
 	</c:choose>
 	
 	</table>
-=======
 	
 		
->>>>>>> branch 'master' of https://github.com/yorku-ante/4413-Project.git
 	<form action="Main/search" method="GET">
 		<fieldset>
 			<legend>Search the Store</legend>
