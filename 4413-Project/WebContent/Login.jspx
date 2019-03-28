@@ -9,6 +9,7 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="StyleSheet" href="/4413-Project/res/MainPage.css" type="text/css" title="cse4413" media="screen, print"/>
 <title>Please login</title>
 </head>
 <body>
@@ -19,6 +20,14 @@
 		</c:when>
 	</c:choose>
 	
+	<!-- Top Border -->
+	<form>
+	<div class="header" >
+	<text class="center">Mom and Pop's Online Book Store </text>
+	</div>
+	</form>
+	
+	<!-- Log in Form -->
 	<form action="login" method="POST">
 		<TABLE>
 			<TR>
@@ -30,18 +39,15 @@
 				<TD><input type='password' name='password'></input></TD>
 			</TR>
 			<TR>
-				<TD><input type='submit' name='login' value='Login'></input></TD>
-			</TR>
-			<TR>
-				<TD><BR></BR></TD>
+				<TD><input class="bigButtons" type='submit' name='login' value='Login'></input></TD>
 			</TR>
 			<TR>
 				<TD>Don't have an account?</TD>
-				<TD><A href='http://localhost:8080/4413-Project/register'>Register</A></TD>
+				<TD><a id="register" href='http://localhost:8080/4413-Project/register'>Register</a></TD>
 			</TR>
 			<TR>
 				<TD>FOR TESTING ONLY</TD>
-				<TD><input type='submit' name='skip' value='skip'></input></TD>
+				<TD><input class="bigButtons" type='submit' name='skip' value='skip'></input></TD>
 			</TR>
 		</TABLE>
 	</form>

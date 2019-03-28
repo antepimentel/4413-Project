@@ -17,18 +17,16 @@
 </head>
 <body>
 
+<!-- Top Border -->
 	<form action='Main/Cart' method="GET">
-<p >
-<text class="center">Mom and Pop's Online Book Store </text>
-	<BUTTON class="right">Log Out</BUTTON>
-	<INPUT class="right" value='View Cart' type='submit'></INPUT>
+	<text class="header">Mom and Pop's Online Book Store </text>
+	<button class="right">Log Out</button>
+	<INPUT id="viewCart" class="right" value='View Cart' type='submit'></INPUT>
 	<c:choose>
 	<c:when test="${sessionScope['username']}">
 	<SPAN class="right">Hi ${sessionScope['username']} </SPAN>
 	</c:when>
 	</c:choose>
-</p>
-
 	</form>
 	
 	<HR />
@@ -37,7 +35,8 @@
 			<span style="color:red"> ${error}</span>
 		</c:when>
 	</c:choose>
-	<!-- Table below shows all the categories as links-->
+	
+	<!-- Linked Category border-->
 	<div class="tab">
 	<c:choose>
 		<c:when test="${empty categoryList}">
@@ -45,14 +44,12 @@
 		<c:otherwise>
 		<c:forEach var="category" items="${applicationScope.categoryList}" varStatus="status">
 		<a class="tablinks" href='http://localhost:8080/4413-Project/Main/search?category=${category}'>${category}</a>
-		
-		
 		</c:forEach>
 		</c:otherwise>
 	</c:choose>
 	</div>
 	
-		
+	<!-- Search Box -->	
 	<form action="Main/search" method="GET">
 		<fieldset>
 			<legend>Looking for something specific?</legend>
@@ -83,7 +80,7 @@
 				</tr>
 				<tr>
 					<TD>
-						<input type='submit' name='searchSubmit' value='Search'></input>
+						<input class="bigButtons" type='submit' name='searchSubmit' value='Search'></input>
 						<!--  <BUTTON type="button" id="ajaxReport" name="ajaxReport" value="true"
 										 onclick="doAjaxQuery('Main/');">Search</BUTTON>-->
 					</TD>
@@ -91,6 +88,7 @@
 			</TABLE>
 		</fieldset>
 	</form>
+	
 	
 	<SPAN id="ajaxTarget"></SPAN>
 	
