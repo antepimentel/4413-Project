@@ -1,7 +1,7 @@
 package rest;
 
 public class OrderBean {
-	private int title; 
+	
 	public int getTitle() {
 		return title;
 	}
@@ -76,6 +76,7 @@ public class OrderBean {
 		this.city = city;
 		this.status = status;
 	}
+	private int title; 
 	private int author; 
 	private int bid; 
 	private int quantity; 
