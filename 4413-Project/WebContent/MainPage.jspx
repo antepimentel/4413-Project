@@ -55,7 +55,7 @@
 		
 	<form action="Main/search" method="GET">
 		<fieldset>
-			<legend>Search the Store</legend>
+			<legend>Looking for something specific?</legend>
 
 			<TABLE >
 				<tr>
