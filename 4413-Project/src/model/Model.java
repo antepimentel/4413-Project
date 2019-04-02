@@ -146,25 +146,15 @@ public class Model {
 	// SHOPPING CART METHODS
 	//===========================
 	
-	private ArrayList<ShoppingCartBean> getCart(String cid){
-		try {
-			return this.shoppingCartDAO.getShoppingCartContents(cid);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	private ArrayList<ShoppingCartBean> getCart(String cid) throws SQLException{
+		return this.shoppingCartDAO.getShoppingCartContents(cid);
 	}
 	
-	public ArrayList<ShoppingCartBean> getCompleteCart(String cid)
+	public ArrayList<ShoppingCartBean> getCompleteCart(String cid) throws SQLException
 	{
 		Map<String, BookBean> books = null;
-		try {
-			books = getAllBooks();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+		books = getAllBooks();
 		
 		ArrayList<ShoppingCartBean> cart = getCart(cid);
 		//For every cartBean item add the BookBean corresponding to the bid so the CartBean has all the bid's book info
@@ -187,38 +177,23 @@ public class Model {
 		return total;
 	}
 
-	public void insertOrUpdateShoppingCart(String cid, String bid, int quantity) {
-		try {
-			this.shoppingCartDAO.addToCart(cid, bid, quantity);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void insertOrUpdateShoppingCart(String cid, String bid, int quantity, int price) throws SQLException {
+		this.shoppingCartDAO.addToCart(cid, bid, quantity, price);
+		
 	}
 	
-	public void addToCart(String cid, String bid) {
+	public void addToCart(String cid, String bid, int price) throws SQLException {
 		int quantity=0;
 
-		try {
-			quantity = this.shoppingCartDAO.checkBIDQuantity(cid, bid);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		quantity = this.shoppingCartDAO.checkBIDQuantity(cid, bid);
+		
 		//Increment current quantity to represent adding a copy of the bid item to the cart
 		quantity++;
-		this.insertOrUpdateShoppingCart(cid, bid, quantity);
+		this.insertOrUpdateShoppingCart(cid, bid, quantity, price);
 	}
 	
-	public ArrayList<String> getCategories(){
-		ArrayList<String> result = null;
-		try {
-			return this.bookDAO.retrieveAllCategories();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
+	public ArrayList<String> getCategories() {
+		return this.bookDAO.retrieveAllCategories();
 	}
 
 }

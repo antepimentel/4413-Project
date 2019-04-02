@@ -128,6 +128,7 @@ CREATE TABLE POItem (
 	id INT UNSIGNED NOT NULL,
 	bid VARCHAR(20) NOT NULL,
 	price INT UNSIGNED NOT NULL,
+	quantity INT UNSIGNED NOT NULL,
 	PRIMARY KEY(id,bid),
 	INDEX (id),
 	FOREIGN KEY(id) REFERENCES PO(id) ON DELETE CASCADE,
@@ -135,9 +136,9 @@ CREATE TABLE POItem (
 	FOREIGN KEY(bid) REFERENCES Book(bid) ON DELETE CASCADE
 );
 
-INSERT INTO POItem (id, bid, price) VALUES (1, 'b001', '20');
-INSERT INTO POItem (id, bid, price) VALUES (2, 'b002', '201');
-INSERT INTO POItem (id, bid, price) VALUES (3, 'b003', '100');
+INSERT INTO POItem (id, bid, price, quantity) VALUES (1, 'b001', '20', '1');
+INSERT INTO POItem (id, bid, price, quantity) VALUES (2, 'b002', '201', '2');
+INSERT INTO POItem (id, bid, price, quantity) VALUES (3, 'b003', '100', '2');
 
 
 /* visit to website
@@ -167,8 +168,8 @@ CREATE TABLE ShoppingCart (
 	bid varchar(20) not null REFERENCES Book.bid,
 	unitPrice int not NULL REFERENCES Book.price,
 	quantity int not NULL,
-	FOREIGN KEY(username) REFERENCES CUSTOMER(username),
-	FOREIGN KEY(bid) REFERENCES BOOK(bid)
+	FOREIGN KEY(username) REFERENCES Customer(username),
+	FOREIGN KEY(bid) REFERENCES Book(bid)
 );
 
 SET FOREIGN_KEY_CHECKS = 1;

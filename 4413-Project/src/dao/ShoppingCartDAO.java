@@ -21,7 +21,7 @@ public class ShoppingCartDAO {
 		this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
 	}
 	
-	public void addToCart(String cid, String bid, int quantity) throws SQLException {
+	public void addToCart(String cid, String bid, int quantity, int price) throws SQLException {
 		PreparedStatement statement;
 		Connection conn = this.ds.getConnection();
 		if (checkShoppingCartContains_BID_CID_Pair(cid, bid) && quantity == 0) {
@@ -44,16 +44,18 @@ public class ShoppingCartDAO {
 			statement.setString(3, bid);
 
 		} else {
-			String query = "INSERT INTO " + DBSchema.TABLE_SC + " (username, bid, quantity) VALUES "
-					+ "(?" +", ?" + ", ?)"
-				;
+			String query = "INSERT INTO " + DBSchema.TABLE_SC + " ("
+					+ DBSchema.COL_SC_CID +","
+					+ DBSchema.COL_SC_BID +","
+					+ DBSchema.COL_SC_QUANTITY +","
+					+ DBSchema.COL_SC_PRICE
+					+ ") VALUES (?, ?, ?, ?)";
 			statement = conn.prepareStatement(query);
 			statement.setString(1, cid);
 			statement.setString(2, bid);
 			statement.setInt(3, quantity);
+			statement.setInt(4, price);
 		}
-
-
 
 		System.out.println("SQL: " + statement.toString());
 		statement.execute();

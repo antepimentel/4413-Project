@@ -69,6 +69,7 @@ public class DBSchema {
 	public static final String COL_SC_QUANTITY = "quantity";
 	public static final String COL_SC_CID = "username";
 	public static final String COL_SC_BID = "bid";
+	public static final String COL_SC_PRICE = "unitPrice";
 
 	
 }

@@ -2,7 +2,7 @@ package bean;
 
 public class BookBean {
 
-	private final String[] categories = {"Science", "Fiction", "Engineering"};
+	private final static String[] categories = {"Science", "Fiction", "Engineering"};
 	
 	private String bid;
 	private String title;
@@ -19,7 +19,7 @@ public class BookBean {
 		// TODO: Validate 
 	}
 
-	public String[] getCategories() {
+	public static String[] getCategories() {
 		return categories;
 	}
 
