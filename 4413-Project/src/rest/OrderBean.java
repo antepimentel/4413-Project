@@ -63,7 +63,7 @@ public class OrderBean {
 		this.status = status;
 	}
 	public OrderBean(int title, int author, int bid, int quantity, String email, String street, String country,
-			String province, String city, String status) {
+			String province, String city, String status, int pid) {
 		super();
 		this.title = title;
 		this.author = author;
@@ -75,6 +75,7 @@ public class OrderBean {
 		this.province = province;
 		this.city = city;
 		this.status = status;
+		this.pid = pid;
 	}
 	private int title; 
 	private int author; 
@@ -86,5 +87,12 @@ public class OrderBean {
 	private String province; 
 	private String city; 
 	private String status;
+	private int pid;
+	public int getPid() {
+		return pid;
+	}
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
 	
 }
