@@ -4,18 +4,34 @@ public class AddressBean {
 
 		private String cid;
 		private String street;
+		private String city;
 		private String province;
 		private String country;
 		private String zip;
 		private String phone;
 		
-		public AddressBean(String cid, String street, String province, String country, String zip, String phone) {
+		public AddressBean(String cid, String street, String city, String province, String country, String zip, String phone) {
 			this.cid = cid;
 			this.street = street;
+			this.city = city;
 			this.province = province;
 			this.country = country;
 			this.zip = zip;
 			this.phone = phone;
+		}
+
+		/**
+		 * @return the city
+		 */
+		public String getCity() {
+			return city;
+		}
+
+		/**
+		 * @param city the city to set
+		 */
+		public void setCity(String city) {
+			this.city = city;
 		}
 
 		public String getCid() {

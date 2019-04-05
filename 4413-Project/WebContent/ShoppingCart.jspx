@@ -32,6 +32,7 @@
 		</form>
 	</c:forEach>
 		<tr><h4> Grand Total: <f:formatNumber type = "currency"> ${requestScope['cartTotal']}</f:formatNumber></h4></tr>
+		<tr><form action="checkout" method="get"><input type="submit" value="Checkout"></input></form></tr>
 	
 </c:when>
 <c:otherwise>

@@ -24,6 +24,11 @@ import model.Model;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String CATEGORY_LIST = "categoryList";
+	
+	private static final String MODEL_TAG = "model";
+	
+	private static final String JSP_LOGIN = "/Login.jspx";
+	private static final String JSP_MAIN = "/MainPage.jspx";
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,7 +48,7 @@ public class LoginServlet extends HttpServlet {
     	// Initialize the model and store in the application context
     	try {
 			Model model = new Model();
-			application.setAttribute("model", model);
+			application.setAttribute(MODEL_TAG, model);
 			System.out.println("Model initialized");
 		} catch (NamingException e) {
 			//e.printStackTrace();
@@ -56,9 +61,9 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("GET : LOGIN : URL -> " + request.getRequestURL());
 		
-		
-		response.sendRedirect(this.getServletContext().getContextPath() + "/Login.jspx");
+		response.sendRedirect(this.getServletContext().getContextPath() + JSP_LOGIN);
 	}
 
 	/**
@@ -66,10 +71,12 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("POST : LOGIN : URL -> " + request.getRequestURL());
+		
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
 		
-		Model model = (Model) application.getAttribute("model");
+		Model model = (Model) application.getAttribute(MODEL_TAG);
 		
 		//Retrieve and store all categories 
 		ArrayList<String> categoryList = null;
@@ -94,17 +101,17 @@ public class LoginServlet extends HttpServlet {
 			if(customer != null) {
 				// persist to session?
 				responseMsg = "Success! Signed in as " + customer.getFname() + " " + customer.getLname();
-				target = "/MainPage.jspx";
+				target = JSP_MAIN;
 				session.setAttribute("username", customer.getUsername());
 			} else {
 				responseMsg = "no matching username and password, try again";
-				target = "/Login.jspx";
+				target = JSP_LOGIN;
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			responseMsg = "SQL ERROR";
-			target = "/Login.jspx";
+			target = JSP_LOGIN;
 		}
 		
 		request.setAttribute("error", responseMsg);

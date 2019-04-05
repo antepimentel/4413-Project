@@ -88,7 +88,10 @@ public class Model {
 		} else if (address.getStreet().length() > FIELD_LENGTH_LIMIT) {
 			throw new CustomException("Address field is too long");
 
-		} else if (address.getCountry().length() > FIELD_LENGTH_LIMIT) {
+		} else if (address.getCity().length() > FIELD_LENGTH_LIMIT) {
+			throw new CustomException("City field is too long");
+
+		}else if (address.getCountry().length() > FIELD_LENGTH_LIMIT) {
 			throw new CustomException("Country field is too long");
 
 		} else if (address.getCountry().length() > FIELD_LENGTH_LIMIT) {
@@ -106,6 +109,10 @@ public class Model {
 		customerDAO.insertCustomer(customer);
 		addressDAO.insertAddress(address);
 
+	}
+	
+	public ArrayList<AddressBean> getAddressListForCustomer(String username) throws SQLException {
+		return addressDAO.getAddressListForCustomer(username);
 	}
 
 	/**

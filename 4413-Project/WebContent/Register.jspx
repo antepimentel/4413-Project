@@ -54,6 +54,10 @@
 				<TD><input type='text' name='address' value='${sessionScope.address}'></input></TD>
 			</TR>
 			<TR>
+				<TD> <label for="city"> City: <SPAN id="city-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='city' value='${sessionScope.city}'></input></TD>
+			</TR>
+			<TR>
 				<TD> <label for="country"> Country: <SPAN id="country-error" style="color:red"></SPAN></label></TD>
 				<TD><input type='text' name='country' value='${sessionScope.country}'></input></TD>
 			</TR>

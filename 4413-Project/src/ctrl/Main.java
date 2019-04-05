@@ -93,9 +93,8 @@ public class Main extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("Recieved GET request: URL -> " + request.getRequestURL());
+		System.out.println("GET : MAIN : URL -> " + request.getRequestURL());
 		
-				
 		//Check if user clicked viewcart button
 		if(request.getRequestURI().endsWith(CART_TAG)) {
 			request.getRequestDispatcher("/ShoppingCartServlet/?cid=" + request.getSession().getAttribute("username")).forward(request, response);
@@ -105,15 +104,17 @@ public class Main extends HttpServlet {
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(MODEL_TAG);
-		// Check if logged in
+		
+		// Check if not logged in
 		if(session.getAttribute("username") == null) {
 			request.setAttribute(ERROR, "You must login first!");
 			request.getRequestDispatcher("/Login.jspx").forward(request, response);
-		} else if (request.getQueryString() == null) { // This is a first time visit to the site
+			
+		// This is a first time visit to the site
+		} else if (request.getQueryString() == null) { 
 			System.out.println("GETL Request: fresh visit");
-			response.sendRedirect(this.getServletContext().getContextPath() + JSP_MAIN);
-		
-
+			//response.sendRedirect(this.getServletContext().getContextPath() + "/Main" + JSP_MAIN);
+			request.getRequestDispatcher(JSP_MAIN).forward(request, response);
 		// This is a search request
 		} else if (request.getRequestURI().endsWith(SEARCH_TAG)) {
 			System.out.println("GET Request: SEARCH");
@@ -179,7 +180,7 @@ public class Main extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Recieved POST request");
+		System.out.println("POST : MAIN : URL -> " + request.getRequestURL());
 		
 		String UID = request.getParameter(USERNAME_ID), 
 				reviewText = request.getParameter(REVIEW_TEXT), 

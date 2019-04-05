@@ -37,6 +37,7 @@ public class RegisterServlet extends HttpServlet {
 	private static final String FNAME = "fname";
 	private static final String LNAME = "lname";
 	private static final String ADDRESS = "address";
+	private static final String CITY = "city";
 	private static final String COUNTRY = "country";
 	private static final String PROV = "province";
 	private static final String POSTAL = "postal";
@@ -53,7 +54,7 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Recieved GET request: URL -> " + request.getRequestURL());
+		System.out.println("GET : REG : URL -> " + request.getRequestURL());
 		response.sendRedirect(this.getServletContext().getContextPath() + JSP_REGISTER);
 	}
 
@@ -61,7 +62,7 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Recieved POST request: URL -> " + request.getRequestURL());
+		System.out.println("POST : REG : URL -> " + request.getRequestURL());
 		
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
@@ -75,13 +76,14 @@ public class RegisterServlet extends HttpServlet {
 		String fname = request.getParameter(FNAME);
 		String lname = request.getParameter(LNAME);
 		String street = request.getParameter(ADDRESS);
+		String city = request.getParameter(CITY);
 		String country = request.getParameter(COUNTRY);
 		String province = request.getParameter(PROV);
 		String postal = request.getParameter(POSTAL);
 		String phone = request.getParameter(PHONE);
 		
 		CustomerBean customer = new CustomerBean(username, email, password, fname, lname, "CUSTOMER");
-		AddressBean address = new AddressBean(username, street, province, country, postal, phone);
+		AddressBean address = new AddressBean(username, street, city, province, country, postal, phone);
 
 		String responseMsg = "";
 		String target = "";
@@ -108,6 +110,15 @@ public class RegisterServlet extends HttpServlet {
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 	
+	/**
+	 * Saves entered fields into the session
+	 * Saves time for users if there is an error
+	 * in one of the fields
+	 * 
+	 * @param request
+	 * @param customer
+	 * @param address
+	 */
 	private static void pushInfoToSession(HttpServletRequest request, CustomerBean customer, AddressBean address) {
 		
 		HttpSession session = request.getSession(true);
@@ -117,6 +128,7 @@ public class RegisterServlet extends HttpServlet {
 		session.setAttribute(FNAME, customer.getFname());
 		session.setAttribute(LNAME, customer.getLname());
 		session.setAttribute(ADDRESS, address.getStreet());
+		session.setAttribute(CITY, address.getCity());
 		session.setAttribute(COUNTRY, address.getCountry());
 		session.setAttribute(PROV, address.getProvince());
 		session.setAttribute(POSTAL, address.getZip());

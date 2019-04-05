@@ -18,7 +18,7 @@
 <body>
 
 <!-- Top Border -->
-	<form action='Main/Cart' method="GET">
+	<form action='http://localhost:8080/4413-Project/ShoppingCartServlet/' method="GET">
 	<text class="header">Mom and Pop's Online Book Store </text>
 	<button class="right">Log Out</button>
 	<INPUT id="viewCart" class="right" value='View Cart' type='submit'></INPUT>

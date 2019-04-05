@@ -29,6 +29,9 @@ public class ShoppingCartServlet extends HttpServlet {
 	private static final String ERROR = "error";
 	private static final String JSP_CART = "/ShoppingCart.jspx";
 	private static final String JSP_MAIN = "/MainPage.jspx";
+	//private static final String JSP_CHECKOUT = "/Checkout.jspx";
+	
+	private static final String CHECKOUT_TAG = "checkout";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,9 +47,9 @@ public class ShoppingCartServlet extends HttpServlet {
     
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-				
-		System.out.println(request.getRequestURL());
+		
+		System.out.println("GET : CART : URL -> " + request.getRequestURL());
+		
 		request.setAttribute("baseURL", request.getRequestURL());
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
@@ -57,32 +60,43 @@ public class ShoppingCartServlet extends HttpServlet {
 		String target = "";
 		String responseMsg = "";
 		
-		try {
-			ArrayList<ShoppingCartBean> cartItems = model.getCompleteCart(cid);
-			request.setAttribute("cartItems", cartItems);
-			
-			int cartTotal = model.getCartTotal(cartItems);
-			request.setAttribute("cartTotal", cartTotal);
-			
-			target = JSP_CART;
+		if(request.getRequestURI().endsWith(CHECKOUT_TAG)) {
+			target = "/" + CHECKOUT_TAG;
 			responseMsg = "none";
-			request.setAttribute(ERROR, responseMsg);
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-			target = JSP_MAIN;
-			responseMsg = "there was an error handling your request";
-			request.setAttribute(ERROR, responseMsg);
+			response.sendRedirect("/4413-Project" + target);
+			return;
+		} else {
+			try {
+				ArrayList<ShoppingCartBean> cartItems = model.getCompleteCart(cid);
+				request.setAttribute("cartItems", cartItems);
+				
+				int cartTotal = model.getCartTotal(cartItems);
+				request.setAttribute("cartTotal", cartTotal);
+				
+				target = JSP_CART;
+				responseMsg = "none";
+				request.setAttribute(ERROR, responseMsg);
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+				target = JSP_MAIN;
+				responseMsg = "there was an error handling your request";
+				request.setAttribute(ERROR, responseMsg);
+			}
+			
+			request.getRequestDispatcher(target).forward(request, response);
+			return;
 		}
 		
-		request.getRequestDispatcher(target).forward(request, response);
-		return;
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		System.out.println("POST : CART : URL -> " + request.getRequestURL());
+		
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(MODEL_TAG);
