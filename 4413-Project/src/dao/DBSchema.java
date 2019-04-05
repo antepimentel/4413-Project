@@ -34,6 +34,7 @@ public class DBSchema {
 	// Book
 	public static final String TABLE_BK = "Book";
 	public static final String COL_BK_BID = "bid";
+	public static final String COL_BK_AUTHOR = "author";
 	public static final String COL_BK_TITLE = "title";
 	public static final String COL_BK_PRICE = "price";
 	public static final String COL_BK_CATEGORY = "category";
