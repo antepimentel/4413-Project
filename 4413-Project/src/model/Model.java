@@ -12,7 +12,7 @@ public class Model {
 	private VisitEventDAO visitDAO;
 	private BookDAO bookDAO;
 	private AddressDAO addressDAO;
-	private PODAO projectOrderDAO;
+	private PODAO purchaseOrderDAO;
 	private POItemDAO poItemDAO;
 	private BookReviewDAO bookReviewDAO;
 	private CustomerDAO customerDAO;
@@ -22,7 +22,7 @@ public class Model {
 		this.addressDAO = new AddressDAO();
 		this.bookDAO = new BookDAO();
 		this.visitDAO = new VisitEventDAO();
-		this.projectOrderDAO = new PODAO();
+		this.purchaseOrderDAO = new PODAO();
 		this.poItemDAO = new POItemDAO();
 		this.bookReviewDAO = new BookReviewDAO();
 		this.customerDAO = new CustomerDAO();
@@ -202,5 +202,24 @@ public class Model {
 	public ArrayList<String> getCategories() {
 		return this.bookDAO.retrieveAllCategories();
 	}
-
+	
+	//===========================
+	// ADDRESS METHODS
+	//===========================
+	
+	public AddressBean getAddressByID(String id) throws SQLException {
+		return this.addressDAO.getAddressByID(Integer.parseInt(id));
+	}
+	
+	//===========================
+	// PO METHODS
+	//===========================
+	
+	public long createPO(POBean po) throws SQLException {
+		return this.purchaseOrderDAO.createPO(po);
+	}
+	
+	public void addItemToPO(POItem item) throws SQLException {
+		this.poItemDAO.insertPOItem(item);
+	}
 }

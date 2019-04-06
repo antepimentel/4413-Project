@@ -82,8 +82,10 @@ public class RegisterServlet extends HttpServlet {
 		String postal = request.getParameter(POSTAL);
 		String phone = request.getParameter(PHONE);
 		
-		CustomerBean customer = new CustomerBean(username, email, password, fname, lname, "CUSTOMER");
-		AddressBean address = new AddressBean(username, street, city, province, country, postal, phone);
+		CustomerBean customer = new CustomerBean(username, email, password, fname, lname, "CUSTOMER"); 
+		
+		// Enter -1 as the ID value, this won't be used anyway, the DB will make its own ID value upon insertion
+		AddressBean address = new AddressBean(-1, username, street, city, province, country, postal, phone); 
 
 		String responseMsg = "";
 		String target = "";

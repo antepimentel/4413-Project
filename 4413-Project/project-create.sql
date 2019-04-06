@@ -41,6 +41,7 @@ INSERT INTO Customer  (username, email, password, fname, lname, c_type) VALUES (
 *
 */
 CREATE TABLE Address (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	cid VARCHAR(20) NOT NULL,
 	street VARCHAR(100) NOT NULL,
 	city VARCHAR(20) NOT NULL,
@@ -48,6 +49,7 @@ CREATE TABLE Address (
 	country VARCHAR(20) NOT NULL,
 	zip VARCHAR(20) NOT NULL,
 	phone VARCHAR(20),
+	PRIMARY KEY(id),
 	FOREIGN KEY(cid) REFERENCES Customer (username)
 );
 
@@ -61,10 +63,10 @@ INSERT INTO Address (cid, street, city, province, country, zip, phone)
 VALUES ('antep', '45 Fake Ave', 'Toronto', 'ON', 'Canada', 'K1E 6T5' ,'647-123-4567');
 
 INSERT INTO Address (cid, street, city, province, country, zip, phone) 
-VALUES ('sarah1', '445 Avenue rd', 'Toronto', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569');
+VALUES ('sarah2', '445 Avenue rd', 'Toronto', 'ON', 'Canada', 'M1C 6K5' ,'416-123-8569');
 
 INSERT INTO Address (cid, street, city, province, country, zip, phone) 
-VALUES ('sara2', '789 Keele St.', 'Toronto', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
+VALUES ('sara1', '789 Keele St.', 'Toronto', 'ON', 'Canada', 'K3C 9T5' ,'416-123-9568');
 
 /** bid: unique identifier of Book (like ISBN)
 * title: title of Book

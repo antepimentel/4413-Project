@@ -5,56 +5,55 @@ public class POBean {
 		private String[] statuses = {"ORDERED", "PROCESSED", "DENIED"};
 	
 		private int id;
-		private String lname;
-		private String fname;
+		private String cid;
 		private String status;
-		private int address;
-		
-		public POBean(int id, String lname, String fname, String status, int address) {
+		/**
+		 * @param statuses
+		 * @param id
+		 * @param cid
+		 * @param status
+		 */
+		public POBean(int id, String cid, String status) {
 			this.id = id;
-			this.lname = lname;
-			this.fname = fname;
+			this.cid = cid;
 			this.status = status;
-			this.address = address;
 		}
-
+		/**
+		 * @return the id
+		 */
 		public int getId() {
 			return id;
 		}
-
-		public String getLname() {
-			return lname;
+		/**
+		 * @return the cid
+		 */
+		public String getCid() {
+			return cid;
 		}
-
-		public String getFname() {
-			return fname;
-		}
-
+		/**
+		 * @return the status
+		 */
 		public String getStatus() {
 			return status;
 		}
-
-		public int getAddress() {
-			return address;
-		}
-
+		/**
+		 * @param id the id to set
+		 */
 		public void setId(int id) {
 			this.id = id;
 		}
-
-		public void setLname(String lname) {
-			this.lname = lname;
+		/**
+		 * @param cid the cid to set
+		 */
+		public void setCid(String cid) {
+			this.cid = cid;
 		}
-
-		public void setFname(String fname) {
-			this.fname = fname;
-		}
-
+		/**
+		 * @param status the status to set
+		 */
 		public void setStatus(String status) {
 			this.status = status;
 		}
-
-		public void setAddress(int address) {
-			this.address = address;
-		}
+	
+		
 }

@@ -14,6 +14,7 @@ public class DBSchema {
 	
 	// Address
 	public static final String TABLE_ADD = "Address";
+	public static final String COL_ADD_ID = "id";
 	public static final String COL_ADD_CID = "cid";
 	public static final String COL_ADD_STREET = "street";
 	public static final String COL_ADD_CITY = "city";
@@ -49,16 +50,15 @@ public class DBSchema {
 	// PO
 	public static final String TABLE_PO = "PO";
 	public static final String COL_PO_ID = "id";
-	public static final String COL_PO_LNAME = "lname";
-	public static final String COL_PO_FNAME = "fname";
+	public static final String COL_PO_CID = "cid";
 	public static final String COL_PO_STATUS = "status";
-	public static final String COL_PO_ADDRESS = "address";
 	
 	// POItem
 	public static final String TABLE_POI = "POItem";
 	public static final String COL_POI_ID = "id";
 	public static final String COL_POI_BID = "bid";
 	public static final String COL_POI_PRICE = "price";
+	public static final String COL_POI_QUANTITY = "quantity";
 	
 	// VisitEvent
 	public static final String TABLE_VE = "visitevent";

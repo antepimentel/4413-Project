@@ -2,6 +2,7 @@ package bean;
 
 public class AddressBean {
 
+		private int id;
 		private String cid;
 		private String street;
 		private String city;
@@ -10,7 +11,8 @@ public class AddressBean {
 		private String zip;
 		private String phone;
 		
-		public AddressBean(String cid, String street, String city, String province, String country, String zip, String phone) {
+		public AddressBean(int id, String cid, String street, String city, String province, String country, String zip, String phone) {
+			this.id = id;
 			this.cid = cid;
 			this.street = street;
 			this.city = city;
@@ -18,6 +20,20 @@ public class AddressBean {
 			this.country = country;
 			this.zip = zip;
 			this.phone = phone;
+		}
+
+		/**
+		 * @return the id
+		 */
+		public int getId() {
+			return id;
+		}
+
+		/**
+		 * @param id the id to set
+		 */
+		public void setId(int id) {
+			this.id = id;
 		}
 
 		/**

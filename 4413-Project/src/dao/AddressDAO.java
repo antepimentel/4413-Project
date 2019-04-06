@@ -77,7 +77,36 @@ private DataSource ds;
 		return result;
 	}
 	
+	public AddressBean getAddressByID(int id) throws SQLException {
+		String query = "select * from " + DBSchema.TABLE_ADD + " where "
+				+ DBSchema.COL_ADD_ID + "=?";
+
+		Connection conn = this.ds.getConnection();
+		PreparedStatement stmtObj = conn.prepareStatement(query);
+		stmtObj.setInt(1, id);
+	
+		System.out.println("SQL: " + stmtObj.toString());
+		ResultSet rs = stmtObj.executeQuery();
+
+		rs.next();
+		AddressBean bean = getBeanFromResult(rs);
+
+		rs.close();
+		stmtObj.close();
+		conn.close();
+
+		return bean;
+	}
+	
+	/**
+	 * Helper method to convert SQL result to bean
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private static AddressBean getBeanFromResult(ResultSet rs) throws SQLException {
+		int id = rs.getInt(DBSchema.COL_ADD_ID);
 		String cid = rs.getString(DBSchema.COL_ADD_CID);
 		String street = rs.getString(DBSchema.COL_ADD_STREET);
 		String city = rs.getString(DBSchema.COL_ADD_CITY);
@@ -86,6 +115,6 @@ private DataSource ds;
 		String zip = rs.getString(DBSchema.COL_ADD_ZIP);
 		String phone = rs.getString(DBSchema.COL_ADD_PHONE);
 		
-		return new AddressBean(cid, street, city, prov, country, zip, phone);
+		return new AddressBean(id, cid, street, city, prov, country, zip, phone);
 	}
 }

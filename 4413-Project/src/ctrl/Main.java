@@ -55,6 +55,9 @@ public class Main extends HttpServlet {
 	private static final String SEARCH_TAG = "/Main/search";
 	private static final String VIEW_TAG = "/Main/view";
 	private static final String CART_TAG = "/Main/Cart";
+	private static final String LOGOUT_TAG = "logout";
+	
+	private static final String LOGIN_SERVLET = "/login";
 
 	
 	private String ShoppingCartServletURI;
@@ -108,7 +111,8 @@ public class Main extends HttpServlet {
 		// Check if not logged in
 		if(session.getAttribute("username") == null) {
 			request.setAttribute(ERROR, "You must login first!");
-			request.getRequestDispatcher("/Login.jspx").forward(request, response);
+			//request.getRequestDispatcher("/Login.jspx").forward(request, response);
+			response.sendRedirect(this.getServletContext().getContextPath() + LOGIN_SERVLET);
 			
 		// This is a first time visit to the site
 		} else if (request.getQueryString() == null) { 
@@ -172,6 +176,12 @@ public class Main extends HttpServlet {
 			}
 			request.setAttribute(ERROR, responseMsg);
 			request.getRequestDispatcher(target).forward(request, response);
+			
+		// This is a logout request
+		} else if(request.getRequestURI().endsWith(LOGOUT_TAG)) {
+			session.setAttribute("username", null);
+			
+			response.sendRedirect(this.getServletContext().getContextPath() + LOGIN_SERVLET);
 			
 		}
 	}

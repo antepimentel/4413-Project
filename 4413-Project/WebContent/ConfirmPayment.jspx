@@ -2,7 +2,7 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 			xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<jsp:directive.page contentType="text/html; charset=ISO-8859-1" 
-		pageEncoding="ISO-8859-1" session="false"/>
+		pageEncoding="ISO-8859-1" session="true"/>
 	<jsp:output doctype-root-element="html"
 		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
@@ -22,7 +22,25 @@
 	Confirm method of payment
 	
 	<form action="checkout/confpayment" method="post">
-		<input type="submit" value="Review Order"></input>
+		<table>
+			<tr>
+				<TD> <label for="cardnumber"> Card Number: <SPAN id="cardnumber-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='cardnumber'></input></TD>
+			</tr>
+			<tr>
+				<TD> <label for="cardholder"> Card Holder: <SPAN id="cardholder-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='cardholder'></input></TD>
+			</tr>
+			<tr>
+				<TD> <label for="expdate"> Expiry Date: <SPAN id="expdate-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='expdate'></input></TD>
+			</tr>
+			<tr>
+				<TD> <label for="securitycode"> Security Code: <SPAN id="securitycode-error" style="color:red"></SPAN></label></TD>
+				<TD><input type='text' name='securitycode'></input></TD>
+			</tr>
+		</table>
+		<input type="submit" value="Confirm and Review Order"></input>
 	</form>
 	
 </body>
