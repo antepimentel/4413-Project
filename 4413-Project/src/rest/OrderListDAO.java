@@ -2,6 +2,7 @@ package rest;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,10 +13,19 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.transform.stream.StreamResult;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
 import dao.DBSchema;
 import rest.OrderBean;
 
-
+@Path("/OrderByPart")
 public class OrderListDAO {
 	
 	private DataSource ds; 
@@ -56,5 +66,15 @@ public class OrderListDAO {
 		con.close();
 		return order;
 	}
-
+	
+	
+	/*@GET
+	@Path("/product/{productID}")
+	@Produces("app/xml")
+	public String OrdersByPartNumber(@PathParam("productID") String id) throws Exception{
+		int idInt = Integer.parseInt(id);
+		
+	}
+	*/
+	 
 }
