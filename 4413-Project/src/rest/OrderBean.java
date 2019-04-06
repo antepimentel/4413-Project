@@ -2,16 +2,16 @@ package rest;
 
 public class OrderBean {
 	
-	public int getTitle() {
+	public String getTitle() {
 		return title;
 	}
-	public void setTitle(int title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
-	public int getAuthor() {
+	public String getAuthor() {
 		return author;
 	}
-	public void setAuthor(int author) {
+	public void setAuthor(String author) {
 		this.author = author;
 	}
 	public int getBid() {
@@ -62,7 +62,8 @@ public class OrderBean {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public OrderBean(int title, int author, int bid, int quantity, String email, String street, String country,
+	
+	public OrderBean(String title, String author, int bid, float price, int quantity, String email, String street, String country,
 			String province, String city, String status, int pid) {
 		super();
 		this.title = title;
@@ -76,9 +77,11 @@ public class OrderBean {
 		this.city = city;
 		this.status = status;
 		this.pid = pid;
+		this.price = price;
 	}
-	private int title; 
-	private int author; 
+	private String title; 
+	private String author; 
+	private float price;
 	private int bid; 
 	private int quantity; 
 	private String email;
@@ -88,11 +91,20 @@ public class OrderBean {
 	private String city; 
 	private String status;
 	private int pid;
+	
+	
 	public int getPid() {
 		return pid;
 	}
 	public void setPid(int pid) {
 		this.pid = pid;
+	}
+	
+	public void setPrice(float price) {
+		this.price = price;
+	}
+	public float getPrice() {
+		return price;
 	}
 	
 }
