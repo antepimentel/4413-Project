@@ -10,6 +10,15 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>Main</welcome-file>
   </welcome-file-list>
+  <servlet>
+		<servlet-name>Jersey</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+</servlet-mapping>
   <resource-ref>
     <description>DB Connection</description>
     <res-ref-name>jdbc/project_DB</res-ref-name>
