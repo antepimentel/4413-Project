@@ -11,19 +11,19 @@
 <head>
 <link rel="StyleSheet" href="/4413-Project/res/MainPage.css" type="text/css" title="cse4413" media="screen, print"/>
 <title>Main Page</title>
-<script type="text/javascript" src="res/MainPageHelper.js?ver=1.1">
+<!-- <script type="text/javascript" src="res/MainPageHelper.js?ver=1.1">
 	;
-</script>
+</script> -->
 </head>
 <body>
 
-<!-- Top Border -->
-	<form action='http://localhost:8080/4413-Project/ShoppingCartServlet/' method="GET">
+<!-- Top Border http://localhost:8080/4413-Project/ShoppingCartServlet/ -->
+	<form action='Main/bannerButton' method="GET">
 		<text class="header">Mom and Pop's Online Book Store </text>
 		
-		
-		<button class="right">Log Out</button>
-		<INPUT id="viewCart" class="right" value='View Cart' type='submit'></INPUT>
+		<INPUT id="viewCart" name="banner" class="right" value='Logout' type='submit'></INPUT>
+		<INPUT id="viewCart" name="banner" class="right" value='Profile' type='submit'></INPUT>
+		<INPUT id="viewCart" name="banner" class="right" value='Cart' type='submit'></INPUT>
 		
 		<c:choose>
 			<c:when test="${sessionScope['username']}">

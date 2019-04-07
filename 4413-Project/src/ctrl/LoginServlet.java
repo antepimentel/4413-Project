@@ -27,6 +27,9 @@ public class LoginServlet extends HttpServlet {
 	
 	private static final String MODEL_TAG = "model";
 	
+	private static final String SERVLET_MAIN = "/Main";
+	private static final String SERVLET_LOGIN = "/login";
+	
 	private static final String JSP_LOGIN = "/Login.jspx";
 	private static final String JSP_MAIN = "/MainPage.jspx";
 
@@ -101,21 +104,22 @@ public class LoginServlet extends HttpServlet {
 			if(customer != null) {
 				// persist to session?
 				responseMsg = "Success! Signed in as " + customer.getFname() + " " + customer.getLname();
-				target = JSP_MAIN;
+				target = SERVLET_MAIN;
 				session.setAttribute("username", customer.getUsername());
 			} else {
 				responseMsg = "no matching username and password, try again";
-				target = JSP_LOGIN;
+				target = SERVLET_LOGIN;
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			responseMsg = "SQL ERROR";
-			target = JSP_LOGIN;
+			target = SERVLET_LOGIN;
 		}
 		
-		request.setAttribute("error", responseMsg);
-		request.getRequestDispatcher(target).forward(request, response);
+		session.setAttribute("error", responseMsg);
+		response.sendRedirect(this.getServletContext().getContextPath() + target);
+		//request.getRequestDispatcher(target).forward(request, response);
 		
 	}
 

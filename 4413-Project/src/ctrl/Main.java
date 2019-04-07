@@ -57,8 +57,17 @@ public class Main extends HttpServlet {
 	private static final String CART_TAG = "/Main/Cart";
 	private static final String LOGOUT_TAG = "logout";
 	
+	// Servlets
 	private static final String LOGIN_SERVLET = "/login";
-
+	private static final String CART_SERVLET = "/ShoppingCartServlet";
+	private static final String PROFILE_SERVLET = "/profile";
+	
+	// Banner Button Tags
+	private static final String BUTTON_NAME = "banner";
+	private static final String BUTTON_LOGOUT = "Logout";
+	private static final String BUTTON_CART = "Cart";
+	private static final String BUTTON_PROFILE = "Profile";
+	
 	
 	private String ShoppingCartServletURI;
 	
@@ -114,11 +123,45 @@ public class Main extends HttpServlet {
 			//request.getRequestDispatcher("/Login.jspx").forward(request, response);
 			response.sendRedirect(this.getServletContext().getContextPath() + LOGIN_SERVLET);
 			
+		// User has pressed a banner button
+		} else if(request.getRequestURI().endsWith("bannerButton")) {
+			System.out.print("BANNER BUTTON: ");
+			
+			String target = "";
+			String msg = "";
+			
+			// Which button was pressed
+			String button = request.getParameter(BUTTON_NAME);
+			if(button.equals(BUTTON_CART)) {
+				System.out.println(BUTTON_CART);
+				
+				target = CART_SERVLET;
+				msg = "none";
+				
+			} else if(button.equals(BUTTON_PROFILE)) {
+				System.out.println(BUTTON_PROFILE);
+				
+				target = PROFILE_SERVLET;
+				msg = "none";
+				
+			} else if(button.equals(BUTTON_LOGOUT)) {
+				System.out.println(BUTTON_LOGOUT);
+				
+				session.setAttribute("username", null);
+				
+				target = LOGIN_SERVLET;
+				msg = "Logged out";
+			}
+			session.setAttribute(ERROR, msg);
+			response.sendRedirect(this.getServletContext().getContextPath() + target);
+			//response.sendRedirect(this.getServletContext().getContextPath() + LOGIN_SERVLET);
+		
 		// This is a first time visit to the site
 		} else if (request.getQueryString() == null) { 
 			System.out.println("GETL Request: fresh visit");
 			//response.sendRedirect(this.getServletContext().getContextPath() + "/Main" + JSP_MAIN);
 			request.getRequestDispatcher(JSP_MAIN).forward(request, response);
+		
 		// This is a search request
 		} else if (request.getRequestURI().endsWith(SEARCH_TAG)) {
 			System.out.println("GET Request: SEARCH");
@@ -178,12 +221,7 @@ public class Main extends HttpServlet {
 			request.getRequestDispatcher(target).forward(request, response);
 			
 		// This is a logout request
-		} else if(request.getRequestURI().endsWith(LOGOUT_TAG)) {
-			session.setAttribute("username", null);
-			
-			response.sendRedirect(this.getServletContext().getContextPath() + LOGIN_SERVLET);
-			
-		}
+		} 
 	}
 
 	/**
