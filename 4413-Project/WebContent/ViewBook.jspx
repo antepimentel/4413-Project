@@ -9,18 +9,27 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="StyleSheet" href="/4413-Project/res/MainPage.css" type="text/css" title="cse4413" media="screen, print"/>
+
 <title>Viewing Book</title>
 </head>
 <body>
-	<TABLE>
-		<TR>
-			<TD>${sessionScope['username']}</TD>
-			<TD><BUTTON action="">View Cart</BUTTON></TD>
-			<TD><BUTTON>Log Out</BUTTON></TD>
-		</TR>
-	</TABLE>
+
+<!-- Header -->
+<div class="header">
+	
+	
+			<span class="user_head">${sessionScope['username']}</span>
+			Mom and Pop's Bookstore
+			<BUTTON action="">View Cart</BUTTON>
+			<BUTTON>Log Out</BUTTON>
+		
+</div>
 	
 	<HR />
+	
+<!-- Message -->
+<div class="body">
 	<c:choose>
 		<c:when test="${error != 'none'}">
 			<span style="color:red"> ${error}</span>
@@ -29,7 +38,8 @@
 	
 	<c:choose>
 		<c:when test="${empty reviewList}">
-			There are no reviews for this item
+			There are no reviews for this item. Add your review below!
+			
 			<BR />
 		</c:when>
 		<c:otherwise>
@@ -51,10 +61,9 @@
 			</TABLE>
 		</c:otherwise>
 	</c:choose>
+	</div>
 	
-	
-	Add your review below:
-	<form action='' method='POST'>
+	<form class="body" action='' method='POST'>
 		<table>
 			
 			<tr><td> Number rating out of 10 <input type='number' name='numberRating'></input></td></tr> 
@@ -65,9 +74,9 @@
 			
 			<tr><td> The book title <input type='text' name='bookTitle' value='${title}'></input></td></tr>
 			
-			<tr><td> Review text: <textarea name='reviewText' id='reviewText' cols='30' rows='10'>Write your review here</textarea></td></tr>
+			<tr><td> Review text:<BR/> <textarea name='reviewText' id='reviewText' cols='30' rows='10'>Write your review here</textarea></td></tr>
 			
-			<tr><td><input type='submit' name='reviewSubmit' value='Submit Review'></input></td> </tr>
+			<tr><td><input class="bigButtons" type='submit' name='reviewSubmit' value='Submit Review'></input></td> </tr>
 			
 		</table>
 	</form>

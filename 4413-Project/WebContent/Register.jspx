@@ -20,7 +20,7 @@
 		<span style="color:red"> ${error}</span>
 	</c:when>
 </c:choose>
-<form action= "register" method="POST">
+<form class="register" action= "register" method="POST">
 	<fieldset>
 		<legend>Please fill out the information below.</legend>
 		<TABLE>
@@ -74,7 +74,7 @@
 				<TD><input type='text' name='phone' value='${sessionScope.phone}'></input></TD>
 			</TR>
 			<TR>
-				<TD><input type='submit' name='register' value='Register'></input></TD>
+				<TD><input class="bigButtons" type='submit' name='register' value='Register'></input></TD>
 			</TR>
 		</TABLE>
 	</fieldset>

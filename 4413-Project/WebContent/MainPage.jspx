@@ -17,13 +17,11 @@
 </head>
 <body>
 
-<!-- Top Border -->
-	<form action='http://localhost:8080/4413-Project/ShoppingCartServlet/' method="GET">
-		<text class="header">Mom and Pop's Online Book Store </text>
-		
-		
-		<button class="right">Log Out</button>
-		<INPUT id="viewCart" class="right" value='View Cart' type='submit'></INPUT>
+<!-- Header -->
+<form class="header" action='http://localhost:8080/4413-Project/ShoppingCartServlet/' method="GET">
+Mom and Pop's Online Book Store
+		<button >Log Out</button>
+		<input value='View Cart' type='submit'></input>
 		
 		<c:choose>
 			<c:when test="${sessionScope['username']}">
@@ -32,12 +30,11 @@
 		</c:choose>
 	</form>
 	
-	<HR />
-	<c:choose>
-		<c:when test="${error != 'none'}">
-			<span style="color:red"> ${error}</span>
-		</c:when>
-	</c:choose>
+
+<!-- Navigate -->
+<div class="topnav">
+	
+</div>
 	
 	<!-- Linked Category border-->
 	<div class="tab">
@@ -53,6 +50,7 @@
 	</div>
 	
 	<!-- Search Box -->	
+	<div class="searchBox">
 	<form action="Main/search" method="GET">
 		<fieldset>
 			<legend>Looking for something specific?</legend>
@@ -122,7 +120,7 @@
 		</c:otherwise>
 	</c:choose>
 	
-	
+	</div>
 </body>
 </html>
 </jsp:root>

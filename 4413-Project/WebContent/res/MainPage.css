@@ -1,117 +1,46 @@
 @charset "UTF-8";
 
+/*******Main Page Header******/
+/*Mom and Pop's */
 .header {
 	font-size: 20px;
+	font-family: Calibri, Ariel, sans-serif;
+	background-color: #8a8a8a;
+  	text-align: center;
+ 	padding: 20px;
+	font-style: italic;
+	font-weight: bold;
 }
 
-body {
-  background-color: light grey;
-}
 
-
-
-legend { font-size: 125%;
-padding-left: 1em;
-padding-right: 1em; background: grey;
-color: #fff; }
-
-.right {
+/*View Cart or Log Out*/
+.header button , .header input{
 	
 	float: right;
-}
-.center {
-	float: center;
-}
-
-.searchResults{
-	width:500px;
-margin:auto;
-background-color: white;
-font-family: Calibri, Ariel, sans-serif; font-size: 16px;
-font-style: italic;
-font-weight: bold;
-color: black;
-border-radius: 10px;
-padding: 8px;
-border: 1px solid #999;
-border: inset 1px solid #333;
-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
-}
-
-
-
-
-form { 
-width:500px;
-margin:auto;
-background-color: white;
-font-family: Calibri, Ariel, sans-serif; 
-font-size: 16px;
-font-style: italic;
-font-weight: bold;
-color: black;
-border-radius: 10px;
-padding: 8px;
-border: 1px solid #999;
-border: inset 1px solid #333;
-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); }
-
-tr, td {
-padding: 10px;
-}
-
-button {
-display: block;	
-}
-
-button:hover {
-background-color: #ddd;
-	
-}
-
-
-input.bigButtons  {
-	
-background-color: Blue; /* Blue */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-	
-}
-
-input.bigButtons:hover {
-	  background-color: #ddd;
+	padding: none;
+	font-size: 16px;
+	font-family: Calibri, Ariel, sans-serif;
+	font-style: italic;
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
 	
 	
-}
-
-label {
-display: block;
-margin-top: 16px; }
-
-/*Register hyperlink for Log in page*/
-#register{
+	background-color: inherit;
+	outline: none;
+	cursor: pointer;
+	transition: 0.3s;
+	border: none;
 	
-font-family: Calibri, Ariel, sans-serif; font-size: 16px;
-font-style: italic;
-font-weight: bold;
-color: black;
- text-decoration: none;
+} 
+
+/* Change background color of View Cart or Log Out on hover */
+.header button:hover, .header input:hover {
+  background-color: #ddd;
 }
 
-#register:hover {
-	color: blue;
-	
-}
 
-.radio label, .radio input {
-display: inline; }
-
-/*Main Page Category Border*/
+/******************Main Page Navigation(Category) Border**************/
 /*tab font*/
 
 .tab a {
@@ -159,11 +88,128 @@ color: black;
   border-top: none;
 }
 
-/*Other*/
-#viewCart:hover{
-background-color: #ddd;
+/*********Body**************************************/
+/********Main Page Search Bar***/
+
+body {
+  background-color: light grey;
 }
 
+
+
+legend { font-size: 125%;
+padding-left: 1em;
+padding-right: 1em; background: grey;
+color: #fff; }
+
+
+.center {
+	float: center;
+}
+
+
+
+.searchResults{
+	width:500px;
+margin:auto;
+background-color: white;
+font-family: Calibri, Ariel, sans-serif; font-size: 16px;
+font-style: italic;
+font-weight: bold;
+color: black;
+border-radius: 10px;
+padding: 8px;
+border: 1px solid #999;
+border: inset 1px solid #333;
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+.searchBox, .login, .register, .body { 
+width:500px;
+margin:auto;
+background-color: white;
+font-family: Calibri, Ariel, sans-serif; 
+font-size: 16px;
+font-style: italic;
+font-weight: bold;
+color: black;
+border-radius: 10px;
+padding: 8px;
+border: 1px solid #999;
+border: inset 1px solid #333;
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); 
+}
+
+tr, td {
+padding: 10px;
+}
+
+/*button {
+display: block;	
+}
+
+button:hover {
+background-color: #ddd;
+	
+}*/
+
+
+input.bigButtons  {
+	
+background-color: Blue; /* Blue */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+	
+}
+
+input.bigButtons:hover {
+	  background-color: #ddd;
+	
+	
+}
+
+label {
+display: block;
+margin-top: 16px; }
+
+/*Register hyperlink for Log in page*/
+#register{
+	
+font-family: Calibri, Ariel, sans-serif; font-size: 16px;
+font-style: italic;
+font-weight: bold;
+color: black;
+ text-decoration: none;
+}
+
+#register:hover {
+	color: blue;
+	
+}
+
+.radio label, .radio input {
+display: inline; }
+
+
+
+/*Other*/
+/*#viewCart:hover{
+background-color: #ddd;
+}
+*/
+
+.user_head {
+	float: left;
+	color: blue;
+}
 
 
 charset "UTF-8";

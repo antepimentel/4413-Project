@@ -10,6 +10,8 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="StyleSheet" href="/4413-Project/res/MainPage.css" type="text/css" title="cse4413" media="screen, print"/>
+
 <title>Checkout</title>
 </head>
 <body>
@@ -20,12 +22,13 @@
 		</c:when>
 	</c:choose>
 	
-	<h1>Review your order</h1>
+	<h1 class="header">Review your order</h1>
 	
 	<BR />
 	
+	<div class="body">
 	<h2>Shipping to:</h2>
-	<table>
+	<table class="body" >
 		<tr>
 			<td>${savedAddress.street}</td>
 		</tr>
@@ -39,13 +42,15 @@
 	
 	<BR />
 	
+
 	<h2>Payment with:</h2> 
-	<BR />
-	<SPAN>${savedPaymentInfo.scrubbedCardNumber}</SPAN>
-	<BR />
+	<SPAN class="body" >${savedPaymentInfo.scrubbedCardNumber}</SPAN>
+	
+		<BR />
+	
 	
 	<h2>Cart Items: </h2>
-	<TABLE>
+	<TABLE class="body">
 	<c:forEach var="cartBean" items="${requestScope.cartItems}" varStatus="status">
 		<tr>
 			<td><h4>${cartBean.book.title}</h4></td>
@@ -61,15 +66,19 @@
 		</tr>
 	</c:forEach>
 		<tr>
-			<h4> Grand Total: <f:formatNumber type = "currency"> ${requestScope['cartTotal']}</f:formatNumber></h4>
+		<td> <h4> Grand Total: <f:formatNumber type = "currency"> ${requestScope['cartTotal']}</f:formatNumber></h4></td>
+		
 		</tr>
+	</TABLE>
+	
+	<BR />	
 		
 	
 	<form action="checkout/review" method="post">
-		<tr><input type="submit" value="Place Order"></input></tr>
+		<tr><input class="bigButtons" type="submit" value="Place Order"></input></tr>
 	</form>
+		</div>
 	
-	</TABLE>
 </body>
 </html>
 </jsp:root>
