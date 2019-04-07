@@ -28,7 +28,7 @@
 	</form>
 	
 	<!-- Log in Form -->
-	<form action="login" method="POST">
+	<form class="login" action="login" method="POST">
 		<TABLE>
 			<TR>
 				<TD><LABEL for="username">Username<SPAN id="username-error" style="color:red"></SPAN></LABEL></TD>
