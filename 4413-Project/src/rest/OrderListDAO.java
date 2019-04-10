@@ -68,13 +68,28 @@ public class OrderListDAO {
 	}
 	
 	
-	/*@GET
+	@GET
 	@Path("/product/{productID}")
 	@Produces("app/xml")
 	public String OrdersByPartNumber(@PathParam("productID") String id) throws Exception{
 		int idInt = Integer.parseInt(id);
+		NewOrders orders = new NewOrders (idInt, this.getOrdersByPartNumber(idInt));
+		JAXBContext jax = JAXBContext.newInstance(orders.getClass());
+		Marshaller marshaller = jax.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+		StringWriter write = new StringWriter();
+		write.write("<?xml version='1.0' encoding='UTF-8'?>");
+		write.write("\n");
 		
+		write.write("<?xml-stylesheet type='text/xsl' href='SIS.xsl' ?>");
+		write.write("\n");
+		marshaller.marshal(orders, new StreamResult(write));
+		String result = write.toString();
+		write.close();
+		return result;
+		//write.write("<?xml-stylesheet t);
 	}
-	*/
+	
 	 
 }
