@@ -26,8 +26,8 @@ public class RegisterServlet extends HttpServlet {
 	private static final String JSP_REGISTER = "/Register.jspx";
 	private static final String JSP_MAIN = "/MainPage.jspx";
 	
-	private static final String MODEL_TAG = "model";
-	private static final String ERROR = "error";
+	//private static final String MODEL_TAG = "model";
+	//private static final String ERROR = "error";
 
 	// Form Names
 	private static final String USERNAME = "username";
@@ -66,7 +66,7 @@ public class RegisterServlet extends HttpServlet {
 		
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
-		Model model = (Model)application.getAttribute(MODEL_TAG);
+		Model model = (Model)application.getAttribute(Tags.SESSION_MODEL);
 
 		// Get all the form values
 		String username = request.getParameter(USERNAME);
@@ -94,7 +94,7 @@ public class RegisterServlet extends HttpServlet {
 			model.registerCustomer(customer, conf_password, address);
 			target = JSP_MAIN;
 			responseMsg = "Success! Signed in as " + customer.getFname() + " " + customer.getLname();
-			session.setAttribute("username", customer.getUsername());
+			session.setAttribute("username", customer);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,7 +108,7 @@ public class RegisterServlet extends HttpServlet {
 			pushInfoToSession(request, customer, address);
 		}
 
-		request.setAttribute(ERROR, responseMsg);
+		request.setAttribute(Tags.ERROR, responseMsg);
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 	

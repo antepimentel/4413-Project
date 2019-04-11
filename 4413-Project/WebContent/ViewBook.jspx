@@ -19,7 +19,7 @@
 <div class="header">
 	
 	
-			<span class="user_head">${sessionScope['username']}</span>
+			<span class="user_head">${sessionScope.user.username}</span>
 			Mom and Pop's Bookstore
 			<BUTTON action="">View Cart</BUTTON>
 			<BUTTON>Log Out</BUTTON>
@@ -52,7 +52,7 @@
 				
 				<c:forEach var="review" items="${reviewList}">
 					<tr>
-						<TD>${review.uid}</TD>
+						<TD>${review.cid}</TD>
 						<TD>${review.rating}</TD>
 						<TD>${review.review_text}</TD>
 					</tr>

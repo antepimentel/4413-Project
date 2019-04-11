@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import bean.AddressBean;
 import bean.POBean;
 import bean.POItem;
+import bean.CustomerBean;
 import bean.PaymentInfoBean;
 import bean.ShoppingCartBean;
 import model.Model;
@@ -42,12 +43,6 @@ public class PaymentServlet extends HttpServlet {
 	private static final String CONF_ADDR_TAG = CHECKOUT_TAG + "/confaddress";
 	private static final String CONF_PAY_TAG = CHECKOUT_TAG + "/confpayment";
 	private static final String REVIEW_ORDER_TAG = CHECKOUT_TAG + "/review";
-	
-	private static final String MAINPAGE_TAG = "/Main";
-      
-	private static final String MODEL_TAG = "model";
-	private static final String ERROR = "error";
-	private static final String USERNAME = "username";
 	
 	// JSP field ids
 	private static final String ADDR_LIST = "addressList";
@@ -78,9 +73,8 @@ public class PaymentServlet extends HttpServlet {
 		
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
-		Model model = (Model)application.getAttribute(MODEL_TAG);
-		
-		String cid = (String) request.getSession().getAttribute("username");
+		Model model = (Model)application.getAttribute(Tags.SESSION_MODEL);
+
 		String reqString = request.getRequestURI();
 		
 		if(reqString.endsWith(CHECKOUT_TAG)) {
@@ -93,7 +87,7 @@ public class PaymentServlet extends HttpServlet {
 			String target = "";
 			String msg = "";
 			try {
-				String username = (String)session.getAttribute(USERNAME);
+				String username = ((CustomerBean)session.getAttribute(Tags.SESSION_USER)).getUsername();
 				ArrayList<AddressBean> addressList = model.getAddressListForCustomer(username);
 				
 				request.setAttribute(ADDR_LIST, addressList);
@@ -104,7 +98,7 @@ public class PaymentServlet extends HttpServlet {
 				target = JSP_CONF_ADDR;
 				msg = "Error confirming address";
 			}
-			request.setAttribute(ERROR, msg);
+			request.setAttribute(Tags.ERROR, msg);
 			request.getRequestDispatcher(target).forward(request, response);
 		
 		} else if(reqString.endsWith(CONF_PAY_TAG)) {
@@ -126,9 +120,9 @@ public class PaymentServlet extends HttpServlet {
 
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
-		Model model = (Model)application.getAttribute(MODEL_TAG);
+		Model model = (Model)application.getAttribute(Tags.SESSION_MODEL);
 		
-		String cid = (String) request.getSession().getAttribute("username");
+		String cid = ((CustomerBean)session.getAttribute(Tags.SESSION_USER)).getUsername();
 		String reqString = request.getRequestURI();
 		
 		if(reqString.endsWith(CONF_ADDR_TAG)) { 
@@ -138,7 +132,7 @@ public class PaymentServlet extends HttpServlet {
 			String target = JSP_CONF_PAY;
 			String msg = "";
 			try {
-				String username = (String)session.getAttribute(USERNAME);
+				String username = ((CustomerBean)session.getAttribute(Tags.SESSION_USER)).getUsername();
 				model.getAddressListForCustomer(username);
 				
 				// Get the selected Address ID and save it
@@ -154,7 +148,7 @@ public class PaymentServlet extends HttpServlet {
 				target = JSP_CONF_ADDR;
 				msg = "Error confirming address";
 			}
-			request.setAttribute(ERROR, msg);
+			request.setAttribute(Tags.ERROR, msg);
 			request.getRequestDispatcher(target).forward(request, response);
 		
 		} else if(reqString.endsWith(CONF_PAY_TAG)) {
@@ -164,7 +158,7 @@ public class PaymentServlet extends HttpServlet {
 			String target = JSP_CONF_PAY;
 			String msg = "";
 			try {
-				String username = (String)session.getAttribute(USERNAME);
+				String username = ((CustomerBean)session.getAttribute(Tags.SESSION_USER)).getUsername();
 				model.getAddressListForCustomer(username);
 				
 				// Get the field info and save it to session
@@ -190,7 +184,7 @@ public class PaymentServlet extends HttpServlet {
 				target = JSP_CONF_PAY;
 				msg = "Error confirming address";
 			}
-			request.setAttribute(ERROR, msg);
+			request.setAttribute(Tags.ERROR, msg);
 			request.getRequestDispatcher(target).forward(request, response);
 			//request.getRequestDispatcher(JSP_REVIEW).forward(request, response);
 		
@@ -216,8 +210,8 @@ public class PaymentServlet extends HttpServlet {
 				
 				target = JSP_REVIEW;
 				msg = "none";	
-				request.setAttribute(ERROR, msg);
-				response.sendRedirect(this.getServletContext().getContextPath() + MAINPAGE_TAG);
+				request.setAttribute(Tags.ERROR, msg);
+				response.sendRedirect(this.getServletContext().getContextPath() + Tags.SERVLET_MAIN);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				target = JSP_REVIEW;

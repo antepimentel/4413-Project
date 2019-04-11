@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.CustomerBean;
 import bean.ShoppingCartBean;
 import dao.DBSchema;
 import model.Model;
@@ -25,8 +26,8 @@ import model.Model;
 public class ShoppingCartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String MODEL_TAG = "model";
-	private static final String ERROR = "error";
+	//private static final String MODEL_TAG = "model";
+	//private static final String ERROR = "error";
 	private static final String JSP_CART = "/ShoppingCart.jspx";
 	private static final String JSP_MAIN = "/MainPage.jspx";
 	//private static final String JSP_CHECKOUT = "/Checkout.jspx";
@@ -53,15 +54,15 @@ public class ShoppingCartServlet extends HttpServlet {
 		request.setAttribute("baseURL", request.getRequestURL());
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
-		Model model = (Model)application.getAttribute(MODEL_TAG);
+		Model model = (Model)application.getAttribute(Tags.SESSION_MODEL);
 		
-		String cid = (String) request.getSession().getAttribute("username");
+		String cid = ((CustomerBean)session.getAttribute(Tags.SESSION_USER)).getUsername();
 		
 		String target = "";
 		String responseMsg = "";
 		
 		if(request.getRequestURI().endsWith(CHECKOUT_TAG)) {
-			target = "/" + CHECKOUT_TAG;
+			target = Tags.SERVLET_PAYMENT;
 			responseMsg = "none";
 			response.sendRedirect("/4413-Project" + target);
 			return;
@@ -75,13 +76,13 @@ public class ShoppingCartServlet extends HttpServlet {
 				
 				target = JSP_CART;
 				responseMsg = "none";
-				request.setAttribute(ERROR, responseMsg);
+				request.setAttribute(Tags.ERROR, responseMsg);
 			
 			} catch (SQLException e) {
 				e.printStackTrace();
 				target = JSP_MAIN;
 				responseMsg = "there was an error handling your request";
-				request.setAttribute(ERROR, responseMsg);
+				request.setAttribute(Tags.ERROR, responseMsg);
 			}
 			
 			request.getRequestDispatcher(target).forward(request, response);
@@ -99,7 +100,7 @@ public class ShoppingCartServlet extends HttpServlet {
 		
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
-		Model model = (Model)application.getAttribute(MODEL_TAG);
+		Model model = (Model)application.getAttribute(Tags.SESSION_MODEL);
 		
 		String cid = request.getParameter(DBSchema.COL_SC_CID);
 		String bid = request.getParameter(DBSchema.COL_SC_BID);
@@ -117,7 +118,7 @@ public class ShoppingCartServlet extends HttpServlet {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				responseMsg = "there was an error handling your request";
-				request.setAttribute(ERROR, responseMsg);
+				request.setAttribute(Tags.ERROR, responseMsg);
 				request.getRequestDispatcher(JSP_MAIN).forward(request, response);
 			}
 			
@@ -135,7 +136,7 @@ public class ShoppingCartServlet extends HttpServlet {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				responseMsg = "there was an error handling your request";
-				request.setAttribute(ERROR, responseMsg);
+				request.setAttribute(Tags.ERROR, responseMsg);
 				request.getRequestDispatcher(JSP_MAIN).forward(request, response);
 			}
 			

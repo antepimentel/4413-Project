@@ -25,13 +25,15 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String CATEGORY_LIST = "categoryList";
 	
-	private static final String MODEL_TAG = "model";
+	// Param Tags
+	//private static final String MODEL_TAG = "model";
 	
-	private static final String SERVLET_MAIN = "/Main";
-	private static final String SERVLET_LOGIN = "/login";
+	// Servlets
+	//private static final String SERVLET_MAIN = "/Main";
+	//private static final String SERVLET_LOGIN = "/login";
 	
+	// Pages
 	private static final String JSP_LOGIN = "/Login.jspx";
-	private static final String JSP_MAIN = "/MainPage.jspx";
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -51,7 +53,7 @@ public class LoginServlet extends HttpServlet {
     	// Initialize the model and store in the application context
     	try {
 			Model model = new Model();
-			application.setAttribute(MODEL_TAG, model);
+			application.setAttribute(Tags.SESSION_MODEL, model);
 			System.out.println("Model initialized");
 		} catch (NamingException e) {
 			//e.printStackTrace();
@@ -79,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
 		
-		Model model = (Model) application.getAttribute(MODEL_TAG);
+		Model model = (Model) application.getAttribute(Tags.SESSION_MODEL);
 		
 		//Retrieve and store all categories 
 		ArrayList<String> categoryList = null;
@@ -104,17 +106,18 @@ public class LoginServlet extends HttpServlet {
 			if(customer != null) {
 				// persist to session?
 				responseMsg = "Success! Signed in as " + customer.getFname() + " " + customer.getLname();
-				target = SERVLET_MAIN;
-				session.setAttribute("username", customer.getUsername());
+				target = Tags.SERVLET_MAIN;
+				session.setAttribute(Tags.SESSION_USER, customer);
+				//session.setAttribute("username", customer.getUsername());
 			} else {
 				responseMsg = "no matching username and password, try again";
-				target = SERVLET_LOGIN;
+				target = Tags.SERVLET_LOGIN;
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			responseMsg = "SQL ERROR";
-			target = SERVLET_LOGIN;
+			target = Tags.SERVLET_LOGIN;
 		}
 		
 		session.setAttribute("error", responseMsg);

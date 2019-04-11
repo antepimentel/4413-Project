@@ -15,7 +15,7 @@
 </head>
 <body>
 <table>
-		<tr><td><h3>${sessionScope['username']}'s shopping cart</h3></td></tr>
+		<tr><td><h3>${sessionScope.user.username}'s shopping cart</h3></td></tr>
 
 <c:choose>
 <c:when test="${empty bookList}">

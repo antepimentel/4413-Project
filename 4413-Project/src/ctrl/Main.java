@@ -17,9 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.BookBean;
+import bean.CustomerBean;
 import bean.BookReviewBean;
-import bean.VisitEventBean;
-import dao.VisitEventDAO;
 import model.Model;
 
 /**
@@ -29,10 +28,6 @@ import model.Model;
 public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-	// Attribute tags
-	private static final String MODEL_TAG = "model";
-	private static final String COMM_TAG = "comm";
-	
 	// Page element tags
 	private static final String BID = "bid";
 	private static final String CATEGORY_NAME = "categoryName";
@@ -41,11 +36,9 @@ public class Main extends HttpServlet {
 	private static final String BOOK_TITLE="bookTitle";
 	private static final String NUMBER_RATING = "numberRating";
 	private static final String REVIEW_TEXT = "reviewText";
-	private static final String CID = "cid";
 	private static final String USERNAME_ID = "uid";
 	private static final String REVIEW_LIST = "reviewList";
 	private static final String BOOK_LIST = "bookList";
-	private static final String ERROR = "error";
 	
 	// Page names/filename
 	private static final String JSP_MAIN = "/MainPage.jspx";
@@ -55,21 +48,12 @@ public class Main extends HttpServlet {
 	private static final String SEARCH_TAG = "/Main/search";
 	private static final String VIEW_TAG = "/Main/view";
 	private static final String CART_TAG = "/Main/Cart";
-	private static final String LOGOUT_TAG = "logout";
-	
-	// Servlets
-	private static final String LOGIN_SERVLET = "/login";
-	private static final String CART_SERVLET = "/ShoppingCartServlet";
-	private static final String PROFILE_SERVLET = "/profile";
 	
 	// Banner Button Tags
 	private static final String BUTTON_NAME = "banner";
 	private static final String BUTTON_LOGOUT = "Logout";
 	private static final String BUTTON_CART = "Cart";
 	private static final String BUTTON_PROFILE = "Profile";
-	
-	
-	private String ShoppingCartServletURI;
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -92,7 +76,7 @@ public class Main extends HttpServlet {
     	// Initialize the model and store in the application context
     	try {
 			Model model = new Model();
-			application.setAttribute(MODEL_TAG, model);
+			application.setAttribute(Tags.SESSION_MODEL, model);
 			System.out.println("Model initialized");
 		} catch (NamingException e) {
 			//e.printStackTrace();
@@ -109,19 +93,20 @@ public class Main extends HttpServlet {
 		
 		//Check if user clicked viewcart button
 		if(request.getRequestURI().endsWith(CART_TAG)) {
-			request.getRequestDispatcher("/ShoppingCartServlet/?cid=" + request.getSession().getAttribute("username")).forward(request, response);
+			String username = ((CustomerBean)request.getSession().getAttribute(Tags.SESSION_USER)).getUsername();
+			request.getRequestDispatcher("/ShoppingCartServlet/?cid=" + username).forward(request, response);
 			return;
 		}
 		
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
-		Model model = (Model)application.getAttribute(MODEL_TAG);
+		Model model = (Model)application.getAttribute(Tags.SESSION_MODEL);
 		
 		// Check if not logged in
-		if(session.getAttribute("username") == null) {
-			request.setAttribute(ERROR, "You must login first!");
+		if(session.getAttribute(Tags.SESSION_USER) == null) {
+			session.setAttribute(Tags.ERROR, "You must login first!");
 			//request.getRequestDispatcher("/Login.jspx").forward(request, response);
-			response.sendRedirect(this.getServletContext().getContextPath() + LOGIN_SERVLET);
+			response.sendRedirect(this.getServletContext().getContextPath() + Tags.SERVLET_LOGIN);
 			
 		// User has pressed a banner button
 		} else if(request.getRequestURI().endsWith("bannerButton")) {
@@ -135,24 +120,24 @@ public class Main extends HttpServlet {
 			if(button.equals(BUTTON_CART)) {
 				System.out.println(BUTTON_CART);
 				
-				target = CART_SERVLET;
+				target = Tags.SERVLET_CART;
 				msg = "none";
 				
 			} else if(button.equals(BUTTON_PROFILE)) {
 				System.out.println(BUTTON_PROFILE);
 				
-				target = PROFILE_SERVLET;
+				target = Tags.SERVLET_PROFILE;
 				msg = "none";
 				
 			} else if(button.equals(BUTTON_LOGOUT)) {
 				System.out.println(BUTTON_LOGOUT);
 				
-				session.setAttribute("username", null);
+				session.setAttribute(Tags.SESSION_USER, null);
 				
-				target = LOGIN_SERVLET;
+				target = Tags.SERVLET_LOGIN;
 				msg = "Logged out";
 			}
-			session.setAttribute(ERROR, msg);
+			session.setAttribute(Tags.ERROR, msg);
 			response.sendRedirect(this.getServletContext().getContextPath() + target);
 			//response.sendRedirect(this.getServletContext().getContextPath() + LOGIN_SERVLET);
 		
@@ -185,7 +170,7 @@ public class Main extends HttpServlet {
 				responseMsg = "There was an issue handling your request";
 				target = JSP_MAIN;
 			} 
-			request.setAttribute(ERROR, responseMsg);
+			request.setAttribute(Tags.ERROR, responseMsg);
 			request.getRequestDispatcher(target).forward(request, response);
 			
 		// This is a view request
@@ -217,10 +202,8 @@ public class Main extends HttpServlet {
 				responseMsg = "There was an issue handling your request";
 				target = JSP_VIEWBOOK;
 			}
-			request.setAttribute(ERROR, responseMsg);
+			request.setAttribute(Tags.ERROR, responseMsg);
 			request.getRequestDispatcher(target).forward(request, response);
-			
-		// This is a logout request
 		} 
 	}
 
@@ -235,7 +218,7 @@ public class Main extends HttpServlet {
 				numberRating = request.getParameter(NUMBER_RATING),
 				bid = request.getParameter(BID);
 		
-		Model model = (Model) request.getServletContext().getAttribute(MODEL_TAG);
+		Model model = (Model) request.getServletContext().getAttribute(Tags.SESSION_MODEL);
 
 		//If statement for the submission of a review 
 		if (UID != null && reviewText != null && numberRating != null && bid != null) {
