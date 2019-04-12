@@ -211,6 +211,10 @@ public class Model {
 		return this.addressDAO.getAddressByID(Integer.parseInt(id));
 	}
 	
+	public void addAddress(AddressBean address) throws SQLException {
+		this.addressDAO.insertAddress(address);
+	}
+	
 	//===========================
 	// PO METHODS
 	//===========================
@@ -219,7 +223,12 @@ public class Model {
 		return this.purchaseOrderDAO.createPO(po);
 	}
 	
-	public void addItemToPO(POItem item) throws SQLException {
+	public void addItemToPO(POItemBean item) throws SQLException {
 		this.poItemDAO.insertPOItem(item);
+	}
+	
+	public ArrayList<POBean> getPOsForCustomer(String username) throws SQLException{
+		ArrayList<POBean> pos = this.purchaseOrderDAO.getPOsForCustomer(username);
+		return this.poItemDAO.completePOBeans(pos);
 	}
 }
