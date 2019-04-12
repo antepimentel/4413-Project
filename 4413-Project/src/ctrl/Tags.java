@@ -20,5 +20,6 @@ public class Tags {
 	public static final String SERVLET_REGISTER = "/register";
 	public static final String SERVLET_PAYMENT = "/checkout";
 	public static final String SERVLET_PROFILE = "/profile";
+	public static final String SERVLET_ADMIN = "/admin";
 
 }

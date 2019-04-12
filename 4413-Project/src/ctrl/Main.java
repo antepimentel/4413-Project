@@ -54,6 +54,7 @@ public class Main extends HttpServlet {
 	private static final String BUTTON_LOGOUT = "Logout";
 	private static final String BUTTON_CART = "Cart";
 	private static final String BUTTON_PROFILE = "Profile";
+	private static final String BUTTON_ADMIN = "Admin";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -136,6 +137,12 @@ public class Main extends HttpServlet {
 				
 				target = Tags.SERVLET_LOGIN;
 				msg = "Logged out";
+			
+			} else if(button.equals(BUTTON_ADMIN)) {
+				System.out.println(BUTTON_ADMIN);
+				
+				target = Tags.SERVLET_ADMIN;
+				msg = "none";
 			}
 			session.setAttribute(Tags.ERROR, msg);
 			response.sendRedirect(this.getServletContext().getContextPath() + target);

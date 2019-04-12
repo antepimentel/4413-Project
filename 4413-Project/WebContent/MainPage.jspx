@@ -26,6 +26,12 @@
 		<INPUT id="viewCart" name="banner" class="right" value='Cart' type='submit'></INPUT>
 		
 		<c:choose>
+			<c:when test="${sessionScope.user.c_type == 'ADMIN'}">
+				<INPUT id="viewCart" name="banner" class="right" value='Admin' type='submit'></INPUT>
+			</c:when>
+		</c:choose>
+		
+		<c:choose>
 			<c:when test="${sessionScope.user.username}">
 				<SPAN class="right">Hi ${sessionScope['user']} </SPAN>
 			</c:when>
