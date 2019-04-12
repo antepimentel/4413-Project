@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -20,8 +21,38 @@ private DataSource ds;
 		this.ds = (DataSource) (new InitialContext()).lookup(DBSchema.DB_URL);
 	}
 	
-	public void getPOsForCustomer(String cid) {
+	/**
+	 * Returns a list of blank POBeans
+	 * 
+	 * @param username
+	 * @return
+	 * @throws SQLException
+	 */
+	public ArrayList<POBean> getPOsForCustomer(String username) throws SQLException {
+		String query = "select * from " + DBSchema.TABLE_PO 
+				+ " where " + DBSchema.COL_ADD_CID + " =?";
 		
+		Connection conn = this.ds.getConnection();
+		PreparedStatement stmtObj = conn.prepareStatement(query);
+		stmtObj.setString(1, username);
+
+		System.out.println("SQL: " + stmtObj.toString());
+		ResultSet rs = stmtObj.executeQuery();
+		
+		ArrayList<POBean> pos = new ArrayList<POBean>();
+		
+		while(rs.next()) {
+			int id = rs.getInt(DBSchema.COL_PO_ID);
+			String cid = rs.getString(DBSchema.COL_PO_CID);
+			String status = rs.getString(DBSchema.COL_PO_STATUS);
+			
+			pos.add(new POBean(id, cid, status));
+		}
+		
+		stmtObj.close();
+		conn.close();
+		
+		return pos;
 	}
 	
 	/**
@@ -55,4 +86,5 @@ private DataSource ds;
 		System.out.println("SQL: returning key of inserted record: " + key);
 		return key;
 	}
+	
 }

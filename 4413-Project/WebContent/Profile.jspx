@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+			xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<jsp:directive.page contentType="text/html; charset=ISO-8859-1" 
 		pageEncoding="ISO-8859-1" session="true"/>
 	<jsp:output doctype-root-element="html"
@@ -11,8 +12,97 @@
 <title>Your Profile</title>
 </head>
 <body>
+
+	<c:choose>
+		<c:when test="${error != 'none'}">
+			<span style="color:red"> ${error}</span>
+		</c:when>
+	</c:choose>
+
+	<!-- Basic Account Info -->
+	<form>
+		<FIELDSET>
+		<legend>Account Information</legend>
+			<table>
+				<tr>
+					<td>Username: </td>
+					<td>${sessionScope.user.username}</td>
+				</tr>
+				<tr>
+					<td>Name: </td>
+					<td>${sessionScope.user.fname} ${sessionScope.user.lname}</td>
+				</tr>
+				<tr>
+					<td>Email: </td>
+					<td>${sessionScope.user.email}</td>
+				</tr>
+				
+				<tr>
+					<td>Account Type: </td>
+					<td>${sessionScope.user.c_type}</td>
+				</tr>
+			</table>
+		</FIELDSET>
+	</form>
 	
-	TODO
+	<!-- Address List -->
+	<form action="profile/newaddress" method="get">
+		<FIELDSET>
+		<legend>Address List</legend>
+		
+		<c:choose>
+			<c:when test="${empty addressList}">
+				<!-- Do nothing -->
+			</c:when>
+			<c:otherwise>
+				<TABLE class="searchResults" >
+		
+					<c:forEach var="addr" items="${addressList}">
+						<tr>
+							<TD>${addr.street}, ${addr.zip}, ${addr.city}, ${addr.province}, ${addr.country}, ${addr.phone}</TD>
+						</tr>
+					</c:forEach>
+					
+				</TABLE>
+				<INPUT type="submit" value="Add New Address"></INPUT>
+			</c:otherwise>
+		</c:choose>
+			
+		
+		</FIELDSET>
+	</form>
+	
+	<!-- PO List -->
+	<form>
+		<FIELDSET>
+		<legend>Order List</legend>
+			<table>
+				<c:choose>
+					<c:when test="${empty poList}">
+						<tr><td>No Orders Found</td></tr>
+					</c:when>
+					<c:otherwise>
+						<TABLE class="searchResults" >
+				
+							<c:forEach var="po" items="${poList}">
+								<tr>
+									<TD>Order Number: ${po.id}</TD> <TD></TD> <TD>Status: ${po.status}</TD> <TD></TD>
+								</tr>
+								
+								<c:forEach var="item" items="${po.items}">
+									<tr>
+										<TD></TD> <TD>BID: ${item.bid}</TD> <TD>Price: ${item.price}</TD> <TD>Quantity: ${item.quantity}</TD>
+									</tr>
+								</c:forEach>
+								
+							</c:forEach>
+							
+						</TABLE>
+					</c:otherwise>
+				</c:choose>
+			</table>
+		</FIELDSET>
+	</form>
 		
 </body>
 </html>

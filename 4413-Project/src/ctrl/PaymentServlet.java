@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.AddressBean;
 import bean.POBean;
-import bean.POItem;
+import bean.POItemBean;
 import bean.CustomerBean;
 import bean.PaymentInfoBean;
 import bean.ShoppingCartBean;
@@ -204,7 +204,7 @@ public class PaymentServlet extends HttpServlet {
 				ArrayList<ShoppingCartBean> cartItems = model.getCompleteCart(cid);
 				
 				for(ShoppingCartBean cartItem: cartItems) {
-					POItem poItem = convertCartItemToPOItem(poID, cartItem);
+					POItemBean poItem = convertCartItemToPOItem(poID, cartItem);
 					model.addItemToPO(poItem);
 				}
 				
@@ -221,8 +221,8 @@ public class PaymentServlet extends HttpServlet {
 		}
 	}
 	
-	private POItem convertCartItemToPOItem(long id, ShoppingCartBean cartItem) {
-		return new POItem(id, cartItem.getBid(), cartItem.getPrice(), cartItem.getQuantity());
+	private POItemBean convertCartItemToPOItem(long id, ShoppingCartBean cartItem) {
+		return new POItemBean(id, cartItem.getBid(), cartItem.getPrice(), cartItem.getQuantity());
 	}
 
 }

@@ -1,6 +1,6 @@
 package bean;
 
-public class POItem {
+public class POItemBean {
 
 		private long id;
 		private String bid;
@@ -12,7 +12,7 @@ public class POItem {
 		 * @param price
 		 * @param quantity
 		 */
-		public POItem(long id, String bid, int price, int quantity) {
+		public POItemBean(long id, String bid, int price, int quantity) {
 			this.id = id;
 			this.bid = bid;
 			this.price = price;

@@ -1,5 +1,7 @@
 package bean;
 
+import java.util.ArrayList;
+
 public class POBean {
 
 		private String[] statuses = {"ORDERED", "PROCESSED", "DENIED"};
@@ -7,6 +9,7 @@ public class POBean {
 		private int id;
 		private String cid;
 		private String status;
+		private ArrayList<POItemBean> items;
 		/**
 		 * @param statuses
 		 * @param id
@@ -17,6 +20,18 @@ public class POBean {
 			this.id = id;
 			this.cid = cid;
 			this.status = status;
+		}
+		/**
+		 * @return the items
+		 */
+		public ArrayList<POItemBean> getItems() {
+			return items;
+		}
+		/**
+		 * @param items the items to set
+		 */
+		public void setItems(ArrayList<POItemBean> items) {
+			this.items = items;
 		}
 		/**
 		 * @return the id
