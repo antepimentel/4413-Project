@@ -68,6 +68,9 @@ public class LoginServlet extends HttpServlet {
 		
 		System.out.println("GET : LOGIN : URL -> " + request.getRequestURL());
 		
+		HttpSession session = request.getSession(true);
+		session.setAttribute(Tags.IS_VISITOR, false);
+		
 		response.sendRedirect(this.getServletContext().getContextPath() + JSP_LOGIN);
 	}
 

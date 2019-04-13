@@ -46,9 +46,14 @@
 				<TD><a id="register" href='http://localhost:8080/4413-Project/register'>Register</a></TD>
 			</TR>
 			<TR>
-				<TD>FOR TESTING ONLY</TD>
+				<TD>Or continue anyway as a visitor</TD>
+				<TD><a id="register" href='http://localhost:8080/4413-Project/Main/visitor'>Continue</a></TD>
+			</TR>
+			<TR>
+				<TD>FOR TESTING ONLY: Log in as customer</TD>
 				<TD><input class="bigButtons" type='submit' name='skip' value='skip'></input></TD>
 			</TR>
+			
 		</TABLE>
 	</form>
 

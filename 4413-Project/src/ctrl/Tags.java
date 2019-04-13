@@ -12,6 +12,9 @@ public class Tags {
 	public static final String SESSION_USER = "user";
 	public static final String SESSION_MODEL = "model";
 	public static final String ERROR = "error";
+	public static final String IS_VISITOR = "isVisitor";
+	public static final String VISITOR_CART = "visitorCart"; // Visitor carts must be stored in the session
+	public static final String VISITOR_IS_CHECKING_OUT = "visitorCheckout";
 	
 	// Servlet Entry Points, for redirects
 	public static final String SERVLET_MAIN = "/Main";

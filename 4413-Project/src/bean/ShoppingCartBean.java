@@ -7,7 +7,7 @@ public class ShoppingCartBean {
 	private String bid;
 //	private String bookCover;
 	private int priceOfAllCopies;
-	public BookBean book;
+	private BookBean book;
 	
 	public BookBean getBook() {
 		return book;

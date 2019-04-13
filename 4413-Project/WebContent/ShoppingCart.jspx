@@ -18,7 +18,7 @@
 		<tr><td><h3>${sessionScope.user.username}'s shopping cart</h3></td></tr>
 
 <c:choose>
-<c:when test="${empty bookList}">
+<c:when test="${empty resquestScope.cartItems}">
 	<c:forEach var="cartBean" items="${requestScope.cartItems}" varStatus="status">
 		<form action="${requestScope.baseURL}?update=true&amp;bid=${cartBean.book.bid}&amp;username=${cartBean.cid}" method='POST'>
 		<tr><td><h4>${cartBean.book.title}</h4></td></tr>

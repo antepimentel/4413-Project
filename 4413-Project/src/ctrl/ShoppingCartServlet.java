@@ -56,7 +56,7 @@ public class ShoppingCartServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(Tags.SESSION_MODEL);
 		
-		String cid = ((CustomerBean)session.getAttribute(Tags.SESSION_USER)).getUsername();
+		CustomerBean user = (CustomerBean)session.getAttribute(Tags.SESSION_USER);
 		
 		String target = "";
 		String responseMsg = "";
@@ -68,7 +68,17 @@ public class ShoppingCartServlet extends HttpServlet {
 			return;
 		} else {
 			try {
-				ArrayList<ShoppingCartBean> cartItems = model.getCompleteCart(cid);
+				
+				boolean isVisitor = (boolean)session.getAttribute(Tags.IS_VISITOR);
+				ArrayList<ShoppingCartBean> cartItems;
+				
+				if(isVisitor) {
+					cartItems = (ArrayList<ShoppingCartBean>)session.getAttribute(Tags.VISITOR_CART);
+					cartItems = model.getCompleteCart(cartItems);
+				} else {
+					cartItems = model.getCompleteCart(user.getUsername());
+				}
+
 				request.setAttribute("cartItems", cartItems);
 				
 				int cartTotal = model.getCartTotal(cartItems);
@@ -113,7 +123,16 @@ public class ShoppingCartServlet extends HttpServlet {
 			
 			try {
 				int quantity = Integer.parseInt(request.getParameter(DBSchema.COL_SC_QUANTITY));
-				model.insertOrUpdateShoppingCart(cid, bid, quantity, price);
+				boolean isVisitor = (boolean)session.getAttribute(Tags.IS_VISITOR);
+				
+				if(isVisitor) {
+					ArrayList<ShoppingCartBean> cart = (ArrayList<ShoppingCartBean>)session.getAttribute(Tags.VISITOR_CART);
+					cart = updateQuantity(cart, bid, quantity);
+					session.setAttribute(Tags.VISITOR_CART, cart);
+				} else {
+					model.insertOrUpdateShoppingCart(cid, bid, quantity, price);
+				}
+				
 				response.sendRedirect("/4413-Project/ShoppingCartServlet/username=" + cid);
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -129,8 +148,17 @@ public class ShoppingCartServlet extends HttpServlet {
 		if (request.getParameter("addToCart") != null) {
 			
 			try {
-				int quantity = Integer.parseInt(request.getParameter(DBSchema.COL_SC_QUANTITY));
-				model.addToCart(cid, bid, price);
+				boolean isVisitor = (boolean)session.getAttribute(Tags.IS_VISITOR);
+				
+				if(isVisitor) {
+					ShoppingCartBean cartItem = new ShoppingCartBean("visitor", bid, price);
+					ArrayList<ShoppingCartBean> cart = (ArrayList<ShoppingCartBean>)session.getAttribute(Tags.VISITOR_CART);
+					cart.add(cartItem);
+					session.setAttribute(Tags.VISITOR_CART, cart);
+				} else {
+					model.addToCart(cid, bid, price);
+				}
+				
 				response.sendRedirect("/4413-Project/ShoppingCartServlet/username=" + cid);
 				
 			} catch (SQLException e) {
@@ -142,6 +170,24 @@ public class ShoppingCartServlet extends HttpServlet {
 			
 			return;
 		}
+	}
+	
+	/**
+	 * For updating cart quantity when the user is only a visitor
+	 * 
+	 * @param cart
+	 * @param bid
+	 * @param quantity
+	 * @return
+	 */
+	private static ArrayList<ShoppingCartBean> updateQuantity(ArrayList<ShoppingCartBean> cart, String bid, int quantity) {
+		
+		for(ShoppingCartBean item: cart) {
+			if(item.getBid().equals(bid)){
+				item.setQuantity(quantity);
+			}
+		}
+		return cart;
 	}
 
 }

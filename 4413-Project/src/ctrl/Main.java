@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.BookBean;
 import bean.CustomerBean;
+import bean.ShoppingCartBean;
 import bean.BookReviewBean;
 import model.Model;
 
@@ -103,8 +104,17 @@ public class Main extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(Tags.SESSION_MODEL);
 		
-		// Check if not logged in
-		if(session.getAttribute(Tags.SESSION_USER) == null) {
+		if (request.getRequestURI().endsWith("visitor")) {
+			
+			session.setAttribute(Tags.IS_VISITOR, true);
+			session.setAttribute(Tags.VISITOR_CART, new ArrayList<ShoppingCartBean>());
+			
+			request.setAttribute(Tags.ERROR, "Logged is as a visitor");
+			request.getRequestDispatcher(JSP_MAIN).forward(request, response);
+			
+		
+		// Check if not logged and is not a visitor
+		} else if(session.getAttribute(Tags.SESSION_USER) == null && !(boolean)session.getAttribute(Tags.IS_VISITOR)) {
 			session.setAttribute(Tags.ERROR, "You must login first!");
 			//request.getRequestDispatcher("/Login.jspx").forward(request, response);
 			response.sendRedirect(this.getServletContext().getContextPath() + Tags.SERVLET_LOGIN);

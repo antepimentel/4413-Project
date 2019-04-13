@@ -174,6 +174,50 @@ public class Model {
 		
 		return cart;
 	}
+	
+	/**
+	 * To be called when user is a visitor
+	 * 
+	 * @param cart
+	 * @return
+	 * @throws SQLException
+	 */
+	public ArrayList<ShoppingCartBean> getCompleteCart(ArrayList<ShoppingCartBean> cart) throws SQLException
+	{
+		Map<String, BookBean> books = null;
+	
+		books = getAllBooks();
+		
+		//For every cartBean item add the BookBean corresponding to the bid so the CartBean has all the bid's book info
+		for (ShoppingCartBean cartBean: cart) {
+			if (books.containsKey(cartBean.getBid())) {
+				cartBean.setBook(books.get(cartBean.getBid()));
+				cartBean.setPriceOfAllCopies();
+			}
+		}
+		
+		return cart;
+	}
+	
+	/**
+	 * For user when a visitor wants to checkout and has finished registering.
+	 * The cart being stored in the session must be converted into the DB
+	 * 
+	 * @param user
+	 * @param cart
+	 * @throws SQLException
+	 */
+	public void convertVisitorCart(CustomerBean user, ArrayList<ShoppingCartBean> cart) throws SQLException {
+		
+		cart = getCompleteCart(cart);
+		
+		for(ShoppingCartBean item: cart) {
+			insertOrUpdateShoppingCart(user.getUsername(), item.getBid(), item.getQuantity(), item.getPrice());
+		}
+		
+		
+	}
+	
 	public int getCartTotal(ArrayList<ShoppingCartBean> cart) {
 		int total = 0;
 		if (cart != null) {

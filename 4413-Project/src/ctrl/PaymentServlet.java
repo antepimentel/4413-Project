@@ -77,7 +77,12 @@ public class PaymentServlet extends HttpServlet {
 
 		String reqString = request.getRequestURI();
 		
-		if(reqString.endsWith(CHECKOUT_TAG)) {
+		if(session.getAttribute(Tags.SESSION_USER) == null) {
+			session.setAttribute(Tags.ERROR, "An account is required to login, please register");
+			session.setAttribute(Tags.VISITOR_IS_CHECKING_OUT, true);
+			response.sendRedirect(this.getServletContext().getContextPath() + Tags.SERVLET_REGISTER);
+			
+		} else if(reqString.endsWith(CHECKOUT_TAG)) {
 			// This is a forward from another servlet
 			System.out.println("BEEP");
 			request.getRequestDispatcher(CONF_ADDR_TAG).forward(request, response);
@@ -209,8 +214,8 @@ public class PaymentServlet extends HttpServlet {
 				}
 				
 				target = JSP_REVIEW;
-				msg = "none";	
-				request.setAttribute(Tags.ERROR, msg);
+				msg = "Order Confirmed";	
+				session.setAttribute(Tags.ERROR, msg);
 				response.sendRedirect(this.getServletContext().getContextPath() + Tags.SERVLET_MAIN);
 			} catch (SQLException e) {
 				e.printStackTrace();

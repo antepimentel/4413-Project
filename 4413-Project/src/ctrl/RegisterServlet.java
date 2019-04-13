@@ -2,6 +2,7 @@ package ctrl;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.AddressBean;
 import bean.CustomerBean;
+import bean.ShoppingCartBean;
 import model.CustomException;
 import model.Model;
 
@@ -94,7 +96,18 @@ public class RegisterServlet extends HttpServlet {
 			model.registerCustomer(customer, conf_password, address);
 			target = JSP_MAIN;
 			responseMsg = "Success! Signed in as " + customer.getFname() + " " + customer.getLname();
-			session.setAttribute("username", customer);
+			session.setAttribute(Tags.SESSION_USER, customer);
+			
+			if(session.getAttribute(Tags.VISITOR_IS_CHECKING_OUT) != null) {
+				session.setAttribute(Tags.VISITOR_IS_CHECKING_OUT, null);
+				session.setAttribute(Tags.IS_VISITOR, false);
+				
+				// Saved the cart stored in the session to the DB
+				ArrayList<ShoppingCartBean> cart = (ArrayList<ShoppingCartBean>)session.getAttribute(Tags.VISITOR_CART);
+				model.convertVisitorCart(customer, cart);
+				response.sendRedirect(this.getServletContext().getContextPath() + Tags.SERVLET_PAYMENT);
+				return;
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
