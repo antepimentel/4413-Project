@@ -8,17 +8,27 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="StyleSheet" href="/4413-Project/res/MainPage.css" type="text/css" title="cse4413" media="screen, print"/>
 <title>Admin Panel</title>
 </head>
 <body>
+
+
+
+			<div class="header">Mom and Pop's Online Book Store </div>
+						
+	
+
+
+<div class="body">
 	<h1>ADMIN CONTROL PANEL</h1>
 	
 	Generate book statistics report
 	 
 	<form action="admin/bookstats" method="post">
-		<input type="submit" name="bookstats" value="Generate"></input>
+		<input class="medButtons" type="submit" name="bookstats" value="Generate"></input>
 	</form>
-	
+</div>
 </body>
 </html>
 </jsp:root>
