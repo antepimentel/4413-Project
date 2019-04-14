@@ -9,6 +9,8 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="StyleSheet" href="/4413-Project/res/MainPage.css" type="text/css" title="cse4413" media="screen, print"/>
+
 <title>Checkout</title>
 </head>
 <body>
@@ -19,9 +21,9 @@
 		</c:when>
 	</c:choose>
 	
-	Confirm method of payment
+	<text class="header"> Confirm method of payment </text>
 	
-	<form action="checkout/confpayment" method="post">
+	<form class="body" action="checkout/confpayment" method="post">
 		<table>
 			<tr>
 				<TD> <label for="cardnumber"> Card Number: <SPAN id="cardnumber-error" style="color:red"></SPAN></label></TD>
@@ -40,7 +42,7 @@
 				<TD><input type='text' name='securitycode'></input></TD>
 			</tr>
 		</table>
-		<input type="submit" value="Confirm and Review Order"></input>
+		<input class="bigButtons" type="submit" value="Confirm and Review Order"></input>
 	</form>
 	
 </body>
