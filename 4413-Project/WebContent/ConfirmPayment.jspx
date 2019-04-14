@@ -15,13 +15,14 @@
 </head>
 <body>
 
+
 	<c:choose>
 		<c:when test="${error != 'none'}">
 			<span style="color:red"> ${error}</span>
 		</c:when>
 	</c:choose>
 	
-	<text class="header"> Confirm method of payment </text>
+	<div class="header"> Confirm method of payment </div>
 	
 	<form class="body" action="checkout/confpayment" method="post">
 		<table>

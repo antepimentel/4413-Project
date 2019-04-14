@@ -17,6 +17,30 @@
 </head>
 <body>
 
+
+<!-- Top Border -->
+	<div class="header">
+		<span class="user_head">${sessionScope.user.username}</span>
+		<form action='Main/bannerButton' method="GET">
+			<text class="header">Mom and Pop's Online Book Store </text>
+						
+			<c:choose>
+				<c:when test="${sessionScope.user.username}">
+					<SPAN class="right">Hi ${sessionScope['user']} </SPAN>
+				</c:when>
+			</c:choose>
+		</form>
+	</div>
+	<HR />
+	<c:choose>
+		<c:when test="${error != 'none'}">
+			<span style="color:red"> ${error}</span>
+		</c:when>
+	</c:choose>
+
+
+
+
 <div class="body">
 <table>
 		<tr><td><h3>${sessionScope.user.username}'s shopping cart</h3></td></tr>

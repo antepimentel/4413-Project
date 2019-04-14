@@ -13,6 +13,7 @@
 }
 
 
+
 /*View Cart or Log Out*/
 .header button , .header input{
 	
@@ -170,7 +171,26 @@ background-color: Blue; /* Blue */
 	
 }
 
+
 input.bigButtons:hover {
+	  background-color: #ddd;
+	
+	
+}
+
+input.medButtons  {
+	
+background-color: Red; /* Blue */
+  border: none;
+  color: white;
+  padding: 10px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+	
+}
+input.medButtons:hover {
 	  background-color: #ddd;
 	
 	
