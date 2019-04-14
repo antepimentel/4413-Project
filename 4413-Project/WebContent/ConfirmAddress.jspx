@@ -9,6 +9,8 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="StyleSheet" href="/4413-Project/res/MainPage.css" type="text/css" title="cse4413" media="screen, print"/>
+
 <title> Checkout </title>
 </head>
 <body>
@@ -19,8 +21,10 @@
 		</c:when>
 	</c:choose>
 	
-	Please confirm your address
-	
+	<div class="body">
+	Please confirm your address 
+	<BR /> 
+	<BR />
 	<form action="checkout/confaddress" method="post">
 		<TABLE>
 			<c:choose>
@@ -41,10 +45,10 @@
 					</TABLE>
 				</c:otherwise>
 			</c:choose>
-			<tr><input type="submit" value="Proceed to payment"></input></tr>
+			<tr><input class="bigButtons" type="submit" value="Proceed to payment"></input></tr>
 		</TABLE>
 	</form>
-	
+	</div>
 </body>
 </html>
 </jsp:root>
