@@ -8,9 +8,12 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="StyleSheet" href="/4413-Project/res/MainPage.css" type="text/css" title="cse4413" media="screen, print"/>
+
 <title>Report Generated</title>
 </head>
-<body>
+
+<body class="body">
 	Exported report can be downloaded here:
 	<a href="export/${requestScope.xmlFilename}" download="${requestScope.xmlFilename}">${requestScope.xmlFilename}</a>
 </body>
