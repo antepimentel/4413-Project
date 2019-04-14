@@ -93,6 +93,17 @@ public class RegisterServlet extends HttpServlet {
 		String target = "";
 		// Pass info to model 
 		try {
+			
+			if(session.getAttribute(username) == null || session.getAttribute(email)==null || session.getAttribute(password)== null||
+					session.getAttribute(conf_password) == null || session.getAttribute(fname)==null || session.getAttribute(lname)==null || 
+					 session.getAttribute(city)==null || session.getAttribute(country)==null || 
+					session.getAttribute(PROV)==null | session.getAttribute(postal)==null || session.getAttribute(phone)==null) {
+				responseMsg = "Error: You must input all values! Please review and try again.";
+			}
+					
+			
+			
+			
 			model.registerCustomer(customer, conf_password, address);
 			target = JSP_MAIN;
 			responseMsg = "Success! Signed in as " + customer.getFname() + " " + customer.getLname();
