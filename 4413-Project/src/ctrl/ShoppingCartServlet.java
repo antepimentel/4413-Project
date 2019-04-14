@@ -3,6 +3,7 @@ package ctrl;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.CustomerBean;
 import bean.ShoppingCartBean;
+import bean.VisitEventBean;
 import dao.DBSchema;
 import model.Model;
 
@@ -158,6 +160,11 @@ public class ShoppingCartServlet extends HttpServlet {
 				} else {
 					model.addToCart(cid, bid, price);
 				}
+				
+				// Log the event
+				Date date = new Date();
+				VisitEventBean event = new VisitEventBean(date, bid, Tags.VISIT_CART);
+				model.addVisitEvent(event);
 				
 				response.sendRedirect("/4413-Project/ShoppingCartServlet/username=" + cid);
 				

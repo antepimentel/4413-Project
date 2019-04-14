@@ -8,17 +8,11 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Admin Panel</title>
+<title>Report Generated</title>
 </head>
 <body>
-	<h1>ADMIN CONTROL PANEL</h1>
-	
-	Generate book statistics report
-	 
-	<form action="admin/bookstats" method="post">
-		<input type="submit" name="bookstats" value="Generate"></input>
-	</form>
-	
+	Exported report can be downloaded here:
+	<a href="export/${requestScope.xmlFilename}" download="${requestScope.xmlFilename}">${requestScope.xmlFilename}</a>
 </body>
 </html>
 </jsp:root>

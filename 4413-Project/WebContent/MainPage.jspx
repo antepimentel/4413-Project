@@ -17,27 +17,35 @@
 </head>
 <body>
 
-<!-- Top Border http://localhost:8080/4413-Project/ShoppingCartServlet/ -->
-	<form action='Main/bannerButton' method="GET">
-		<text class="header">Mom and Pop's Online Book Store </text>
-		
-		<INPUT id="viewCart" name="banner" class="right" value='Logout' type='submit'></INPUT>
-		<INPUT id="viewCart" name="banner" class="right" value='Profile' type='submit'></INPUT>
-		<INPUT id="viewCart" name="banner" class="right" value='Cart' type='submit'></INPUT>
-		
-		<c:choose>
-			<c:when test="${sessionScope.user.c_type == 'ADMIN'}">
-				<INPUT id="viewCart" name="banner" class="right" value='Admin' type='submit'></INPUT>
-			</c:when>
-		</c:choose>
-		
-		<c:choose>
-			<c:when test="${sessionScope.user.username}">
-				<SPAN class="right">Hi ${sessionScope['user']} </SPAN>
-			</c:when>
-		</c:choose>
-	</form>
-	
+	<!-- Top Border -->
+	<div class="header">
+		<span class="user_head">${sessionScope.user.username}</span>
+		<form action='Main/bannerButton' method="GET">
+			<text class="header">Mom and Pop's Online Book Store </text>
+			
+			<INPUT id="viewCart" name="banner" class="right" value='Logout' type='submit'></INPUT>
+			
+			<c:choose>
+				<c:when test="${sessionScope.user != null}">
+					<INPUT id="viewCart" name="banner" class="right" value='Profile' type='submit'></INPUT>
+				</c:when>
+			</c:choose>
+			
+			<INPUT id="viewCart" name="banner" class="right" value='Cart' type='submit'></INPUT>
+			
+			<c:choose>
+				<c:when test="${sessionScope.user.c_type == 'ADMIN'}">
+					<INPUT id="viewCart" name="banner" class="right" value='Admin' type='submit'></INPUT>
+				</c:when>
+			</c:choose>
+			
+			<c:choose>
+				<c:when test="${sessionScope.user.username}">
+					<SPAN class="right">Hi ${sessionScope['user']} </SPAN>
+				</c:when>
+			</c:choose>
+		</form>
+	</div>
 	<HR />
 	<c:choose>
 		<c:when test="${error != 'none'}">
@@ -119,7 +127,7 @@
 						<TD><A href='http://localhost:8080/4413-Project/Main/view?bid=${book.bid}'> ${book.title}</A></TD>
 						<TD>${book.price}</TD>
 						<TD><A href='http://localhost:8080/4413-Project/Main/search?category=${book.category}'> ${book.category}</A></TD>
-						<form action='http://localhost:8080/4413-Project/ShoppingCartServlet/?addToCart=true&amp;bid=${book.bid}&amp;quantity=1&amp;username=${sessionScope["username"]}' method="POST">
+						<form action='http://localhost:8080/4413-Project/ShoppingCartServlet/?addToCart=true&amp;bid=${book.bid}&amp;quantity=1&amp;username=${sessionScope.user.username}' method="POST">
 							<TD><INPUT type='submit' value='Add to Cart'></INPUT></TD>
 						</form>					</tr>
 				</c:forEach>

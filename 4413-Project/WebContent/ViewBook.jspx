@@ -14,17 +14,36 @@
 <title>Viewing Book</title>
 </head>
 <body>
-
-<!-- Header -->
-<div class="header">
 	
-	
-			<span class="user_head">${sessionScope.user.username}</span>
-			Mom and Pop's Bookstore
-			<BUTTON action="">View Cart</BUTTON>
-			<BUTTON>Log Out</BUTTON>
-		
-</div>
+	<!-- Top Border -->
+	<div class="header">
+		<span class="user_head">${sessionScope.user.username}</span>
+		<form action='Main/bannerButton' method="GET">
+			<text class="header">Mom and Pop's Online Book Store </text>
+			
+			<INPUT id="viewCart" name="banner" class="right" value='Logout' type='submit'></INPUT>
+			
+			<c:choose>
+				<c:when test="${sessionScope.user != null}">
+					<INPUT id="viewCart" name="banner" class="right" value='Profile' type='submit'></INPUT>
+				</c:when>
+			</c:choose>
+			
+			<INPUT id="viewCart" name="banner" class="right" value='Cart' type='submit'></INPUT>
+			
+			<c:choose>
+				<c:when test="${sessionScope.user.c_type == 'ADMIN'}">
+					<INPUT id="viewCart" name="banner" class="right" value='Admin' type='submit'></INPUT>
+				</c:when>
+			</c:choose>
+			
+			<c:choose>
+				<c:when test="${sessionScope.user.username}">
+					<SPAN class="right">Hi ${sessionScope['user']} </SPAN>
+				</c:when>
+			</c:choose>
+		</form>
+	</div>
 	
 	<HR />
 	

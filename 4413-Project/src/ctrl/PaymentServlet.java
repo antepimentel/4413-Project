@@ -3,6 +3,7 @@ package ctrl;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import bean.POItemBean;
 import bean.CustomerBean;
 import bean.PaymentInfoBean;
 import bean.ShoppingCartBean;
+import bean.VisitEventBean;
 import model.Model;
 
 /**
@@ -201,8 +203,21 @@ public class PaymentServlet extends HttpServlet {
 			String msg = "";
 			try {
 		
+				// Need to check number of orders made, decline every third order
+				int numOrders = (int)application.getAttribute(Tags.TOTAL_ORDERS);
+				
+				String status = "";
+				if(numOrders%3 == 0) {
+					status = "DENIED";
+					target = JSP_REVIEW;
+					msg = "Credit Card Authorization Failed";
+				} else {
+					status = "ORDERED";
+					target = JSP_REVIEW;
+					msg = "Order Confirmed Successfully";
+				}
 				// Create a PO
-				POBean po = new POBean(-1, cid, "ORDERED");
+				POBean po = new POBean(-1, cid, status);
 				long poID = model.createPO(po);
 				
 				// Add items to PO
@@ -211,10 +226,14 @@ public class PaymentServlet extends HttpServlet {
 				for(ShoppingCartBean cartItem: cartItems) {
 					POItemBean poItem = convertCartItemToPOItem(poID, cartItem);
 					model.addItemToPO(poItem);
+					
+					// Log the event
+					Date date = new Date();
+					VisitEventBean event = new VisitEventBean(date, poItem.getBid(), Tags.VISIT_PURCHASE);
+					model.addVisitEvent(event);
 				}
 				
-				target = JSP_REVIEW;
-				msg = "Order Confirmed";	
+				application.setAttribute(Tags.TOTAL_ORDERS, numOrders+1);
 				session.setAttribute(Tags.ERROR, msg);
 				response.sendRedirect(this.getServletContext().getContextPath() + Tags.SERVLET_MAIN);
 			} catch (SQLException e) {

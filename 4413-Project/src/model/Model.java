@@ -1,7 +1,24 @@
 package model;
 
 import javax.naming.NamingException;
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
+import org.xml.sax.SAXException;
+
+import javax.xml.transform.stream.StreamResult;
+
+import analytics.BookStatBean;
+import analytics.ListWrapper;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.*;
 import dao.*;
@@ -274,5 +291,55 @@ public class Model {
 	public ArrayList<POBean> getPOsForCustomer(String username) throws SQLException{
 		ArrayList<POBean> pos = this.purchaseOrderDAO.getPOsForCustomer(username);
 		return this.poItemDAO.completePOBeans(pos);
+	}
+	
+	public ArrayList<BookStatBean> getBookStats() throws SQLException{
+		return poItemDAO.getBookStats();
+	}
+	
+	//===========================
+	// ADMIN REPORT METHODS
+	//===========================
+	
+	public void exportBookStats(String month, String pathname, String filename) throws SQLException, JAXBException, SAXException, IOException {
+		
+		String XML_SCHEMA = "/bookStatReport.xsd";
+		// Get the actual path we need and grab the query result
+		String absPath = pathname+"/"+filename;
+		ArrayList<BookStatBean> stats = getBookStats();
+		
+		ListWrapper lw = new ListWrapper(month, stats);
+		// Setup the marshaller
+		JAXBContext jc = JAXBContext.newInstance(lw.getClass());
+		Marshaller marshaller = jc.createMarshaller();
+		
+		// Set the schema for the marshaller
+		SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Schema schema = sf.newSchema(new File(pathname+XML_SCHEMA));
+		marshaller.setSchema (schema);
+		
+		// Configure the marshaller and setup the writer
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+		StringWriter sw = new StringWriter();
+		sw.write("\n");
+		marshaller.marshal(lw, new StreamResult(sw));
+
+		// For debugging
+		System.out.println("Writing to: "+absPath);
+		System.out.println(sw.toString());
+		
+		// Finally, write to file 
+		FileWriter fw = new FileWriter(absPath);
+		fw.write(sw.toString());
+		fw.close();
+	}
+	
+	//===========================
+	// VISIT EVENT METHODS
+	//===========================
+	
+	public void addVisitEvent(VisitEventBean event) throws SQLException {
+		this.visitDAO.insert(event);
 	}
 }

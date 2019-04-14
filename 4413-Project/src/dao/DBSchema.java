@@ -61,7 +61,7 @@ public class DBSchema {
 	public static final String COL_POI_QUANTITY = "quantity";
 	
 	// VisitEvent
-	public static final String TABLE_VE = "visitevent";
+	public static final String TABLE_VE = "VisitEvent";
 	public static final String COL_VE_DAY = "day";
 	public static final String COL_VE_BID = "bid";
 	public static final String COL_VE_TYPE = "eventtype";

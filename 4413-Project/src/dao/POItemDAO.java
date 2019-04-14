@@ -10,6 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import analytics.BookStatBean;
 import bean.POBean;
 import bean.POItemBean;
 
@@ -88,5 +89,44 @@ private DataSource ds;
 		}
 		conn.close();
 		return pos;
+	}
+	
+	public ArrayList<BookStatBean> getBookStats() throws SQLException{
+		
+		/* Sample query
+ 			select POItem.bid, title, SUM(quantity) as total from POItem 
+				join Book on POItem.bid=Book.bid 
+				join PO on PO.id=POItem.id
+				where PO.status <> 'DENIED'
+				group by POItem.bid;
+		 */
+		
+		String COL_TOTAL = "total";
+		String query = "select " + DBSchema.TABLE_POI +"."+DBSchema.COL_POI_BID + ", " + DBSchema.COL_BK_TITLE + ", " + "SUM("+DBSchema.COL_POI_QUANTITY+") as "+COL_TOTAL + " from " +DBSchema.TABLE_POI 
+						+" join " + DBSchema.TABLE_BK + " on " + DBSchema.TABLE_POI +"."+DBSchema.COL_POI_BID + "=" + DBSchema.TABLE_BK +"."+DBSchema.COL_BK_BID 
+						+" join " + DBSchema.TABLE_PO + " on " + DBSchema.TABLE_PO +"."+DBSchema.COL_POI_ID + "=" + DBSchema.TABLE_POI +"."+DBSchema.COL_POI_ID
+						+ " where " + DBSchema.COL_PO_STATUS + " <> \'DENIED\'"
+						+ " group by " + DBSchema.COL_BK_BID;
+
+		Connection conn = this.ds.getConnection();
+		PreparedStatement stmtObj = conn.prepareStatement(query);
+		
+		System.out.println("SQL: " + stmtObj.toString());
+		ResultSet rs = stmtObj.executeQuery();
+
+		ArrayList<BookStatBean> result = new ArrayList<BookStatBean>();
+		while(rs.next()) {
+			String bid = rs.getString(DBSchema.COL_BK_BID);
+			String title = rs.getString(DBSchema.COL_BK_TITLE);
+			int amount = rs.getInt(COL_TOTAL);
+			
+			result.add(new BookStatBean(title, bid, amount));
+		}
+		
+		rs.close();
+		stmtObj.close();
+		conn.close();
+		
+		return result;
 	}
 }

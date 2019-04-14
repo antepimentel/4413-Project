@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:element name="bookStatReport" type="bookReportType"/>
+
+  <xsd:complexType name="bookReportType">
+  <xsd:sequence>
+    <xsd:element name="book" minOccurs="0" maxOccurs="unbounded" type="bookListType"/>
+  </xsd:sequence>
+    <xsd:attribute name="month" type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="bookListType">
+	  <xsd:sequence>	    
+	    <xsd:element name="bid" type="xsd:string"/>
+	    <xsd:element name="title" type="xsd:string"/>
+	    <xsd:element name="amount">
+	      <xsd:simpleType>
+	        <xsd:restriction base="xsd:integer">
+	           <xsd:minInclusive value="1"/>
+	        </xsd:restriction>
+	      </xsd:simpleType>
+	    </xsd:element>
+	  </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

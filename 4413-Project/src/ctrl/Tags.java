@@ -24,5 +24,13 @@ public class Tags {
 	public static final String SERVLET_PAYMENT = "/checkout";
 	public static final String SERVLET_PROFILE = "/profile";
 	public static final String SERVLET_ADMIN = "/admin";
+	
+	// Visit event types
+	public static final String VISIT_VIEW = "VIEW";
+	public static final String VISIT_CART = "CART";
+	public static final String VISIT_PURCHASE = "PURCHASE";
+	
+	// Application variables
+	public static final String TOTAL_ORDERS = "totalOrders"; // Tracks total number of orders, so we can decline every third order
 
 }

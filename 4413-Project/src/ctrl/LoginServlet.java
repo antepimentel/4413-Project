@@ -70,6 +70,7 @@ public class LoginServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession(true);
 		session.setAttribute(Tags.IS_VISITOR, false);
+		System.out.println(session.getAttribute(Tags.IS_VISITOR));
 		
 		response.sendRedirect(this.getServletContext().getContextPath() + JSP_LOGIN);
 	}

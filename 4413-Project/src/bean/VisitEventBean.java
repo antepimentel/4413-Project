@@ -1,20 +1,26 @@
 package bean;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class VisitEventBean {
 
+	private SimpleDateFormat df = new SimpleDateFormat("dd/MM/YY");
 	private String[] eventTypes = {"VIEW", "CART", "PURCHASE"};
-	private String day;
+	private Date date;
 	private String bid;
 	private String eventType;
 	
-	public VisitEventBean(String day, String bid, String eventType) {
-		this.day = day;
+	public VisitEventBean(Date day, String bid, String eventType) {
+		this.date = day;
 		this.bid = bid;
 		this.eventType = eventType;
 	}
 	
-	public String getDay() {
-		return day;
+	
+	
+	public Date getDay() {
+		return date;
 	}
 	
 	public String getBid() {
@@ -25,8 +31,8 @@ public class VisitEventBean {
 		return eventType;
 	}
 	
-	public void setDay(String day) {
-		this.day = day;
+	public void setDay(Date day) {
+		this.date = day;
 	}
 	
 	public void setBid(String bid) {

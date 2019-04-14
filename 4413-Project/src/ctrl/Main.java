@@ -4,6 +4,7 @@ package ctrl;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import javax.naming.NamingException;
@@ -20,6 +21,7 @@ import bean.BookBean;
 import bean.CustomerBean;
 import bean.ShoppingCartBean;
 import bean.BookReviewBean;
+import bean.VisitEventBean;
 import model.Model;
 
 /**
@@ -80,6 +82,8 @@ public class Main extends HttpServlet {
 			Model model = new Model();
 			application.setAttribute(Tags.SESSION_MODEL, model);
 			System.out.println("Model initialized");
+			
+			application.setAttribute(Tags.TOTAL_ORDERS, 3);
 		} catch (NamingException e) {
 			//e.printStackTrace();
 			System.out.println("There was an error an error initializing the model.");
@@ -103,6 +107,11 @@ public class Main extends HttpServlet {
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession(true);
 		Model model = (Model)application.getAttribute(Tags.SESSION_MODEL);
+		
+		// Just to make sure the visitor flag gets set, avoiding null pointers
+		if(session.getAttribute(Tags.IS_VISITOR) == null) {
+			session.setAttribute(Tags.IS_VISITOR, false);
+		}
 		
 		if (request.getRequestURI().endsWith("visitor")) {
 			
@@ -211,6 +220,11 @@ public class Main extends HttpServlet {
 				request.setAttribute(PRICE, book.getPrice());
 				request.setAttribute(TITLE, book.getTitle());
 				request.setAttribute(REVIEW_LIST, reviews);
+				
+				// Log the event
+				Date date = new Date();
+				VisitEventBean event = new VisitEventBean(date, bid, Tags.VISIT_VIEW);
+				model.addVisitEvent(event);
 				
 				responseMsg = "none";
 				target = JSP_VIEWBOOK;
