@@ -1,0 +1,73 @@
+File Index:
+
+src
+	- analytics 
+		- Admin.java ------------------: Servlet for the admin page
+		- BookStatBean.java -----------: Data object for book statistics 
+		- ListWrapper.java ------------: Wrapper object to hold a list of BookStatBeans
+
+	- bean
+		- AddressBean.java ------------: Data object for an address
+		- BookBean.java ---------------: Data object for a book
+		- BookReviewBean.java ---------: Data object for a book review
+		- CustomerBean.java -----------: Data object for a customer/user
+		- PaymentInfoBean.java --------: Data object for temporarily holding payment info
+		- POBean.java -----------------: Data object for a purchase order
+		- POItemBean.java -------------: Data object for a purchase order item
+		- ShoppingCartBean.java -------: Data object for a shopping cart
+		- VisitEventBean.java ---------: Data object for a visit event
+		
+	- ctrl
+		- LoginServlet.java -----------: Controller for the login page
+		- Main.java -------------------: Controller for the main page, the search page, links to other servlets
+		- PaymentServlet.java ---------: Controller for the confirm address, confirm payment and review order pages
+		- ProfileServlet.java ---------: Controller for the profile and new address pages
+		- RegisterServlet.java --------: Controller for the register page, can link back to payment servlet if a visitor is checking out
+		- ShoppingCartServlet.java ----: Controller for the shopping cart page
+		- Tags.java -------------------: Static class, holds common tags and variable names used by the servlets
+	
+	- dao
+		- AddressDAO.java -------------: Provides access to the Address table
+		- BookDAO.java ----------------: Provides access to the Book table
+		- BookReviewDAO.java ----------: Provides access to the BookReview table
+		- CustomerDAO.java ------------: Provides access to the Customer table
+		- OrderREST.java --------------: ??
+		- POItemDAO.java --------------: Provides access to the POItem table
+		- PODAO.java ------------------: Provides access to the PO table
+		- ShoppingCartDAO.java --------: Provides access to the ShoppingCart table
+		- VisitEventDAO.java ----------: Provides access to the VisitEvent table
+		- DBSchema.java ---------------: Static class, holds the database definition, all table name and column names, all DAOs reference this
+	
+	- model
+		- Model.java ------------------: The main system model, provides access to DAOs through various methods
+		- CustomException.java --------: A custom exception throw by the model, allows for a custom message to be set
+	
+	- rest
+		- NewOrders.java --------------: ??
+		- OrderBean.java --------------: ??
+		- OrderListDAO.java -----------: ??
+	
+WebContent
+	- export
+		- bookStatReport.xsd ----------: Validation schema used for exporting stat reports
+		
+	- META-INF
+		- context.xml -----------------: Required to connect to MySQL database, holds login info
+		
+	- res
+		- MainPage.css ----------------: Style sheet for the main page
+	
+	- project-create.sql --------------: Creation/reset script for initializing the database
+	
+	- Admin.jspx ----------------------: Used by the admin servlet, to generate reports
+	- ConfirmAddress.jspx -------------: Used by the payment servlet to confirm a shipping address
+	- ConfirmPayment.jspx -------------: Used by the payment servlet to confirm payment information
+	- DownloadReport.jspx -------------: Used by the admin servlet to link to a generated report
+	- Login.jspx ----------------------: Used by the login servlet, the main login page
+	- MainPage.jspx -------------------: Used by the Main servlet, this is the home page
+	- NewAddress.jspx -----------------: Used by the profile servlet to add a new address
+	- Profile.jspx --------------------: Used by the profile servlet, the profile page
+	- Register.jspx -------------------: Used by the register servlet, the register page to add a new user
+	- ReviewOrder.jspx ----------------: Used by the payment servlet to review an order before placing it
+	- ShoppingCart.jspx ---------------: Used by the shopping cart servlet to display the user's cart
+	- ViewBook.jspx -------------------: Used by the Main servlet to display specific book information
