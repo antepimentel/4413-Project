@@ -113,7 +113,7 @@ public class BookDAO {
 	
 	public BookBean retrieveBook(String bid) throws SQLException{
 		BookBean result = null;
-		String query = "select * from " + DBSchema.TABLE_BK + "where "+ DBSchema.COL_BK_BID + " = ?";
+		String query = "select * from " + DBSchema.TABLE_BK + " where "+ DBSchema.COL_BK_BID + " = ?";
 		Connection conn = this.ds.getConnection();
 		PreparedStatement stmtObj = conn.prepareStatement(query);
 		stmtObj.setString(1, bid);
