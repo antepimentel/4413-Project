@@ -8,6 +8,7 @@ public class BookBean {
 	private String title;
 	private int price;
 	private String category;
+	private double averageRating;
 	
 	public BookBean(String bid, String title, int price, String category) {
 		this.bid = bid;
@@ -54,4 +55,14 @@ public class BookBean {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
+	public double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(double averageRating) {
+		this.averageRating = averageRating;
+	}
+
+	
 }
