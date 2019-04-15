@@ -40,6 +40,10 @@ public class SessionListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent se)  { 
          // TODO Auto-generated method stub
     	activeSessions--;
+    	HttpSession sess = se.getSession();
+
+    	sess.setAttribute("endTime", (long)System.currentTimeMillis());
+
     }
 	
 }
