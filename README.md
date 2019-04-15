@@ -28,10 +28,3 @@
 </resource-ref>
 ```
 ---
-## Using the remote MySQL server
-
-1. Create the files in steps 4 and 5 as normal
-2. In the context file from step 4, fill in these values: 
-   - username="group" 
-   - password="44132019" 
-   - url="jdbc:mysql://138.197.173.202:3306/4413_project_DB"
