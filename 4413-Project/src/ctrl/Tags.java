@@ -32,5 +32,8 @@ public class Tags {
 	
 	// Application variables
 	public static final String TOTAL_ORDERS = "totalOrders"; // Tracks total number of orders, so we can decline every third order
+	
+	// Date format pattern
+	public static final String DF_PATTERN = "MMddyyyy";
 
 }

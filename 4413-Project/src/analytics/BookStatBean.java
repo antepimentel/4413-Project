@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name="book")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder= {"bid", "title", "amount"})
+@XmlType(propOrder= {"bid", "title", "amount", "day"})
 public class BookStatBean {
 
 	@XmlElement
@@ -13,6 +13,8 @@ public class BookStatBean {
 	private String bid;
 	@XmlElement
 	private int amount;
+	@XmlElement
+	private String day;
 	
 	public BookStatBean() {
 		
@@ -23,10 +25,25 @@ public class BookStatBean {
 	 * @param bid
 	 * @param amount
 	 */
-	public BookStatBean(String title, String bid, int amount) {
+	public BookStatBean(String title, String bid, int amount, String day) {
 		this.title = title;
 		this.bid = bid;
 		this.amount = amount;
+		this.day = day;
+	}
+
+	/**
+	 * @return the day
+	 */
+	public String getDay() {
+		return day;
+	}
+
+	/**
+	 * @param day the day to set
+	 */
+	public void setDay(String day) {
+		this.day = day;
 	}
 
 	/**

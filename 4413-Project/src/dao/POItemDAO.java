@@ -91,22 +91,25 @@ private DataSource ds;
 		return pos;
 	}
 	
+	/**
+	 * Returns a list of book statistic beans, date needs to be sorted on server side
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<BookStatBean> getBookStats() throws SQLException{
 		
 		/* Sample query
- 			select POItem.bid, title, SUM(quantity) as total from POItem 
+ 			select POItem.bid, title, quantity, PO.day from POItem 
 				join Book on POItem.bid=Book.bid 
 				join PO on PO.id=POItem.id
-				where PO.status <> 'DENIED'
-				group by POItem.bid;
+				where PO.status <> 'DENIED';
 		 */
 		
-		String COL_TOTAL = "total";
-		String query = "select " + DBSchema.TABLE_POI +"."+DBSchema.COL_POI_BID + ", " + DBSchema.COL_BK_TITLE + ", " + "SUM("+DBSchema.COL_POI_QUANTITY+") as "+COL_TOTAL + " from " +DBSchema.TABLE_POI 
+		String query = "select " + DBSchema.TABLE_POI +"."+DBSchema.COL_POI_BID + ", " + DBSchema.COL_BK_TITLE + ", " + DBSchema.COL_POI_QUANTITY + ", " + DBSchema.COL_PO_DAY + " from " +DBSchema.TABLE_POI 
 						+" join " + DBSchema.TABLE_BK + " on " + DBSchema.TABLE_POI +"."+DBSchema.COL_POI_BID + "=" + DBSchema.TABLE_BK +"."+DBSchema.COL_BK_BID 
 						+" join " + DBSchema.TABLE_PO + " on " + DBSchema.TABLE_PO +"."+DBSchema.COL_POI_ID + "=" + DBSchema.TABLE_POI +"."+DBSchema.COL_POI_ID
-						+ " where " + DBSchema.COL_PO_STATUS + " <> \'DENIED\'"
-						+ " group by " + DBSchema.COL_BK_BID;
+						+ " where " + DBSchema.COL_PO_STATUS + " <> \'DENIED\'";
 
 		Connection conn = this.ds.getConnection();
 		PreparedStatement stmtObj = conn.prepareStatement(query);
@@ -118,9 +121,10 @@ private DataSource ds;
 		while(rs.next()) {
 			String bid = rs.getString(DBSchema.COL_BK_BID);
 			String title = rs.getString(DBSchema.COL_BK_TITLE);
-			int amount = rs.getInt(COL_TOTAL);
+			int quan = rs.getInt(DBSchema.COL_POI_QUANTITY);
+			String day = rs.getString(DBSchema.COL_PO_DAY);
 			
-			result.add(new BookStatBean(title, bid, amount));
+			result.add(new BookStatBean(title, bid, quan, day)); 
 		}
 		
 		rs.close();

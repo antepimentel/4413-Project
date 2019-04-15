@@ -1,11 +1,9 @@
 package bean;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class VisitEventBean {
 
-	private SimpleDateFormat df = new SimpleDateFormat("dd/MM/YY");
 	private String[] eventTypes = {"VIEW", "CART", "PURCHASE"};
 	private Date date;
 	private String bid;

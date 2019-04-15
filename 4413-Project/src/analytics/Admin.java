@@ -2,6 +2,7 @@ package analytics;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import org.xml.sax.SAXException;
 
 import bean.CustomerBean;
 import ctrl.Tags;
+import model.CustomException;
 import model.Model;
 
 /**
@@ -75,13 +77,17 @@ public class Admin extends HttpServlet {
 		String target = "";
 		String msg = "";
 		try {
-			model.exportBookStats("Jan", pathname, filename);
+			String month = request.getParameter("month");
+			model.exportBookStats(Integer.parseInt(month), pathname, filename);
 			request.setAttribute(REQ_FILENAME, filename);
 			target = JSP_REPORT;
-		} catch (SQLException | JAXBException | SAXException e) {
+		} catch (SQLException | JAXBException | SAXException | ParseException e) {
 			target = JSP_ADMIN;
 			e.printStackTrace();
-		}
+		} catch (CustomException e) {
+			target = JSP_ADMIN;
+			e.printStackTrace();
+		} 
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 

@@ -102,8 +102,6 @@ public class RegisterServlet extends HttpServlet {
 			}
 					
 			
-			
-			
 			model.registerCustomer(customer, conf_password, address);
 			target = JSP_MAIN;
 			responseMsg = "Success! Signed in as " + customer.getFname() + " " + customer.getLname();

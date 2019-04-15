@@ -51,6 +51,7 @@ public class DBSchema {
 	public static final String TABLE_PO = "PO";
 	public static final String COL_PO_ID = "id";
 	public static final String COL_PO_CID = "cid";
+	public static final String COL_PO_DAY = "day";
 	public static final String COL_PO_STATUS = "status";
 	
 	// POItem

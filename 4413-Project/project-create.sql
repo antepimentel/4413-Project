@@ -118,15 +118,17 @@ CREATE TABLE BookReview (
 CREATE TABLE PO (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	cid VARCHAR(20) NOT NULL,
+	day VARCHAR(8) NOT NULL,
 	status ENUM('ORDERED','PROCESSED','DENIED') NOT NULL,
 	PRIMARY KEY(id),
 	INDEX (cid),
 	FOREIGN KEY (cid) REFERENCES Customer (username) ON DELETE CASCADE
 );
 
-INSERT INTO PO (id, cid, status) VALUES (1, 'antep', 'PROCESSED');
-INSERT INTO PO (id, cid, status) VALUES (2, 'sarah1', 'DENIED');
-INSERT INTO PO (id, cid, status) VALUES (3, 'sara2', 'ORDERED');
+INSERT INTO PO (id, cid, day, status) VALUES (1, 'antep', '12202015', 'PROCESSED');
+INSERT INTO PO (id, cid, day, status) VALUES (2, 'sarah2', '12202015', 'DENIED');
+INSERT INTO PO (id, cid, day, status) VALUES (3, 'sara1', '12202015', 'ORDERED');
+INSERT INTO PO (id, cid, day, status) VALUES (4, 'sara1', '01202019', 'ORDERED');
 
 /* Items on order
 * id : purchase order id
@@ -148,6 +150,9 @@ CREATE TABLE POItem (
 INSERT INTO POItem (id, bid, price, quantity) VALUES (1, 'b001', '20', '1');
 INSERT INTO POItem (id, bid, price, quantity) VALUES (2, 'b002', '201', '2');
 INSERT INTO POItem (id, bid, price, quantity) VALUES (3, 'b003', '100', '2');
+INSERT INTO POItem (id, bid, price, quantity) VALUES (4, 'b003', '100', '2');
+INSERT INTO POItem (id, bid, price, quantity) VALUES (4, 'b004', '100', '2');
+INSERT INTO POItem (id, bid, price, quantity) VALUES (4, 'b005', '100', '2');
 
 
 /* visit to website

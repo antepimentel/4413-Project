@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.*;
 public class ListWrapper {
 
 	@XmlAttribute
-	private String month;
+	private int month;
 	@XmlElement
 	private List<BookStatBean> book;
 	
@@ -20,7 +20,7 @@ public class ListWrapper {
 	 * @param month
 	 * @param list
 	 */
-	public ListWrapper(String month, List<BookStatBean> list) {
+	public ListWrapper(int month, List<BookStatBean> list) {
 		this.month = month;
 		this.book = list;
 	}

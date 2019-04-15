@@ -16,10 +16,11 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import bean.VisitEventBean;
+import ctrl.Tags;
 
 public class VisitEventDAO {
 	
-	private SimpleDateFormat df = new SimpleDateFormat("ddMMYYYY");
+	private SimpleDateFormat df = new SimpleDateFormat(Tags.DF_PATTERN);
 	private DataSource ds;
 	
 	public VisitEventDAO() throws NamingException {

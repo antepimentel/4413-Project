@@ -20,9 +20,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import dao.*;
 import bean.*;
+import ctrl.Tags;
 
 public class Model {
 
@@ -301,14 +304,21 @@ public class Model {
 	// ADMIN REPORT METHODS
 	//===========================
 	
-	public void exportBookStats(String month, String pathname, String filename) throws SQLException, JAXBException, SAXException, IOException {
+	public void exportBookStats(int month, String pathname, String filename) throws SQLException, JAXBException, SAXException, IOException, CustomException, ParseException {
+		
+		if(month < 1 || month > 12) {
+			throw new CustomException("Invalid Month");
+		}
 		
 		String XML_SCHEMA = "/bookStatReport.xsd";
 		// Get the actual path we need and grab the query result
 		String absPath = pathname+"/"+filename;
-		ArrayList<BookStatBean> stats = getBookStats();
 		
+		// Get book stats and sort out unwanted dates
+		ArrayList<BookStatBean> stats = getBookStats();
+		stats = sortBookStats(month, stats);
 		ListWrapper lw = new ListWrapper(month, stats);
+		
 		// Setup the marshaller
 		JAXBContext jc = JAXBContext.newInstance(lw.getClass());
 		Marshaller marshaller = jc.createMarshaller();
@@ -333,6 +343,36 @@ public class Model {
 		FileWriter fw = new FileWriter(absPath);
 		fw.write(sw.toString());
 		fw.close();
+	}
+	
+	/**
+	 * Return only the books that were sold this month
+	 * 
+	 * @param month
+	 * @param books
+	 * @return
+	 * @throws ParseException
+	 */
+	private ArrayList<BookStatBean> sortBookStats(int month, ArrayList<BookStatBean> books) throws ParseException{
+		System.out.println(month);
+		month--;
+		Date today = new Date();
+		today.setMonth(month);
+		
+		SimpleDateFormat df = new SimpleDateFormat(Tags.DF_PATTERN);
+		ArrayList<BookStatBean> result = new ArrayList<BookStatBean>();
+		
+		System.out.println(today.toString());
+		for(BookStatBean book: books) {
+			Date temp = df.parse(book.getDay());
+			System.out.println(temp.toString());
+			if(today.getMonth() == temp.getMonth() && today.getYear() == temp.getYear()) {
+				result.add(book);
+				System.out.println("BEEP");
+			}
+		}
+		
+		return result;
 	}
 	
 	//===========================
