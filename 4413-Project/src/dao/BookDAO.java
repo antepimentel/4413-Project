@@ -111,6 +111,27 @@ public class BookDAO {
 		return result;
 	}
 	
+	public BookBean retrieveBook(String bid) throws SQLException{
+		BookBean result = null;
+		String query = "select * from " + DBSchema.TABLE_BK + "where "+ DBSchema.COL_BK_BID + " = ?";
+		Connection conn = this.ds.getConnection();
+		PreparedStatement stmtObj = conn.prepareStatement(query);
+		stmtObj.setString(1, bid);
+
+		ResultSet rs = stmtObj.executeQuery();
+
+		while (rs.next()) {
+			bid = rs.getString(DBSchema.COL_BK_BID);
+			String title = rs.getString(DBSchema.COL_BK_TITLE);
+			int price = rs.getInt(DBSchema.COL_BK_PRICE);
+			String category = rs.getString(DBSchema.COL_BK_CATEGORY);
+
+			result = new BookBean(bid, title, price, category);
+		}
+		
+		return result;
+	}
+	
 	/**
 	 * Helper method to avoid database errors
 	 * 
@@ -137,6 +158,7 @@ public class BookDAO {
 			return "%" + str + "%";
 		}
 	}
+	
 	
 	public ArrayList<String> retrieveAllCategories() {
 

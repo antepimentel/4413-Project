@@ -80,6 +80,50 @@ public class Model {
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<BookReviewBean> getBookInfo(String bid) {
+		ArrayList<BookReviewBean> result = null;
+		try {
+			result = bookReviewDAO.retrieveByBook(bid);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	// ===========================
+	// SOAP METHODS
+	// ===========================
+	
+	
+	public String getProductInfo(String bid) {
+		BookBean bean = null;
+		try {
+			bean = this.bookDAO.retrieveBook(bid);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+//		ArrayList<BookReviewBean> reviews = null;
+//		//get reviews
+//		reviews = getBookInfo(bid);
+//		double avgRating = 0.0;
+//		
+//		for(int i = 0; i < reviews.size(); i++) {
+//			avgRating += reviews.get(i).getRating();
+//		}
+//		if(reviews != null) {
+//			avgRating /= (1.0 + reviews.size());
+//		} 
+//		
+//		result.setAverageRating(avgRating);
+		String result = "ProductID: " + bean.getBid() + "/t Title:"+ bean.getTitle() + "/t Price: "+ bean.getPrice()
+		+ "/t  Category: "+ bean.getCategory();
+		return result;
+		
+	}
 
 	// ===========================
 	// CUSTOMER METHODS
