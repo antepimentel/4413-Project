@@ -234,6 +234,8 @@ public class PaymentServlet extends HttpServlet {
 				}
 				
 				application.setAttribute(Tags.TOTAL_ORDERS, numOrders+1);
+				application.setAttribute("po", po);
+				
 				session.setAttribute(Tags.ERROR, msg);
 				response.sendRedirect(this.getServletContext().getContextPath() + Tags.SERVLET_MAIN);
 			} catch (SQLException e) {

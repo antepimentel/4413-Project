@@ -25,6 +25,11 @@ public class BookStatBean {
 	 * @param bid
 	 * @param amount
 	 */
+	public BookStatBean(String bid, int amount) {
+		this.bid = bid;
+		this.amount = amount;
+	}
+	
 	public BookStatBean(String title, String bid, int amount, String day) {
 		this.title = title;
 		this.bid = bid;
